@@ -28,8 +28,8 @@ class PlanSuscripcionBase(BaseModel):
     duracion: int
 
 # Esquema para crear un Plan de Suscripción
-class PlanSuscripcionCreate(PlanSuscripcionBase):
-    pass
+# class PlanSuscripcionCreate(PlanSuscripcionBase):
+#    pass
 
 # Esquema para leer un Plan de Suscripción
 class PlanSuscripcion(PlanSuscripcionBase):
@@ -80,6 +80,8 @@ class PedidoBase(BaseModel):
     servicio_id: int
     fecha_pedido: date
     cantidad: int
+    estado_pedido_id: int
+    precio_total: float
 
 # Esquema para crear un Pedido
 class PedidoCreate(PedidoBase):
@@ -88,10 +90,8 @@ class PedidoCreate(PedidoBase):
 # Esquema para leer un Pedido
 class Pedido(PedidoBase):
     id: int
-    fecha_entrega: Optional[date] = None
-    estado: Optional[str] = None
-    precio_total: Optional[float] = None
-
+    fecha_entrega: Optional [date] = None
+    
     class Config:
         orm_mode = True
 
@@ -100,7 +100,7 @@ class PagoBase(BaseModel):
     pedido_id: int
     fecha_pago: date
     monto: float
-    metodo_pago: str
+    metodo_de_pago_id: int
 
 # Esquema para crear un Pago
 class PagoCreate(PagoBase):
@@ -132,4 +132,29 @@ class Horario(HorarioBase):
     class Config:
         orm_mode = True
 
-# Aquí puedes agregar más esquemas según sea necesario.
+# Esquema para leer un EstadoSuscripción
+class EstadoSuscripcion(BaseModel):
+    id: int
+    nombre_estado: str
+
+# Esquema para crear un EstadoSuscripción
+class EstadoSuscripcionCreate(BaseModel):
+    nombre_estado: str
+
+# Esquema para leer un EstadoPedido
+class EstadoPedido(BaseModel):
+    id: int
+    nombre_estado: str
+
+# Esquema para crear un EstadoPedido
+class EstadoPedidoCreate(BaseModel):
+    nombre_estado: str
+
+# Esquema para leer un MetodoDePago
+class MetodoDePago(BaseModel):
+    id: int
+    metodo: str
+
+# Esquema para crear un EstadoPedido
+class MetodoDePagoCreate(BaseModel):
+    metodo: str

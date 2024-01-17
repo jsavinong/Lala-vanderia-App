@@ -8,7 +8,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 # Variables de entorno para las credenciales
-DATABASE_URL = os.getenv("SQLALCHEMY_DATABASE_URL", "postgresql://postgres:1234@localhost/lavanderia")
+DATABASE_URL = os.getenv("SQLALCHEMY_DATABASE_URL")
 
 # Crear un motor de base de datos
 engine = create_engine(DATABASE_URL)

@@ -32,7 +32,7 @@ class SuscripcionUsuario(Base):
     plan_id = Column(Integer, ForeignKey('planes_suscripcion.id'))
     fecha_inicio = Column(Date)
     fecha_fin = Column(Date)
-    estado = Column(String)
+    estado_suscripcion_id = Column(Integer, ForeignKey('estado_suscripciones.id'))
 
 # Modelo para tabla servicios
 class Servicio(Base):
@@ -53,7 +53,7 @@ class Pedido(Base):
     servicio_id = Column(Integer, ForeignKey('servicios.id'))
     fecha_pedido = Column(Date)
     fecha_entrega = Column(Date)
-    estado = Column(String)
+    estado_pedido_id = Column(Integer, ForeignKey('estado_pedidos.id'))
     cantidad = Column(Integer)
     precio_total = Column(Float)
 
@@ -65,7 +65,7 @@ class Pago(Base):
     pedido_id = Column(Integer, ForeignKey('pedidos.id'))
     fecha_pago = Column(Date)
     monto = Column(Float)
-    metodo_pago = Column(String)
+    metodo_de_pago_id = Column(Integer, ForeignKey('metodos_de_pago.id'))
 
 # Modelo para tabla horarios
 class Horario(Base):
@@ -77,3 +77,21 @@ class Horario(Base):
     hora_recogida = Column(Time)
     fecha_entrega = Column(Date)
     hora_entrega = Column(Time)
+
+# Modelo para tabla estado_suscripciones
+class EstadoSuscripcion(Base):
+    __tablename__ = 'estado_suscripciones'
+    id = Column(Integer, primary_key=True, index=True)
+    nombre_estado = Column(String, unique=True, nullable=False)
+
+# Modelo para tabla estado_pedidos
+class EstadoPedidos(Base):
+    __tablename__ = 'estado_pedidos'
+    id = Column(Integer, primary_key=True, index=True)
+    nombre_estado = Column(String, unique=True, nullable=False)
+
+# Modelo para tabla metodos_de_pago
+class MetodosDePago(Base):
+    __tablename__ = 'metodos_de_pago'
+    id = Column(Integer, primary_key=True, index=True)
+    metodo = Column(String, unique=True, nullable=False)

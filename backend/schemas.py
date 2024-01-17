@@ -137,6 +137,9 @@ class EstadoSuscripcion(BaseModel):
     id: int
     nombre_estado: str
 
+    class Config:
+        orm_mode = True
+
 # Esquema para crear un EstadoSuscripción
 class EstadoSuscripcionCreate(BaseModel):
     nombre_estado: str
@@ -145,6 +148,9 @@ class EstadoSuscripcionCreate(BaseModel):
 class EstadoPedido(BaseModel):
     id: int
     nombre_estado: str
+
+    class Config:
+        orm_mode = True
 
 # Esquema para crear un EstadoPedido
 class EstadoPedidoCreate(BaseModel):
@@ -155,6 +161,9 @@ class MetodoDePago(BaseModel):
     id: int
     metodo: str
 
-# Esquema para crear un EstadoPedido
+    class Config:
+        orm_mode = True
+
+# Esquema para crear un MetodoDePago
 class MetodoDePagoCreate(BaseModel):
     metodo: str

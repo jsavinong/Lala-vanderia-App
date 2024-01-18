@@ -1,42 +1,68 @@
 import flet as ft
-from flet import UserControl, TextField, ElevatedButton, Column
+from flet import Checkbox, TextField, ElevatedButton, Column, Row, Text
+from flet_core.control_event import ControlEvent
 
-class ServicioCard(UserControl):
-    def __init__(self, servicio_id, nombre, descripcion, precio):
-        # Es crucial llamar al constructor de la clase base en UserControl.
-        # Si la clase base no tiene un constructor explícito, esta llamada no es necesaria.
-        super().__init__()
-        self.servicio_id = servicio_id
-        self.nombre = nombre
-        self.descripcion = descripcion
-        self.precio = precio
+def main(page: ft.Page) -> None:
+    page.title = "Sign Up"
+    page.vertical_alignment = ft.MainAxisAlignment.CENTER
+    page.theme_mode = ft.ThemeMode.LIGHT
+    page.window_width = 400
+    page.window_height = 800
+    page.window_resizable = False
 
-    def build(self):
-        # Este método debe retornar los controles que componen la UI de ServicioCard.
-        return Column([
-            TextField(value=self.nombre, label="Nombre del servicio"),
-            TextField(value=self.descripcion, label="Descripción"),
-            TextField(value=f"${self.precio}", label="Precio"),
-            ElevatedButton(text="Ordenar", on_click=self.ordenar_servicio)
-        ])
+    # Crea campos de texto para el nombre de usuario y la contraseña
+    text_username: TextField = TextField(label = "Username", text_align = ft.TextAlign.LEFT, width = 200)
+    text_password: TextField = TextField(label = "Password", text_align = ft.TextAlign.LEFT, width = 200, password = True)
 
-    def ordenar_servicio(self, e):
-        # Este es el manejador del evento cuando se hace clic en el botón de ordenar.
-        print(f"Ordenando servicio con ID: {self.servicio_id}")
 
-def main(page: ft.Page):
-    page.title = "Lavandería a Domicilio - Servicios"
-    
-    # Creamos una instancia de ServicioCard y la añadimos a la página.
-    servicio_card = ServicioCard(
-        servicio_id=1,
-        nombre="Lavado Completo",
-        descripcion="Incluye lavado, secado y doblado de ropa.",
-        precio=10.00
+    # Crea Checkbox 
+    checkbox_signup: Checkbox = Checkbox(label = "Estoy de acuerdo con estos términos", value = False)
+
+    # Crea Botón "Sign Up"
+    button_signup: ElevatedButton = ElevatedButton(text = "Sign Up", width = 200, disabled = True)
+
+    def validate_fields(e: ControlEvent) -> None:
+        if all([text_username.value, text_password.value, checkbox_signup.value]):
+            button_signup.disabled = False
+        else:
+            button_signup.disabled = True
+
+        page.update()
+
+    def submit(e: ControlEvent) -> None:
+        print("Username: ", text_username.value)
+        print("Password: ", text_password.value)
+
+        page.clean()
+        page.add(
+            Row(
+                controls=[Text(value = f'Welcome: {text_username.value}', size=20)],
+                alignment=ft.MainAxisAlignment.CENTER
+            )
+        )
+
+# Enlazar funciones a la interfaz gráfica
+    checkbox_signup.on_change = validate_fields
+    text_username.on_change = validate_fields
+    text_password.on_change = validate_fields
+    button_signup.on_click = submit
+
+# Dibujar la Sign Up page
+    page.add(
+        Row(
+            controls=[
+                Column(
+                    [text_username,
+                     text_password,
+                     checkbox_signup,
+                     button_signup]
+                )
+            ],
+            alignment=ft.MainAxisAlignment.CENTER
+        )
     )
 
-    # El método build() se llama automáticamente cuando se añade el control a la página.
-    page.add(servicio_card)
 
+# Ejecutar la aplicación
 if __name__ == "__main__":
-    ft.app(target=main)
+     ft.app(target=main)

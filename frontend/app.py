@@ -43,4 +43,4 @@ class App(UserControl):
             self.screen_views,
             )
 
-app(target=App,assets_dir='assets')
+app(target=App,view=WEB_BROWSER, assets_dir='assets')

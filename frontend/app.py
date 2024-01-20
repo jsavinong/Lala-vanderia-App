@@ -31,8 +31,8 @@ class App(UserControl):
             expand=True,
             controls=[
                 #self.main_page,
-                #LoginPage(),
-                SignupPage()
+                LoginPage(),
+                #SignupPage()
             ]
         )
         self.init_helper()
@@ -43,4 +43,4 @@ class App(UserControl):
             self.screen_views,
             )
 
-app(target=App,view=WEB_BROWSER, assets_dir='assets')
+app(target=App, assets_dir='assets')

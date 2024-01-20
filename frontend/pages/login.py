@@ -1,57 +1,58 @@
 from flet import *
 from utils.extras import *
 
+
 class LoginPage(Container):
-    def __init__(self,):
+    def __init__(
+        self,
+    ):
         super().__init__()
-        #self.email = email
-        #self.dp_url = dp
-        self.offset = transform.Offset(0,0,)
+        # self.email = email
+        # self.dp_url = dp
+        self.offset = transform.Offset(
+            0,
+            0,
+        )
         self.expand = True
 
-        self.pwd_input =  Container(
-                height=altura_btn,
-                bgcolor="white",
-                border_radius=10,
-                content=TextField(
-                    hint_text="Contraseña",
-                    hint_style=TextStyle(
-                        size=16,
-                        color=input_hint_color
-                    ),
-                    text_style=TextStyle(
-                        size=16,
-                        color=input_hint_color
-                    ),
-                    border=InputBorder.NONE,
-                    content_padding=content_padding
-
-                )
-            )
+        self.pwd_input = Container(
+            height=altura_btn,
+            bgcolor="white",
+            border_radius=10,
+            content=TextField(
+                hint_text="Contraseña",
+                hint_style=TextStyle(size=16, color=input_hint_color),
+                text_style=TextStyle(size=16, color=input_hint_color),
+                border=InputBorder.NONE,
+                content_padding=content_padding,
+            ),
+        )
 
         self.login_box = Column(
             controls=[
                 Row(
                     controls=[
                         Container(
-                            height=50,width=50,border_radius=25,
-                            image_fit=ImageFit.COVER,image_src=img_src
+                            height=50,
+                            width=50,
+                            border_radius=25,
+                            image_fit=ImageFit.COVER,
+                            image_src=img_src,
                         ),
                         Column(
                             spacing=0,
                             controls=[
                                 Text(
                                     value="Prueba",
-                                    weight = FontWeight.BOLD,
+                                    weight=FontWeight.BOLD,
                                     size=14,
                                 ),
                                 Text(
                                     value="test@gmail.com",
-                                    
                                     size=14,
                                 ),
-                            ]
-                        )
+                            ],
+                        ),
                     ]
                 ),
                 self.pwd_input,
@@ -62,22 +63,18 @@ class LoginPage(Container):
                     border_radius=10,
                     alignment=alignment.center,
                     content=Text(
-                        value='Continuar',
-                        size=18, 
-                    )
+                        value="Continuar",
+                        size=18,
+                    ),
                 ),
-
-                    Container(height=20),
-
-                    Text(
+                Container(height=20),
+                Text(
                     value="Olvidaste tu contraseña?",
                     color=gray_base,
                     size=16,
-                    
-                    ),
-
+                ),
             ]
-                )
+        )
         self.content = Container(
             height=altura_base,
             width=anchura_base,
@@ -93,25 +90,23 @@ class LoginPage(Container):
                         bgcolor=colors.BLACK,
                         content=Image(
                             src="assets\images\gianluca-d-intino-vl4QuDMyeyY-unsplash (1).jpg",
-                            #bgcolor="#cc2d2b2c",
-                            #scale=1.5,
+                            # bgcolor="#cc2d2b2c",
+                            # scale=1.5,
                             fit=ImageFit.COVER,
-                            opacity=0.5                       
-                            
-                        )
+                            opacity=0.5,
+                        ),
                     ),
                     Container(
                         height=altura_base,
                         width=anchura_base,
-                        padding=padding.only(top=30, left=10,right=10),
+                        padding=padding.only(top=30, left=10, right=10),
                         content=Column(
                             controls=[
                                 Container(
-                                data="main_page",
-                                content=Icon(
-                                    icons.ARROW_BACK_IOS_OUTLINED,
-                                    size=28
-                                )
+                                    data="main_page",
+                                    content=Icon(
+                                        icons.ARROW_BACK_IOS_OUTLINED, size=28
+                                    ),
                                 ),
                                 Container(height=160),
                                 Container(
@@ -120,19 +115,18 @@ class LoginPage(Container):
                                         value="Login",
                                         weight=FontWeight.BOLD,
                                         size=30,
-                                        
-                                    )
+                                    ),
                                 ),
                                 Container(height=2),
                                 Container(
                                     padding=20,
                                     bgcolor="#cc2d2b2c",
                                     border_radius=10,
-                                    content=self.login_box
-                                )
+                                    content=self.login_box,
+                                ),
                             ]
-                        )
-                    )
+                        ),
+                    ),
                 ]
-            )
+            ),
         )

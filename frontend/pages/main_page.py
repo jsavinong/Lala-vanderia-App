@@ -151,7 +151,7 @@ class MainPage(Container):
                     Container(
                         height=altura_base,
                         width=anchura_base,
-                        
+                        bgcolor=colors.BLACK,
                         content=Image(
                             src="assets\images\gianluca-d-intino-vl4QuDMyeyY-unsplash (1).jpg",
                             #scale=1.5,

@@ -31,8 +31,8 @@ class App(UserControl):
             expand=True,
             controls=[
                 #self.main_page,
-                LoginPage(),
-                #SignupPage()
+                #LoginPage(),
+                SignupPage()
             ]
         )
         self.init_helper()

@@ -1,5 +1,5 @@
 from sqlalchemy import Column, Integer, String, Float, Date, Time, ForeignKey
-from sqlalchemy.orm import relationship
+from sqlalchemy.orm import relationship, Session
 from .database import Base
 
 # Modelo para tabla usuarios
@@ -12,6 +12,20 @@ class Usuario(Base):
     contraseña = Column(String)
     direccion = Column(String)
     telefono = Column(String)
+
+    def registrarUsuario(self, db: Session, usuario_data):
+        """
+        Método para registrar un nuevo usuario.
+        :param db: Sesión de la base de datos
+        :param usuario_data: Datos del usuario para el registro
+        """
+        # Aquí, usuario_data será un objeto o diccionario con los datos del usuario.
+        # Crear una nueva instancia de Usuario
+        nuevo_usuario = Usuario(**usuario_data)
+        db.add(nuevo_usuario)
+        db.commit()
+        db.refresh(nuevo_usuario)
+        return nuevo_usuario
 
 # Modelo para tabla planes_suscripcion
 class PlanSuscripcion(Base):

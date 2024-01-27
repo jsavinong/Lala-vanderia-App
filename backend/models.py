@@ -1,5 +1,10 @@
 from sqlalchemy import Column, Integer, String, Float, Date, Time, ForeignKey
 from sqlalchemy.orm import relationship, Session
+from sqlalchemy.exc import IntegrityError
+from fastapi import HTTPException
+import re
+from validate_email import validate_email
+import bcrypt
 from .database import Base
 
 # Modelo para tabla usuarios
@@ -19,14 +24,108 @@ class Usuario(Base):
         :param db: Sesión de la base de datos
         :param usuario_data: Datos del usuario para el registro
         """
-        # Aquí, usuario_data será un objeto o diccionario con los datos del usuario.
-        # Crear una nueva instancia de Usuario
-        nuevo_usuario = Usuario(**usuario_data)
-        db.add(nuevo_usuario)
-        db.commit()
-        db.refresh(nuevo_usuario)
-        return nuevo_usuario
+        # Validar el correo electrónico
+        if not validate_email(usuario_data["correo_electronico"]):
+            raise HTTPException(status_code=400, detail="Correo electrónico inválido.")
 
+        # Validar la contraseña
+        if not self.es_contraseña_valida(usuario_data["contraseña"]):
+            raise HTTPException(status_code=400, detail="La contraseña no cumple con los criterios de seguridad.")
+        
+        # Hashear la contraseña y actualizar usuario_data
+        contraseña_hash = self.hashear_contraseña(usuario_data["contraseña"])
+        usuario_data["contraseña"] = contraseña_hash
+
+        try:
+            # Intenta crear una nueva instancia de Usuario y guardarla en la base de datos
+            nuevo_usuario = Usuario(**usuario_data)
+            db.add(nuevo_usuario)
+            db.commit()
+            db.refresh(nuevo_usuario)
+            return nuevo_usuario
+
+        except IntegrityError:
+            db.rollback()  # Importante para cerrar la transacción fallida
+            raise HTTPException(status_code=400, detail="El usuario ya existe o los datos son inválidos.")
+        
+        except Exception as e:
+            # Manejo de otros errores inesperados
+            raise HTTPException(status_code=500, detail="Error interno del servidor.")
+
+    @staticmethod
+    def es_contraseña_valida(contraseña):
+        """
+        Verifica si la contraseña cumple con los criterios de seguridad.
+        """
+        longitud_minima = 8
+        if len(contraseña) < longitud_minima:
+            return False
+        if not re.search("[a-z]", contraseña):
+            return False
+        if not re.search("[A-Z]", contraseña):
+            return False
+        if not re.search("[0-9]", contraseña):
+            return False
+        if not re.search("[_@$]", contraseña):
+            return False
+        return True
+    
+    @staticmethod
+    def hashear_contraseña(contraseña: str) -> str:
+        """
+        Hashea una contraseña usando bcrypt.
+        """
+        return bcrypt.hashpw(contraseña.encode(), bcrypt.gensalt()).decode()
+
+    def solicitar_servicio(self, db: Session, servicio_id: int):
+        """
+        Método para que un usuario registrado solicite un servicio.
+        :param db: Sesión de la base de datos
+        :param servicio_id: ID del servicio solicitado
+        """
+        # Crear y guardar el pedido en la base de datos
+        nuevo_pedido = Pedido(usuario_id=self.id, servicio_id=servicio_id) # TODO: completar campos para solicitar servicio
+        db.add(nuevo_pedido)
+        db.commit()
+        db.refresh(nuevo_pedido)
+        return nuevo_pedido
+
+    def suscribirse_a_plan(self, db: Session, plan_id: int):
+        """
+        Método para suscribir a un usuario a un plan.
+        :param db: Sesión de la base de datos
+        :param plan_id: ID del plan al que suscribirse
+        """
+        # Cambiar el plan de suscripción del usuario
+        self.plan_suscripcion_id = plan_id
+        db.commit()
+        db.refresh(self)
+        return self
+
+    def ver_detalles_pedido(self, db: Session, pedido_id: int):
+        """
+        Método para ver los detalles de un pedido.
+        :param db: Sesión de la base de datos
+        :param pedido_id: ID del pedido a consultar
+        """
+        # Obtener y retornar los detalles del pedido específico
+        pedido = db.query(Pedido).filter(Pedido.id == pedido_id, Pedido.usuario_id == self.id).first()
+        return pedido
+
+    def realizar_pago(self, db: Session, pedido_id: int, monto: float, metodo_pago_id: int):
+        """
+        Método para que un usuario realice un pago.
+        :param db: Sesión de la base de datos
+        :param pedido_id: ID del pedido por el que se paga
+        :param monto: Monto del pago
+        :param metodo_pago_id: ID del método de pago utilizado
+        """
+        # Crear un nuevo registro de pago en la base de datos
+        nuevo_pago = Pago(pedido_id=pedido_id, monto=monto, metodo_de_pago_id=metodo_pago_id) # TODO: completar campos para realizar pago
+        db.add(nuevo_pago)
+        db.commit()
+        db.refresh(nuevo_pago)
+        return nuevo_pago
 # Modelo para tabla planes_suscripcion
 class PlanSuscripcion(Base):
     __tablename__ = "planes_suscripcion"

@@ -50,4 +50,4 @@ class App(UserControl):
         )
 
 
-app(target=App, assets_dir="assets")
+app(target=App, assets_dir="assets", view=AppView.WEB_BROWSER)

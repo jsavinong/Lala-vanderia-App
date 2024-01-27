@@ -8,7 +8,7 @@ router = APIRouter()
 # Crear nuevos usuarios
 @router.post("/usuarios/", response_model=schemas.Usuario)
 def create_usuario(usuario: schemas.UsuarioCreate, db: Session = Depends(database.get_db)):
-    db_usuario = models.Usuario(**usuario.dict())
+    db_usuario = models.Usuario.registrarUsuario(de=db, usuario_data=usuario.dict())
     db.add(db_usuario)
     db.commit()
     db.refresh(db_usuario)

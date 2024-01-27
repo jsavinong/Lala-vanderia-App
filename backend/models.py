@@ -7,6 +7,7 @@ from validate_email import validate_email
 import bcrypt
 from .database import Base
 
+
 # Modelo para tabla usuarios
 class Usuario(Base):
     __tablename__ = "usuarios"
@@ -18,7 +19,8 @@ class Usuario(Base):
     direccion = Column(String)
     telefono = Column(String)
 
-    def registrarUsuario(self, db: Session, usuario_data):
+    @classmethod
+    def registrar_usuario(cls, db: Session, usuario_data):
         """
         Método para registrar un nuevo usuario.
         :param db: Sesión de la base de datos
@@ -29,11 +31,14 @@ class Usuario(Base):
             raise HTTPException(status_code=400, detail="Correo electrónico inválido.")
 
         # Validar la contraseña
-        if not self.es_contraseña_valida(usuario_data["contraseña"]):
-            raise HTTPException(status_code=400, detail="La contraseña no cumple con los criterios de seguridad.")
-        
+        if not cls.es_contraseña_valida(usuario_data["contraseña"]):
+            raise HTTPException(
+                status_code=400,
+                detail="La contraseña no cumple con los criterios de seguridad.",
+            )
+
         # Hashear la contraseña y actualizar usuario_data
-        contraseña_hash = self.hashear_contraseña(usuario_data["contraseña"])
+        contraseña_hash = cls.hashear_contraseña(usuario_data["contraseña"])
         usuario_data["contraseña"] = contraseña_hash
 
         try:
@@ -46,8 +51,9 @@ class Usuario(Base):
 
         except IntegrityError:
             db.rollback()  # Importante para cerrar la transacción fallida
-            raise HTTPException(status_code=400, detail="El usuario ya existe o los datos son inválidos.")
-        
+            raise HTTPException(status_code=400, detail="El usuario ya existe o los datos son inválidos.",
+            )
+
         except Exception as e:
             # Manejo de otros errores inesperados
             raise HTTPException(status_code=500, detail="Error interno del servidor.")
@@ -57,6 +63,7 @@ class Usuario(Base):
         """
         Verifica si la contraseña cumple con los criterios de seguridad.
         """
+        caracteres_especiales = r"[\W_]"
         longitud_minima = 8
         if len(contraseña) < longitud_minima:
             return False
@@ -66,10 +73,10 @@ class Usuario(Base):
             return False
         if not re.search("[0-9]", contraseña):
             return False
-        if not re.search("[_@$]", contraseña):
+        if not re.search(caracteres_especiales, contraseña):
             return False
         return True
-    
+
     @staticmethod
     def hashear_contraseña(contraseña: str) -> str:
         """
@@ -84,7 +91,9 @@ class Usuario(Base):
         :param servicio_id: ID del servicio solicitado
         """
         # Crear y guardar el pedido en la base de datos
-        nuevo_pedido = Pedido(usuario_id=self.id, servicio_id=servicio_id) # TODO: completar campos para solicitar servicio
+        nuevo_pedido = Pedido(
+            usuario_id=self.id, servicio_id=servicio_id
+        )  # TODO: completar campos para solicitar servicio
         db.add(nuevo_pedido)
         db.commit()
         db.refresh(nuevo_pedido)
@@ -109,10 +118,16 @@ class Usuario(Base):
         :param pedido_id: ID del pedido a consultar
         """
         # Obtener y retornar los detalles del pedido específico
-        pedido = db.query(Pedido).filter(Pedido.id == pedido_id, Pedido.usuario_id == self.id).first()
+        pedido = (
+            db.query(Pedido)
+            .filter(Pedido.id == pedido_id, Pedido.usuario_id == self.id)
+            .first()
+        )
         return pedido
 
-    def realizar_pago(self, db: Session, pedido_id: int, monto: float, metodo_pago_id: int):
+    def realizar_pago(
+        self, db: Session, pedido_id: int, monto: float, metodo_pago_id: int
+    ):
         """
         Método para que un usuario realice un pago.
         :param db: Sesión de la base de datos
@@ -121,11 +136,15 @@ class Usuario(Base):
         :param metodo_pago_id: ID del método de pago utilizado
         """
         # Crear un nuevo registro de pago en la base de datos
-        nuevo_pago = Pago(pedido_id=pedido_id, monto=monto, metodo_de_pago_id=metodo_pago_id) # TODO: completar campos para realizar pago
+        nuevo_pago = Pago(
+            pedido_id=pedido_id, monto=monto, metodo_de_pago_id=metodo_pago_id
+        )  # TODO: completar campos para realizar pago
         db.add(nuevo_pago)
         db.commit()
         db.refresh(nuevo_pago)
         return nuevo_pago
+
+
 # Modelo para tabla planes_suscripcion
 class PlanSuscripcion(Base):
     __tablename__ = "planes_suscripcion"
@@ -136,16 +155,18 @@ class PlanSuscripcion(Base):
     precio = Column(Float)
     duracion = Column(Integer)
 
+
 # Modelo para tabla suscripciones_usuarios
 class SuscripcionUsuario(Base):
     __tablename__ = "suscripciones_usuarios"
 
     id = Column(Integer, primary_key=True, index=True)
-    usuario_id = Column(Integer, ForeignKey('usuarios.id'))
-    plan_id = Column(Integer, ForeignKey('planes_suscripcion.id'))
+    usuario_id = Column(Integer, ForeignKey("usuarios.id"))
+    plan_id = Column(Integer, ForeignKey("planes_suscripcion.id"))
     fecha_inicio = Column(Date)
     fecha_fin = Column(Date)
-    estado_suscripcion_id = Column(Integer, ForeignKey('estado_suscripciones.id'))
+    estado_suscripcion_id = Column(Integer, ForeignKey("estado_suscripciones.id"))
+
 
 # Modelo para tabla servicios
 class Servicio(Base):
@@ -156,55 +177,60 @@ class Servicio(Base):
     descripcion = Column(String)
     precio = Column(Float)
 
-    
+
 # Modelo para tabla pedidos
 class Pedido(Base):
     __tablename__ = "pedidos"
 
     id = Column(Integer, primary_key=True, index=True)
-    usuario_id = Column(Integer, ForeignKey('usuarios.id'))
-    servicio_id = Column(Integer, ForeignKey('servicios.id'))
+    usuario_id = Column(Integer, ForeignKey("usuarios.id"))
+    servicio_id = Column(Integer, ForeignKey("servicios.id"))
     fecha_pedido = Column(Date)
     fecha_entrega = Column(Date)
-    estado_pedido_id = Column(Integer, ForeignKey('estado_pedidos.id'))
+    estado_pedido_id = Column(Integer, ForeignKey("estado_pedidos.id"))
     cantidad = Column(Integer)
     precio_total = Column(Float)
+
 
 # Modelo para tabla pagos
 class Pago(Base):
     __tablename__ = "pagos"
 
     id = Column(Integer, primary_key=True, index=True)
-    pedido_id = Column(Integer, ForeignKey('pedidos.id'))
+    pedido_id = Column(Integer, ForeignKey("pedidos.id"))
     fecha_pago = Column(Date)
     monto = Column(Float)
-    metodo_de_pago_id = Column(Integer, ForeignKey('metodos_de_pago.id'))
+    metodo_de_pago_id = Column(Integer, ForeignKey("metodos_de_pago.id"))
+
 
 # Modelo para tabla horarios
 class Horario(Base):
     __tablename__ = "horarios"
 
     id = Column(Integer, primary_key=True, index=True)
-    pedido_id = Column(Integer, ForeignKey('pedidos.id'))
+    pedido_id = Column(Integer, ForeignKey("pedidos.id"))
     fecha_recogida = Column(Date)
     hora_recogida = Column(Time)
     fecha_entrega = Column(Date)
     hora_entrega = Column(Time)
 
+
 # Modelo para tabla estado_suscripciones
 class EstadoSuscripcion(Base):
-    __tablename__ = 'estado_suscripciones'
+    __tablename__ = "estado_suscripciones"
     id = Column(Integer, primary_key=True, index=True)
     nombre_estado = Column(String, unique=True, nullable=False)
+
 
 # Modelo para tabla estado_pedidos
 class EstadoPedidos(Base):
-    __tablename__ = 'estado_pedidos'
+    __tablename__ = "estado_pedidos"
     id = Column(Integer, primary_key=True, index=True)
     nombre_estado = Column(String, unique=True, nullable=False)
 
+
 # Modelo para tabla metodos_de_pago
 class MetodosDePago(Base):
-    __tablename__ = 'metodos_de_pago'
+    __tablename__ = "metodos_de_pago"
     id = Column(Integer, primary_key=True, index=True)
     metodo = Column(String, unique=True, nullable=False)

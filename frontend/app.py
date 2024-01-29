@@ -1,6 +1,6 @@
 from flet import *
 from pages.main_page import MainPage
-from pages.login import LoginPage
+from frontend.pages.login_page import LoginPage
 from pages.sign_up import SignupPage
 from utils.extras import *
 

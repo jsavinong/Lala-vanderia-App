@@ -3,12 +3,7 @@ from sqlalchemy import create_engine
 #from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, declarative_base
 from dotenv import load_dotenv
-
-# Cargar variables de entorno desde un archivo .env
-load_dotenv()
-
-# Variables de entorno para las credenciales
-DATABASE_URL = os.getenv("SQLALCHEMY_DATABASE_URL")
+from config.config import DATABASE_URL
 
 # Crear un motor de base de datos
 engine = create_engine(DATABASE_URL)

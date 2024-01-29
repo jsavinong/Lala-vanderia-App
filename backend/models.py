@@ -3,9 +3,10 @@ from sqlalchemy.orm import relationship, Session
 from sqlalchemy.exc import IntegrityError
 from fastapi import HTTPException
 import re
-from validate_email import validate_email
+from validate_email import validate_email # ! No valida los correos correctamente, buscar otra opción
 import bcrypt
 from .database import Base
+from datetime import datetime
 
 
 # Modelo para tabla usuarios
@@ -84,16 +85,23 @@ class Usuario(Base):
         """
         return bcrypt.hashpw(contraseña.encode(), bcrypt.gensalt()).decode()
 
-    def solicitar_servicio(self, db: Session, servicio_id: int):
+    def verificar_contraseña(self, contraseña_plana: str) -> bool:
+        return bcrypt.checkpw(contraseña_plana.encode(), self.contraseña.encode())
+
+    def solicitar_servicio(self, db: Session, servicio_id: int, cantidad: int):
         """
         Método para que un usuario registrado solicite un servicio.
         :param db: Sesión de la base de datos
         :param servicio_id: ID del servicio solicitado
+        :param cantidad: Cantidad del servicio solicitado
         """
         # Crear y guardar el pedido en la base de datos
         nuevo_pedido = Pedido(
-            usuario_id=self.id, servicio_id=servicio_id
-        )  # TODO: completar campos para solicitar servicio
+            usuario_id=self.id,
+            servicio_id=servicio_id,
+            fecha_pedido=datetime.now(),
+            cantidad=cantidad
+        )
         db.add(nuevo_pedido)
         db.commit()
         db.refresh(nuevo_pedido)
@@ -169,7 +177,7 @@ class SuscripcionUsuario(Base):
 
 
 # Modelo para tabla servicios
-class Servicio(Base):
+class Servicio(Base): # TODO: Por definir cuáles serán los tipos de servicios y cómo se medirán. Mientras tanto se medirá por lote. 1 Servicio = 1 lote
     __tablename__ = "servicios"
 
     id = Column(Integer, primary_key=True, index=True)

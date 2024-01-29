@@ -167,3 +167,7 @@ class MetodoDePago(BaseModel):
 # Esquema para crear un MetodoDePago
 class MetodoDePagoCreate(BaseModel):
     metodo: str
+
+class UsuarioLogin(BaseModel):
+    correo_electronico: str
+    contraseña: str

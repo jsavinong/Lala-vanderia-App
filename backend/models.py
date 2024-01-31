@@ -3,10 +3,10 @@ from sqlalchemy.orm import relationship, Session
 from sqlalchemy.exc import IntegrityError
 from fastapi import HTTPException
 import re
-from validate_email import validate_email # ! No valida los correos correctamente, buscar otra opción
+from validate_email import validate_email # ! librería "validate_email" no valida los correos correctamente, buscar otra opción
 import bcrypt
 from .database import Base
-from datetime import datetime
+from datetime import datetime, date, timedelta
 
 
 # Modelo para tabla usuarios
@@ -19,6 +19,13 @@ class Usuario(Base):
     contraseña = Column(String)
     direccion = Column(String)
     telefono = Column(String)
+
+    plan_suscripcion_id = Column(Integer, ForeignKey('planes_suscripcion.id'))
+    fecha_inicio_suscripcion = Column(Date)
+    fecha_fin_suscripcion = Column(Date)
+
+    # Relaciones (si son necesarias)
+    # plan_suscripcion = relationship("PlanSuscripcion")
 
     @classmethod
     def registrar_usuario(cls, db: Session, usuario_data):
@@ -113,8 +120,16 @@ class Usuario(Base):
         :param db: Sesión de la base de datos
         :param plan_id: ID del plan al que suscribirse
         """
-        # Cambiar el plan de suscripción del usuario
+        # Verificar si el usuario ya está suscrito a un plan y si aún está activo
+        if self.plan_suscripcion_id and self.fecha_fin_suscripcion >= date.today():
+            raise Exception("El usuario ya tiene un plan activo.")
+
+        # Actualizar el plan de suscripción del usuario
         self.plan_suscripcion_id = plan_id
+        self.fecha_inicio_suscripcion = date.today()
+        self.fecha_fin_suscripcion = date.today() + timedelta(days=30)  # Ejemplo para una duración de 30 días
+
+        db.add(self)
         db.commit()
         db.refresh(self)
         return self

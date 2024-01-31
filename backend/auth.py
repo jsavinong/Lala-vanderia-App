@@ -1,6 +1,6 @@
 from datetime import datetime, timedelta
 from jose import JWTError, jwt
-from backend import schemas
+# from backend import schemas
 from fastapi import HTTPException, status
 from config.config import SECRET_KEY, ALGORITHM
 

@@ -2,15 +2,15 @@ from fastapi import HTTPException
 import pytest
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from validate_email import validate_email # ! No valida los correos correctamente, buscar otra opción
+from validate_email import validate_email # ! librería "validate_email" no valida los correos correctamente, buscar otra opción
 from backend.database import Base
-from backend.models import Usuario, Servicio
+from backend.models import Usuario, Servicio, PlanSuscripcion
 import bcrypt
 
 
 # Configura una base de datos de prueba en memoria
-DATABASE_URL = "sqlite:///:memory:"
-engine = create_engine(DATABASE_URL)
+DATABASE_URL_MEM = "sqlite:///:memory:"
+engine = create_engine(DATABASE_URL_MEM)
 TestingSessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 Base.metadata.create_all(bind=engine)
@@ -97,4 +97,42 @@ def test_solicitar_servicio(db_session):
     assert pedido.usuario_id == usuario.id
     assert pedido.servicio_id == servicio.id
     assert pedido.cantidad == 1
+
+def test_suscribirse_a_plan_usuario_con_plan_activo(db_session):
+    # Crear usuario de prueba
+    usuario = Usuario(nombre="Test User", correo_electronico="test@example.com", contraseña="secure123")
+    db_session.add(usuario)
+
+    # Crear dos planes de suscripción de prueba
+    plan1 = PlanSuscripcion(nombre="Plan A", descripcion="Plan A Descripcion", precio=100.0, duracion=30)
+    plan2 = PlanSuscripcion(nombre="Plan B", descripcion="Plan B Descripcion", precio=200.0, duracion=30)
+    db_session.add(plan1)
+    db_session.add(plan2)
+    db_session.commit()
+
+    # Suscribir al usuario al primer plan
+    usuario.suscribirse_a_plan(db=db_session, plan_id=plan1.id)
+
+    # Intentar suscribir al usuario al segundo plan
+    with pytest.raises(Exception):
+        usuario.suscribirse_a_plan(db=db_session, plan_id=plan2.id)
+
+
+def test_suscribirse_a_plan_usuario_sin_plan_activo(db_session):
+    # Crear usuario de prueba
+    usuario = Usuario(nombre="Test User", correo_electronico="test@example.com", contraseña="secure123")
+    db_session.add(usuario)
+
+    # Crear un plan de suscripción de prueba
+    plan = PlanSuscripcion(nombre="Plan Test", descripcion="Plan Test Descripcion", precio=150.0, duracion=30)
+    db_session.add(plan)
+    db_session.commit()
+
+    # Suscribir al usuario al plan
+    usuario_suscrito = usuario.suscribirse_a_plan(db=db_session, plan_id=plan.id)
+
+    # Verificar que el usuario se haya suscrito correctamente al plan
+    assert usuario_suscrito.plan_suscripcion_id == plan.id
+    assert usuario_suscrito.fecha_inicio_suscripcion is not None
+    assert usuario_suscrito.fecha_fin_suscripcion is not None
 

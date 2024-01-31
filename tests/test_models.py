@@ -100,7 +100,7 @@ def test_solicitar_servicio(db_session):
 
 def test_suscribirse_a_plan_usuario_con_plan_activo(db_session):
     # Crear usuario de prueba
-    usuario = Usuario(nombre="Test User", correo_electronico="test@example.com", contraseña="secure123")
+    usuario = Usuario(nombre="Test User", correo_electronico="test11@example.com", contraseña="secure123")
     db_session.add(usuario)
 
     # Crear dos planes de suscripción de prueba
@@ -120,7 +120,7 @@ def test_suscribirse_a_plan_usuario_con_plan_activo(db_session):
 
 def test_suscribirse_a_plan_usuario_sin_plan_activo(db_session):
     # Crear usuario de prueba
-    usuario = Usuario(nombre="Test User", correo_electronico="test@example.com", contraseña="secure123")
+    usuario = Usuario(nombre="Test User", correo_electronico="test22@example.com", contraseña="secure123")
     db_session.add(usuario)
 
     # Crear un plan de suscripción de prueba

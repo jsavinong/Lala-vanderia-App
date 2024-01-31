@@ -141,11 +141,7 @@ class Usuario(Base):
         :param pedido_id: ID del pedido a consultar
         """
         # Obtener y retornar los detalles del pedido específico
-        pedido = (
-            db.query(Pedido)
-            .filter(Pedido.id == pedido_id, Pedido.usuario_id == self.id)
-            .first()
-        )
+        pedido = (db.query(Pedido).filter(Pedido.id == pedido_id, Pedido.usuario_id == self.id).first())
         return pedido
 
     def realizar_pago(

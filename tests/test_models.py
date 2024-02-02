@@ -157,4 +157,17 @@ def test_ver_detalles_pedido_existente_usuario(db_session):
     assert detalles_pedido.precio_total == 100.0
     assert detalles_pedido.servicio_id == servicio.id
 
+def test_ver_detalles_pedido_no_existente(db_session):
+    # Configuración: Crear un usuario sin pedidos
+    usuario = Usuario(nombre="Test User", correo_electronico="userprueba@example.com", contraseña="test")
+    db_session.add(usuario)
+    db_session.commit()
+
+    # Acción y Verificación: Intentar ver los detalles de un pedido no existente debería lanzar una excepción
+    with pytest.raises(HTTPException) as exc_info:
+        usuario.ver_detalles_pedido(db=db_session, pedido_id=999)
+
+    # Verificar que se lanzó la excepción correcta
+    assert exc_info.value.status_code == 404
+    assert "Pedido no encontrado" in str(exc_info.value.detail)
 

@@ -4,7 +4,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from validate_email import validate_email # ! librería "validate_email" no valida los correos correctamente, buscar otra opción
 from backend.database import Base
-from backend.models import Usuario, Servicio, PlanSuscripcion
+from backend.models import Usuario, Servicio, PlanSuscripcion, Pedido
 import bcrypt
 
 
@@ -135,4 +135,26 @@ def test_suscribirse_a_plan_usuario_sin_plan_activo(db_session):
     assert usuario_suscrito.plan_suscripcion_id == plan.id
     assert usuario_suscrito.fecha_inicio_suscripcion is not None
     assert usuario_suscrito.fecha_fin_suscripcion is not None
+
+def test_ver_detalles_pedido_existente_usuario(db_session):
+    # Configuración: Crear un usuario, un servicio, y un pedido que le pertenezca
+    usuario = Usuario(nombre="Test User", correo_electronico="user@example.com", contraseña="test")
+    db_session.add(usuario)
+    servicio = Servicio(nombre="Servicio de prueba", descripcion="Descripción del servicio", precio=100.0)
+    db_session.add(servicio)
+    db_session.commit()
+
+    pedido = Pedido(usuario_id=usuario.id, servicio_id=servicio.id, estado_pedido_id=1, precio_total=servicio.precio)
+    db_session.add(pedido)
+    db_session.commit()
+
+    # Acción: Intentar ver los detalles del pedido
+    detalles_pedido = usuario.ver_detalles_pedido(db=db_session, pedido_id=pedido.id)
+
+    # Verificación: El pedido retornado debe coincidir con el pedido creado
+    assert detalles_pedido.id == pedido.id
+    assert detalles_pedido.estado_pedido_id == 1
+    assert detalles_pedido.precio_total == 100.0
+    assert detalles_pedido.servicio_id == servicio.id
+
 

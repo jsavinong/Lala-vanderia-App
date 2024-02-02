@@ -146,24 +146,32 @@ class Usuario(Base):
             raise HTTPException(status_code=404, detail="Pedido no encontrado o no pertenece al usuario")
         return pedido
 
-    def realizar_pago(
-        self, db: Session, pedido_id: int, monto: float, metodo_pago_id: int
-    ):
-        """
-        Método para que un usuario realice un pago.
-        :param db: Sesión de la base de datos
-        :param pedido_id: ID del pedido por el que se paga
-        :param monto: Monto del pago
-        :param metodo_pago_id: ID del método de pago utilizado
-        """
-        # Crear un nuevo registro de pago en la base de datos
-        nuevo_pago = Pago(
-            pedido_id=pedido_id, monto=monto, metodo_de_pago_id=metodo_pago_id
-        )  # TODO: completar campos para realizar pago
-        db.add(nuevo_pago)
-        db.commit()
-        db.refresh(nuevo_pago)
-        return nuevo_pago
+    from fastapi import HTTPException
+
+def realizar_pago(self, db: Session, pedido_id: int, monto: float, metodo_pago_id: int):
+    # Verificar que el pedido existe y pertenece al usuario
+    pedido = db.query(Pedido).filter(Pedido.id == pedido_id, Pedido.usuario_id == self.id).first()
+    if not pedido:
+        raise HTTPException(status_code=404, detail="Pedido no encontrado o no pertenece al usuario.")
+    
+    # Opcional: Validar que el monto del pago coincide con el monto del pedido
+    
+    # Verificar que el método de pago existe
+    metodo_pago = db.query(MetodosDePago).filter(MetodosDePago.id == metodo_pago_id).first()
+    if not metodo_pago:
+        raise HTTPException(status_code=404, detail="Método de pago no encontrado.")
+    
+    # Crear un nuevo registro de pago
+    nuevo_pago = Pago(pedido_id=pedido_id, monto=monto, metodo_de_pago_id=metodo_pago_id)
+    db.add(nuevo_pago)
+    
+    # Actualizar estado del pedido
+    pedido.estado_pedido_id = 3 # ! Siendo el 3 el equivalente a "Pagado" en la tabla estado_pedidos
+    
+    db.commit()
+    db.refresh(nuevo_pago)
+    return nuevo_pago
+
 
 
 # Modelo para tabla planes_suscripcion

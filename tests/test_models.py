@@ -171,3 +171,26 @@ def test_ver_detalles_pedido_no_existente(db_session):
     assert exc_info.value.status_code == 404
     assert "Pedido no encontrado" in str(exc_info.value.detail)
 
+def test_ver_detalles_pedido_no_pertenece_usuario(db_session):
+    # Configuración: Crear dos usuarios y un pedido que pertenezca al primero
+    usuario1 = Usuario(nombre="Usuario 1", correo_electronico="user1@example.com", contraseña="test1")
+    usuario2 = Usuario(nombre="Usuario 2", correo_electronico="user2@example.com", contraseña="test2")
+    db_session.add(usuario1)
+    db_session.add(usuario2)
+    db_session.commit()
+
+    servicio = Servicio(nombre="Servicio de prueba", descripcion="Descripción del servicio", precio=100.0)
+    db_session.add(servicio)
+    db_session.commit()
+
+    pedido = Pedido(usuario_id=usuario1.id, servicio_id=servicio.id, estado_pedido_id=1, precio_total=servicio.precio)
+    db_session.add(pedido)
+    db_session.commit()
+
+    # Acción y Verificación: Intentar que el segundo usuario vea los detalles del pedido debería lanzar una excepción
+    with pytest.raises(HTTPException) as exc_info:
+        usuario2.ver_detalles_pedido(db=db_session, pedido_id=pedido.id)
+
+    # Verificar que se lanzó la excepción correcta
+    assert exc_info.value.status_code == 404
+    assert "Pedido no encontrado o no pertenece al usuario" in str(exc_info.value.detail)

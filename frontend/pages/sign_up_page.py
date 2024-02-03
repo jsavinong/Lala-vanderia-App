@@ -3,9 +3,7 @@ from utils.extras import *
 
 
 class SignupPage(Container):
-    def __init__(
-        self,
-    ):
+    def __init__(self):
         super().__init__()
         # self.email = email
         # self.dp_url = dp

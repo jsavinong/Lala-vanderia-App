@@ -216,3 +216,15 @@ def test_realizar_pago_correcto(db_session):
     assert pago_realizado.pedido_id == pedido.id
     assert pago_realizado.monto == 100.0
     assert pago_realizado.metodo_de_pago_id == metodo_pago.id
+
+def test_realizar_pago_pedido_inexistente(db_session):
+    # Configuración inicial: Crear usuario y método de pago, pero sin pedido
+    usuario = Usuario(nombre="Test User", correo_electronico="userpago2@example.com", contraseña="test")
+    db_session.add(usuario)
+    metodo_pago = MetodosDePago(metodo="Paypal")
+    db_session.add(metodo_pago)
+    db_session.commit()
+
+    # Acción y Verificación: Intentar realizar un pago para un pedido inexistente
+    with pytest.raises(HTTPException):
+        usuario.realizar_pago(db=db_session, pedido_id=997, monto=100.0, metodo_pago_id=metodo_pago.id)

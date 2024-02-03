@@ -153,7 +153,7 @@ class Usuario(Base):
             raise HTTPException(status_code=404, detail="Pedido no encontrado o no pertenece al usuario.")
         
         # Verificar que el monto del pago coincide con el precio del pedido
-        if pedido.precio != monto:
+        if pedido.precio_total != monto:
             raise HTTPException(status_code=400, detail="El monto del pago no coincide con el precio del pedido.")
         
         # Verificar que el pedido no ha sido pagado previamente

@@ -4,7 +4,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from validate_email import validate_email # ! librería "validate_email" no valida los correos correctamente, buscar otra opción
 from backend.database import Base
-from backend.models import Usuario, Servicio, PlanSuscripcion, Pedido
+from backend.models import Usuario, Servicio, PlanSuscripcion, Pedido, MetodosDePago
 import bcrypt
 
 
@@ -194,3 +194,25 @@ def test_ver_detalles_pedido_no_pertenece_usuario(db_session):
     # Verificar que se lanzó la excepción correcta
     assert exc_info.value.status_code == 404
     assert "Pedido no encontrado o no pertenece al usuario" in str(exc_info.value.detail)
+
+def test_realizar_pago_correcto(db_session):
+    # Configuración inicial: Crear usuario, pedido, y método de pago
+    usuario = Usuario(nombre="Test User", correo_electronico="userpago@example.com", contraseña="test")
+    db_session.add(usuario)
+    metodo_pago = MetodosDePago(metodo="Tarjeta")
+    db_session.add(metodo_pago)
+    servicio = Servicio(nombre="Servicio de prueba", precio=100.0)
+    db_session.add(servicio)
+    db_session.commit()
+
+    pedido = Pedido(usuario_id=usuario.id, servicio_id=servicio.id, estado_pedido_id =2, precio_total=servicio.precio) # ! estado_pedido_id igual 2 equivalente a "Pendiente de pago"
+    db_session.add(pedido)
+    db_session.commit()
+
+    # Acción: Realizar un pago
+    pago_realizado = usuario.realizar_pago(db=db_session, pedido_id=pedido.id, monto=100.0, metodo_pago_id=metodo_pago.id)
+
+    # Verificación
+    assert pago_realizado.pedido_id == pedido.id
+    assert pago_realizado.monto == 100.0
+    assert pago_realizado.metodo_de_pago_id == metodo_pago.id

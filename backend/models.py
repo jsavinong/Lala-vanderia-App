@@ -1,5 +1,5 @@
 from sqlalchemy import Column, Integer, String, Float, Date, Time, ForeignKey
-from sqlalchemy.orm import relationship, Session
+from sqlalchemy.orm import Session
 from sqlalchemy.exc import IntegrityError
 from fastapi import HTTPException
 import re

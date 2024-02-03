@@ -4,7 +4,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from validate_email import validate_email # ! librería "validate_email" no valida los correos correctamente, buscar otra opción
 from backend.database import Base
-from backend.models import Usuario, Servicio, PlanSuscripcion, Pedido, MetodosDePago
+from backend.models import Usuario, Servicio, PlanSuscripcion, Pedido, MetodosDePago, EstadoPedidos
 import bcrypt
 
 
@@ -290,3 +290,44 @@ def test_evitar_pago_duplicado(db_session):
     # Verificar que se lanza la excepción correcta por pago duplicado
     assert exc_info.value.status_code == 400
     assert "El pedido ya ha sido pagado" in str(exc_info.value.detail)
+
+def test_realizar_pago_correcto_y_actualizar_estado(db_session):
+    # Crear un usuario de prueba
+    usuario = Usuario(nombre="Test User", correo_electronico="userpago6@example.com", contraseña="test")
+    db_session.add(usuario)
+
+    # Crear un servicio de prueba
+    servicio = Servicio(nombre="Servicio Prueba", descripcion="Descripción de prueba", precio =100.0)
+    db_session.add(servicio)
+
+    # Crear un método de pago de prueba
+    metodo_pago = MetodosDePago(metodo="Tarjeta de Débito")
+    db_session.add(metodo_pago)
+
+    # Asegúrate de que la base de datos se actualice con los objetos creados hasta ahora
+    db_session.commit()
+
+    # Crear un pedido de prueba asociado al usuario y al servicio
+    pedido = Pedido(usuario_id=usuario.id, servicio_id=servicio.id, estado_pedido_id=2, precio_total =100.0)  # Asume que 2 representa un estado inicial como "Pendiente"
+    db_session.add(pedido)
+    db_session.commit()
+
+    # Suponiendo que 3 representa "Pagado" en tu modelo EstadoPedido
+    estado_pagado = EstadoPedidos(id=3, nombre_estado ="Pagado")
+    db_session.add(estado_pagado)
+    db_session.commit()
+
+    # Acción: el usuario realiza un pago para el pedido
+    try:
+        pago_realizado = usuario.realizar_pago(db=db_session, pedido_id=pedido.id, monto=100.0, metodo_pago_id=metodo_pago.id)
+    except HTTPException as e:
+        pytest.fail(f"El pago no debería fallar: {e.detail}")
+
+    # Verificación: Asegurar que el pago se ha registrado correctamente
+    assert pago_realizado.pedido_id == pedido.id, "El ID del pedido en el pago no coincide con el esperado"
+    assert pago_realizado.monto == 100.0, "El monto del pago no coincide con el esperado"
+    assert pago_realizado.metodo_de_pago_id == metodo_pago.id, "El método de pago no coincide con el esperado"
+
+    # Verificar que el estado del pedido se ha actualizado a "Pagado"
+    pedido_actualizado = db_session.query(Pedido).filter(Pedido.id == pedido.id).first()
+    assert pedido_actualizado.estado_pedido_id == 3, "El estado del pedido no se actualizó correctamente a 'Pagado'"

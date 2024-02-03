@@ -247,3 +247,21 @@ def test_realizar_pago_pedido_no_pertenece(db_session):
     # Acción y Verificación: Intentar que usuario2 realice un pago por el pedido de usuario1
     with pytest.raises(HTTPException):
         usuario2.realizar_pago(db=db_session, pedido_id=pedido.id, monto=100.0, metodo_pago_id=metodo_pago.id)
+
+def test_realizar_pago_monto_incorrecto(db_session):
+    # Configuración: Crear usuario, pedido, y método de pago
+    usuario = Usuario(nombre="Test User", correo_electronico="userpago3@example.com", contraseña="test")
+    db_session.add(usuario)
+    metodo_pago = MetodosDePago(metodo="Cheque")
+    db_session.add(metodo_pago)
+    servicio = Servicio(nombre="Servicio de prueba", precio=100.0)
+    db_session.add(servicio)
+    db_session.commit()
+
+    pedido = Pedido(usuario_id=usuario.id, servicio_id=servicio.id, estado_pedido_id =2, precio_total=servicio.precio) # ! estado_pedido_id igual 2 equivalente a "Pendiente de pago"
+    db_session.add(pedido)
+    db_session.commit()
+
+    # Acción y Verificación: Intentar realizar un pago con un monto incorrecto
+    with pytest.raises(HTTPException):
+        usuario.realizar_pago(db=db_session, pedido_id=pedido.id, monto=50.0, metodo_pago_id=metodo_pago.id)

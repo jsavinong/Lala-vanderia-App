@@ -1,11 +1,11 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, EmailStr
 from datetime import date, time
 from typing import Optional
 
 # Esquema base para Usuario
 class UsuarioBase(BaseModel):
     nombre: str
-    correo_electronico: str
+    correo_electronico: EmailStr
 
 # Esquema para crear un Usuario
 class UsuarioCreate(UsuarioBase):
@@ -169,5 +169,5 @@ class MetodoDePagoCreate(BaseModel):
     metodo: str
 
 class UsuarioLogin(BaseModel):
-    correo_electronico: str
+    correo_electronico: EmailStr
     contraseña: str

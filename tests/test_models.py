@@ -228,3 +228,22 @@ def test_realizar_pago_pedido_inexistente(db_session):
     # Acción y Verificación: Intentar realizar un pago para un pedido inexistente
     with pytest.raises(HTTPException):
         usuario.realizar_pago(db=db_session, pedido_id=997, monto=100.0, metodo_pago_id=metodo_pago.id)
+
+def test_realizar_pago_pedido_no_pertenece(db_session):
+    # Configuración: Crear dos usuarios, un pedido para el primer usuario, y un método de pago
+    usuario1 = Usuario(nombre="Usuario 1", correo_electronico="userpagos1@example.com", contraseña="test1")
+    usuario2 = Usuario(nombre="Usuario 2", correo_electronico="userpagos2@example.com", contraseña="test2")
+    db_session.add_all([usuario1, usuario2])
+    metodo_pago = MetodosDePago(metodo="Efectivo")
+    db_session.add(metodo_pago)
+    servicio = Servicio(nombre="Servicio de prueba", precio=100.0)
+    db_session.add(servicio)
+    db_session.commit()
+
+    pedido = Pedido(usuario_id=usuario1.id, servicio_id=servicio.id, estado_pedido_id =2, precio_total =servicio.precio) # ! estado_pedido_id igual 2 equivalente a "Pendiente de pago"
+    db_session.add(pedido)
+    db_session.commit()
+
+    # Acción y Verificación: Intentar que usuario2 realice un pago por el pedido de usuario1
+    with pytest.raises(HTTPException):
+        usuario2.realizar_pago(db=db_session, pedido_id=pedido.id, monto=100.0, metodo_pago_id=metodo_pago.id)

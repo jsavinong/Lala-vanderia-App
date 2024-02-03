@@ -3,6 +3,7 @@ from pages.main_page import MainPage
 from pages.login_page import LoginPage
 from pages.sign_up_page import SignupPage
 from utils.extras import *
+from flet_route import Routing, path
 
 # from pages.dashboard import DashboardPage
 
@@ -36,9 +37,9 @@ class App(UserControl):
         self.screen_views = Stack(
             expand=True,
             controls=[
-                self.main_page,
+                # self.main_page,
                 # LoginPage(),
-                # SignupPage()
+                SignupPage()
             ],
         )
         self.init_helper()

@@ -146,31 +146,36 @@ class Usuario(Base):
             raise HTTPException(status_code=404, detail="Pedido no encontrado o no pertenece al usuario")
         return pedido
 
-    from fastapi import HTTPException
+    def realizar_pago(self, db: Session, pedido_id: int, monto: float, metodo_pago_id: int):
+        # Verificar que el pedido existe y pertenece al usuario
+        pedido = db.query(Pedido).filter(Pedido.id == pedido_id, Pedido.usuario_id == self.id).first()
+        if not pedido:
+            raise HTTPException(status_code=404, detail="Pedido no encontrado o no pertenece al usuario.")
+        
+        # Verificar que el monto del pago coincide con el precio del pedido
+        if pedido.precio != monto:
+            raise HTTPException(status_code=400, detail="El monto del pago no coincide con el precio del pedido.")
+        
+        # Verificar que el pedido no ha sido pagado previamente
+        pago_existente = db.query(Pago).filter(Pago.pedido_id == pedido_id).first()
+        if pago_existente:
+            raise HTTPException(status_code=400, detail="El pedido ya ha sido pagado.")
+        
+        # Verificar que el método de pago existe
+        metodo_pago = db.query(MetodosDePago).filter(MetodosDePago.id == metodo_pago_id).first()
+        if not metodo_pago:
+            raise HTTPException(status_code=404, detail="Método de pago no encontrado.")
+        
+        # Actualizar el estado del pedido al pagar
+        pedido.estado_pedido_id = 3  # Asumiendo que 3 representa "Pagado"
+        
+        # Crear un nuevo registro de pago
+        nuevo_pago = Pago(pedido_id=pedido_id, monto=monto, metodo_de_pago_id=metodo_pago_id)
+        db.add(nuevo_pago)
+        db.commit()
+        db.refresh(nuevo_pago)
+        return nuevo_pago
 
-def realizar_pago(self, db: Session, pedido_id: int, monto: float, metodo_pago_id: int):
-    # Verificar que el pedido existe y pertenece al usuario
-    pedido = db.query(Pedido).filter(Pedido.id == pedido_id, Pedido.usuario_id == self.id).first()
-    if not pedido:
-        raise HTTPException(status_code=404, detail="Pedido no encontrado o no pertenece al usuario.")
-    
-    # Opcional: Validar que el monto del pago coincide con el monto del pedido
-    
-    # Verificar que el método de pago existe
-    metodo_pago = db.query(MetodosDePago).filter(MetodosDePago.id == metodo_pago_id).first()
-    if not metodo_pago:
-        raise HTTPException(status_code=404, detail="Método de pago no encontrado.")
-    
-    # Crear un nuevo registro de pago
-    nuevo_pago = Pago(pedido_id=pedido_id, monto=monto, metodo_de_pago_id=metodo_pago_id)
-    db.add(nuevo_pago)
-    
-    # Actualizar estado del pedido
-    pedido.estado_pedido_id = 3 # ! Siendo el 3 el equivalente a "Pagado" en la tabla estado_pedidos
-    
-    db.commit()
-    db.refresh(nuevo_pago)
-    return nuevo_pago
 
 
 

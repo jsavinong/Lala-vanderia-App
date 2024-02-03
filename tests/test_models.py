@@ -265,3 +265,28 @@ def test_realizar_pago_monto_incorrecto(db_session):
     # Acción y Verificación: Intentar realizar un pago con un monto incorrecto
     with pytest.raises(HTTPException):
         usuario.realizar_pago(db=db_session, pedido_id=pedido.id, monto=50.0, metodo_pago_id=metodo_pago.id)
+
+def test_evitar_pago_duplicado(db_session):
+    # Configuración inicial: Crear usuario, pedido, y método de pago
+    usuario = Usuario(nombre="Test User", correo_electronico="userduplicado@example.com", contraseña="test")
+    db_session.add(usuario)
+    metodo_pago = MetodosDePago(metodo="Tarjeta de Crédito")
+    db_session.add(metodo_pago)
+    servicio = Servicio(nombre="Servicio de prueba", precio=100.0)
+    db_session.add(servicio)
+    db_session.commit()
+
+    pedido = Pedido(usuario_id=usuario.id, servicio_id=servicio.id, estado_pedido_id =2, precio_total =servicio.precio) # ! estado_pedido_id igual 2 equivalente a "Pendiente de pago"
+    db_session.add(pedido)
+    db_session.commit()
+
+    # Realizar el primer pago correctamente
+    usuario.realizar_pago(db=db_session, pedido_id=pedido.id, monto=100.0, metodo_pago_id=metodo_pago.id)
+
+    # Intentar realizar un segundo pago para el mismo pedido
+    with pytest.raises(HTTPException) as exc_info:
+        usuario.realizar_pago(db=db_session, pedido_id=pedido.id, monto=100.0, metodo_pago_id=metodo_pago.id)
+
+    # Verificar que se lanza la excepción correcta por pago duplicado
+    assert exc_info.value.status_code == 400
+    assert "El pedido ya ha sido pagado" in str(exc_info.value.detail)

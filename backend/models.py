@@ -59,8 +59,7 @@ class Usuario(Base):
 
         except IntegrityError:
             db.rollback()  # Importante para cerrar la transacción fallida
-            raise HTTPException(status_code=400, detail="El usuario ya existe o los datos son inválidos.",
-            )
+            raise HTTPException(status_code=400, detail="El usuario ya existe o los datos son inválidos.")
 
         except Exception as e:
             # Manejo de otros errores inesperados

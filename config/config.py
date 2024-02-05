@@ -12,3 +12,6 @@ ALGORITHM = os.getenv("ALGORITHM")
 
 # URL de conexión a la base de datos
 DATABASE_URL = os.getenv("SQLALCHEMY_DATABASE_URL")
+
+# Dominios permitidos para acceder al backend
+origins = os.getenv("CORS_ORIGINS").split(",")

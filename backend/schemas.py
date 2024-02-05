@@ -10,8 +10,8 @@ class UsuarioBase(BaseModel):
 # Esquema para crear un Usuario
 class UsuarioCreate(UsuarioBase):
     contraseña: str
-    direccion: str
-    telefono: str
+    direccion: Optional[str]
+    telefono: Optional[str]
 
 # Esquema para leer un Usuario
 class Usuario(UsuarioBase):
@@ -171,3 +171,7 @@ class MetodoDePagoCreate(BaseModel):
 class UsuarioLogin(BaseModel):
     correo_electronico: EmailStr
     contraseña: str
+
+class Token(BaseModel):
+    access_token: str
+    token_type: str

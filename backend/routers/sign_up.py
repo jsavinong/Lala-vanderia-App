@@ -7,7 +7,7 @@ router = APIRouter()
 
 
 # Crear nuevos usuarios
-@router.post("/usuarios/", response_model=schemas.Usuario)
+@router.post("/users/sign_up/", response_model=schemas.Usuario)
 def create_usuario(
     usuario: schemas.UsuarioCreate, db: Session = Depends(database.get_db)
 ):
@@ -18,10 +18,10 @@ def create_usuario(
     return db_usuario
 
 
-# Obtener usuarios
-@router.get("/usuarios/", response_model=list[schemas.Usuario])
-def read_usuarios(
-    skip: int = 0, limit: int = 10, db: Session = Depends(database.get_db)
-):
-    usuarios = db.query(models.Usuario).offset(skip).limit(limit).all()
-    return usuarios
+# # Obtener usuarios
+# @router.get("/usuarios/", response_model=list[schemas.Usuario])
+# def read_usuarios(
+#     skip: int = 0, limit: int = 10, db: Session = Depends(database.get_db)
+# ):
+#     usuarios = db.query(models.Usuario).offset(skip).limit(limit).all()
+#     return usuarios

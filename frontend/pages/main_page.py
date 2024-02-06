@@ -1,6 +1,7 @@
 from flet import *
 from flet_route import Params, Basket
 from utils.extras import *
+from navigation import navigate_to
 
 def main_page_view(page: Page, params: Params, basket: Basket):
     # Construcción de la UI de MainPage
@@ -38,7 +39,7 @@ def main_page_view(page: Page, params: Params, basket: Basket):
             email_input,
             # Agrega aquí el resto de tus controles
             Container(
-                on_click=lambda e: on_continue_clicked(page, email_text_field),
+                on_click=lambda e: navigate_to(page, "/login"),
                 height=altura_btn,
                 width=anchura_btn,
                 bgcolor=blue_base,

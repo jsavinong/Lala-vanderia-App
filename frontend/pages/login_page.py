@@ -1,6 +1,7 @@
 from flet import *
 from utils.extras import *
 from flet_route import Params, Basket
+from navigation import go_back
 
 def login_page_view(page: Page, params: Params, basket: Basket):
     offset = transform.Offset(
@@ -100,7 +101,7 @@ def login_page_view(page: Page, params: Params, basket: Basket):
                         controls=[
                             Container(
                                 data="main_page", # !pa qué sirve?
-                                on_click = lambda e: on_back_clicked(page),
+                                on_click = lambda e: go_back(page),
                                 content=Icon(
                                     icons.ARROW_BACK_IOS_OUTLINED, size=28
                                 ),

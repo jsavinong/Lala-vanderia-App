@@ -1,6 +1,7 @@
 from flet import *
 from utils.extras import *
 from flet_route import Params, Basket
+from navigation import go_back
 
 def signup_page_view(page: Page, params: Params, basket: Basket):
 
@@ -161,6 +162,7 @@ def signup_page_view(page: Page, params: Params, basket: Basket):
                         controls=[
                             Container(
                                 data="main_page",
+                                on_click = lambda e: go_back(page),
                                 content=Icon(
                                     icons.ARROW_BACK_IOS_OUTLINED, size=28
                                 ),

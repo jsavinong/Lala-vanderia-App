@@ -23,8 +23,7 @@ def login_page_view(page: Page, params: Params, basket: Basket):
         ),
     )
 
-    # def on_back_clicked(page: Page):
-        # page.go("/ruta-anterior")
+
     login_box = Column(
         controls=[
             Row(

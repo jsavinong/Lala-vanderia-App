@@ -39,7 +39,7 @@ def main_page_view(page: Page, params: Params, basket: Basket):
             email_input,
             # Agrega aquí el resto de tus controles
             Container(
-                on_click=lambda e: navigate_to(page, "/login"),
+                on_click=lambda e: navigate_to(page, "/login") if email_text_field.value =="usuario_registrado@example.com" else navigate_to(page, "/signup"),
                 height=altura_btn,
                 width=anchura_btn,
                 bgcolor=blue_base,

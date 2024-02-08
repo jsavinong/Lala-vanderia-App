@@ -47,6 +47,8 @@ def main_page_view(page: Page, params: Params, basket: Basket):
 
     def on_click_handler(page: Page, email_text_field: TextField):
         email = email_text_field.value
+        # Almacenar el email en el estado global antes de verificar si está registrado
+        update_state("email", email)
         check_email_and_navigate(page, email)
 
 

@@ -2,6 +2,7 @@ from flet import *
 from utils.extras import *
 from flet_route import Params, Basket
 from navigation import go_back
+from state import get_state
 
 def login_page_view(page: Page, params: Params, basket: Basket):
     offset = transform.Offset(
@@ -9,6 +10,8 @@ def login_page_view(page: Page, params: Params, basket: Basket):
         0,
     )
     expand = True
+
+    email = get_state("email")  # Obtiene el correo electrónico del estado global.
 
     pwd_input = Container(
         height=altura_btn,
@@ -44,7 +47,7 @@ def login_page_view(page: Page, params: Params, basket: Basket):
                                 size=14,
                             ),
                             Text(
-                                value="test@gmail.com",
+                                value=email,
                                 size=14,
                             ),
                         ],

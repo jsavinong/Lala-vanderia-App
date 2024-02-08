@@ -3,12 +3,11 @@ from utils.extras import *
 from flet_route import Params, Basket
 from navigation import go_back
 from state import update_state, get_state
+
 #from services.services import signup_user
 
 def signup_page_view(page: Page, params: Params, basket: Basket):
-    email = get_state("email", "default@email.com")
-    email_text = Text(value=email)
-    page.add(email_text)
+    email = get_state("email")  # Obtiene el correo electrónico del estado global.
     
     # self.email = email
     # self.dp_url = dp
@@ -44,6 +43,7 @@ def signup_page_view(page: Page, params: Params, basket: Basket):
         view_text.update()
 
     view_text = Text(value="Ver", color=color_base)
+
     password_box = TextField(
         password=True,
         suffix=Container(on_click=show_hide_password, content=view_text),

@@ -1,27 +1,33 @@
-from flet import *
-
+from flet import Page
+from state import app_state
 
 # Lista vacía del historial de navegación de la app
 navigation_history = []
 
-def navigate_to(page: Page, route: str):
-    # Añade la ruta al historial solo si es diferente a la última añadida
-    if not navigation_history or (navigation_history and navigation_history[-1] != route):
-        navigation_history.append(route)
-    # Realiza la navegación
+def navigate_to(page: Page, route: str, data=None):
+    # Actualizar el estado con cualquier dato nuevo
+    if data:
+        for key, value in data.items():
+            app_state["data"][key] = value
+    
+    # Añadir la ruta actual al historial de navegación
+    app_state["navigation_history"].append(route)
+    
+    # Realizar la navegación
     page.go(route)
 
 
+
 def go_back(page: Page):
-    if len(navigation_history) > 1:
-        # Elimina la ruta actual
-        navigation_history.pop()
-        # Obtén la última ruta como la nueva ruta actual
-        previous_route = navigation_history[-1]
-        # Navega a la ruta anterior sin añadirla nuevamente al historial
+    if len(app_state["navigation_history"]) > 1:
+        # Eliminar la última ruta (actual) y obtener la anterior
+        app_state["navigation_history"].pop()  # Elimina la ruta actual
+        previous_route = app_state["navigation_history"][-1]  # Obtiene y elimina la ruta anterior
+        # Navegar a la ruta anterior
         page.go(previous_route)
-    elif len(navigation_history) == 1:
-        # Opcional: manejar el caso de volver a la página de inicio o raíz
-        navigation_history.pop()
-        page.go("/")  # Asume "/" como tu ruta raíz o de inicio
+    elif len(app_state["navigation_history"]) == 1:
+        # Opcional: si solo queda la ruta inicial, podrías manejarlo de manera especial
+        app_state["navigation_history"].pop()
+        page.go("/")  # Asume que "/" es la página de inicio o raíz
+
 

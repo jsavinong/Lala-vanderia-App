@@ -2,9 +2,13 @@ from flet import *
 from utils.extras import *
 from flet_route import Params, Basket
 from navigation import go_back
+from state import update_state, get_state
+#from services.services import signup_user
 
 def signup_page_view(page: Page, params: Params, basket: Basket):
-
+    email = get_state("email", "default@email.com")
+    email_text = Text(value=email)
+    page.add(email_text)
     
     # self.email = email
     # self.dp_url = dp
@@ -70,7 +74,7 @@ def signup_page_view(page: Page, params: Params, basket: Basket):
                         size=14,
                         color="#ccffffff",
                     ),
-                    Text(value="test@gmail.com", size=14, color="#ccffffff"),
+                    Text(value=email, size=14, color="#ccffffff"),
                 ],
             ),
             Container(

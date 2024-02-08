@@ -21,12 +21,15 @@ class Usuario(Base):
     telefono = Column(String)
 
     plan_suscripcion_id = Column(Integer, ForeignKey('planes_suscripcion.id'))
-    fecha_inicio_suscripcion = Column(Date)
-    fecha_fin_suscripcion = Column(Date)
+    # fecha_inicio_suscripcion = Column(Date)
+    # fecha_fin_suscripcion = Column(Date)
 
     # Relaciones (si son necesarias)
     # plan_suscripcion = relationship("PlanSuscripcion")
-
+    @classmethod
+    def buscar_por_correo(cls, db: Session, correo_electronico: str):
+        return db.query(cls).filter(cls.correo_electronico == correo_electronico).first()
+    
     @classmethod
     def registrar_usuario(cls, db: Session, usuario_data):
         """

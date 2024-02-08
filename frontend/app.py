@@ -5,6 +5,7 @@ from pages.sign_up_page import signup_page_view
 from utils.extras import *
 from flet_route import Routing, path
 
+
 # from pages.dashboard import DashboardPage
 
 

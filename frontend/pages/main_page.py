@@ -1,7 +1,10 @@
 from flet import *
-from flet_route import Params, Basket
+from state import update_state, get_state
 from utils.extras import *
 from navigation import navigate_to
+from flet_route import Params, Basket
+from services import check_email_registered_sync
+from threading import Thread
 
 def main_page_view(page: Page, params: Params, basket: Basket):
     # Construcción de la UI de MainPage
@@ -22,16 +25,29 @@ def main_page_view(page: Page, params: Params, basket: Basket):
         content=email_text_field,  # Usar la referencia aquí
         )
 
-    def on_continue_clicked(page: Page, email_input: TextField):
-        email = email_input.value
-        # Aquí deberías verificar si el correo ya está registrado.
-        # Para este ejemplo, asumiremos una lógica condicional simple.
-        if email == "usuario_registrado@example.com":  # Este correo simula uno ya registrado.
-            page.go("/login")  # Redirige a la página de Login
+    def on_email_checked(page: Page, is_registered: bool):
+        if is_registered:
+            # Navega a la página de inicio de sesión si el correo está registrado
+            navigate_to(page, "/login")
         else:
-            page.go("/signup")  # Redirige a la página de Sign Up
+            # Navega a la página de registro si el correo no está registrado
+            navigate_to(page, "/signup")
 
     
+
+    def check_email_and_navigate(page: Page, email: str):
+        # Esta es la función que se ejecutará en el hilo
+        def run():
+            is_registered = check_email_registered_sync(email)
+            # Necesitas asegurarte de que la actualización de la UI se ejecute en el hilo principal
+            # La implementación específica dependerá de Flet y cómo gestiona las actualizaciones de la UI desde hilos
+            on_email_checked(page, is_registered)
+            
+        Thread(target=run).start()
+
+    def on_click_handler(page: Page, email_text_field: TextField):
+        email = email_text_field.value
+        check_email_and_navigate(page, email)
 
 
     main_content = Column(
@@ -39,7 +55,7 @@ def main_page_view(page: Page, params: Params, basket: Basket):
             email_input,
             # Agrega aquí el resto de tus controles
             Container(
-                on_click=lambda e: navigate_to(page, "/login") if email_text_field.value =="usuario_registrado@example.com" else navigate_to(page, "/signup"),
+                on_click=lambda e: on_click_handler(page, email_text_field),
                 height=altura_btn,
                 width=anchura_btn,
                 bgcolor=blue_base,

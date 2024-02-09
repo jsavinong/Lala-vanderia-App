@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 # from sqlalchemy import create_engine
 from .database import Base, engine
-from .routers import verify_email, sign_up, login, servicios, pedidos, suscripciones, planes_suscripcion, pagos, horarios, estado_pedidos, estado_suscripcion, metodos_de_pago
+from .routers import verify_email, get_username, sign_up, login, servicios, pedidos, suscripciones, planes_suscripcion, pagos, horarios, estado_pedidos, estado_suscripcion, metodos_de_pago
 from fastapi.middleware.cors import CORSMiddleware
 from config.config import origins
 
@@ -23,6 +23,7 @@ app.add_middleware(
 
 # Incluir los routers de cada módulo
 app.include_router(verify_email.router)
+app.include_router(get_username.router)
 app.include_router(sign_up.router)
 app.include_router(login.router)
 app.include_router(servicios.router)

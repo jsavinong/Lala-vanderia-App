@@ -23,3 +23,4 @@ def create_usuario(
 def read_usuarios(skip: int = 0, limit: int = 10, db: Session = Depends(database.get_db)):
     usuarios = db.query(models.Usuario).offset(skip).limit(limit).all()
     return usuarios
+

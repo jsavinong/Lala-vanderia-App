@@ -26,6 +26,7 @@ class Usuario(Base):
 
     # Relaciones (si son necesarias)
     # plan_suscripcion = relationship("PlanSuscripcion")
+
     @classmethod
     def buscar_por_correo(cls, db: Session, correo_electronico: str):
         return db.query(cls).filter(cls.correo_electronico == correo_electronico).first()

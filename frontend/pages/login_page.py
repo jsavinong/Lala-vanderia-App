@@ -3,6 +3,7 @@ from utils.extras import *
 from flet_route import Params, Basket
 from navigation import go_back
 from state import get_state
+from services import fetch_user_info
 
 def login_page_view(page: Page, params: Params, basket: Basket):
     offset = transform.Offset(
@@ -12,6 +13,27 @@ def login_page_view(page: Page, params: Params, basket: Basket):
     expand = True
 
     email = get_state("email")  # Obtiene el correo electrónico del estado global.
+    
+    email_text = Text(value=email, size=14)
+    username_text = Text(value="", size=14, weight="bold")  # Inicialmente vacío
+    page.add(username_text)
+
+    continue_button = ElevatedButton(
+        content=Text(value="Continuar", size=18),
+        width=anchura_btn,
+        height=altura_btn,  # Opcional: Añade un ícono al botón
+        # on_click=lambda e: on_click_handler(page, email_text_field),  # Reemplaza esto con tu función de manejo de clics real
+        style=ButtonStyle(
+                shape=RoundedRectangleBorder(radius=10), bgcolor=blue_base)
+)
+    def update_username_ui(username):
+        print(username)
+        username_text.value = username
+        page.update() 
+        
+
+    # Llama a fetch_user_info pasando el email y el callback
+    fetch_user_info(email, lambda username: update_username_ui(username))
 
     pwd_input = Container(
         height=altura_btn,
@@ -41,31 +63,14 @@ def login_page_view(page: Page, params: Params, basket: Basket):
                     Column(
                         spacing=0,
                         controls=[
-                            Text(
-                                value="Prueba",
-                                weight=FontWeight.BOLD,
-                                size=14,
-                            ),
-                            Text(
-                                value=email,
-                                size=14,
-                            ),
+                            username_text, email_text
+                            
                         ],
                     ),
                 ]
             ),
             pwd_input,
-            Container(
-                height=altura_btn,
-                width=anchura_btn,
-                bgcolor=blue_base,
-                border_radius=10,
-                alignment=alignment.center,
-                content=Text(
-                    value="Continuar",
-                    size=18,
-                ),
-            ),
+            continue_button,
             Container(height=20),
             Text(
                 value="Olvidaste tu contraseña?",

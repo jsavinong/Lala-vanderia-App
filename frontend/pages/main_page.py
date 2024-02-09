@@ -24,6 +24,15 @@ def main_page_view(page: Page, params: Params, basket: Basket):
         border_radius=10,
         content=email_text_field,  # Usar la referencia aquí
         )
+    
+    continue_button = ElevatedButton(
+        content=Text(value="Continuar", size=18),
+        width=anchura_btn,
+        height=altura_btn,  # Opcional: Añade un ícono al botón
+        on_click=lambda e: on_click_handler(page, email_text_field),  # Reemplaza esto con tu función de manejo de clics real
+        style=ButtonStyle(
+                shape=RoundedRectangleBorder(radius=10), bgcolor=blue_base)
+)
 
     def on_email_checked(page: Page, is_registered: bool):
         if is_registered:
@@ -55,20 +64,7 @@ def main_page_view(page: Page, params: Params, basket: Basket):
     main_content = Column(
         controls=[
             email_input,
-            # Agrega aquí el resto de tus controles
-            Container(
-                on_click=lambda e: on_click_handler(page, email_text_field),
-                height=altura_btn,
-                width=anchura_btn,
-                bgcolor=blue_base,
-                border_radius=10,
-                alignment=alignment.center,
-                content=Text(
-                    value="Continuar",
-                    size=18,
-                ),
-                
-            ),
+            continue_button,
             Row(
                 alignment="center",
                 controls=[

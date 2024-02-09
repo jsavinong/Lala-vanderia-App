@@ -16,7 +16,14 @@ def signup_page_view(page: Page, params: Params, basket: Basket):
         0,
     )
     expand = True
-
+    aceptar_continuar_btn = ElevatedButton(
+        content=Text(value="Aceptar y Continuar", size=18),
+        width=anchura_btn,
+        height=altura_btn,  # Opcional: Añade un ícono al botón
+        #on_click=lambda e: on_click_handler(page, email_text_field),  # Reemplaza esto con tu función de manejo de clics real
+        style=ButtonStyle(
+                shape=RoundedRectangleBorder(radius=10), bgcolor=blue_base)
+)
     name_box = TextField(
         hint_text="Nombre",
         hint_style=TextStyle(
@@ -74,7 +81,7 @@ def signup_page_view(page: Page, params: Params, basket: Basket):
                         size=14,
                         color="#ccffffff",
                     ),
-                    Text(value=email, size=14, color="#ccffffff"),
+                    Text(value=email, size=14, color="#ccffffff", weight="bold"),
                 ],
             ),
             Container(
@@ -118,17 +125,7 @@ def signup_page_view(page: Page, params: Params, basket: Basket):
                     ],
                 )
             ),
-            Container(
-                height=altura_btn,
-                width=anchura_btn,
-                bgcolor=blue_base,
-                border_radius=10,
-                alignment=alignment.center,
-                content=Text(
-                    value="Aceptar y Continuar",
-                    size=18,
-                ),
-            ),
+            aceptar_continuar_btn,
             Container(height=20),
             Text(
                 value="Olvidaste tu contraseña?",

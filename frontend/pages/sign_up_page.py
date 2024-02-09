@@ -3,6 +3,8 @@ from utils.extras import *
 from flet_route import Params, Basket
 from navigation import go_back
 from state import update_state, get_state
+from services import signup_user
+from threading import Thread
 
 #from services.services import signup_user
 
@@ -11,19 +13,35 @@ def signup_page_view(page: Page, params: Params, basket: Basket):
     
     # self.email = email
     # self.dp_url = dp
-    offset = transform.Offset(
-        0,
-        0,
-    )
+    offset = transform.Offset(0,0,)
     expand = True
     aceptar_continuar_btn = ElevatedButton(
         content=Text(value="Aceptar y Continuar", size=18),
         width=anchura_btn,
         height=altura_btn,  # Opcional: Añade un ícono al botón
-        #on_click=lambda e: on_click_handler(page, email_text_field),  # Reemplaza esto con tu función de manejo de clics real
+        on_click=lambda e: on_aceptar_continuar_clicked(page, email, name_box.value, password_box.value),  # Reemplaza esto con tu función de manejo de clics real
         style=ButtonStyle(
                 shape=RoundedRectangleBorder(radius=10), bgcolor=blue_base)
 )
+    def on_aceptar_continuar_clicked(page: Page, correo_electronico: str, nombre: str, contraseña: str):
+
+        def do_signup():
+            
+            # Lógica de validación o cualquier preparación previa al registro
+            if not nombre or not correo_electronico or not contraseña:
+                # Suponiendo que tienes una forma de mostrar mensajes en la UI
+                # Asegúrate de hacer cualquier actualización de la UI en el hilo principal
+
+
+                print("Error", "Todos los campos son obligatorios.")
+                return
+
+            # Aquí llamas a signup_user, que ahora debería estar adaptada para trabajar con threads
+            signup_user(page, nombre, correo_electronico, contraseña)
+
+        # Iniciar el proceso de registro en un hilo secundario
+        Thread(target=do_signup).start()
+
     name_box = TextField(
         hint_text="Nombre",
         hint_style=TextStyle(
@@ -38,7 +56,7 @@ def signup_page_view(page: Page, params: Params, basket: Basket):
         content_padding=content_padding,
     )
     
-    def show_hide_password():
+    def show_hide_password(e):
         det = password_box.password
         if det == True:
             password_box.password = False

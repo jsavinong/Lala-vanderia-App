@@ -4,20 +4,32 @@ import threading
 import requests
 
 
-async def signup_user(page: Page, email: str, password: str):
-    url = "http://127.0.0.1:8000/users/sign_up/"  # Asegúrate de ajustar la URL a tu configuración
-    data = {"email": email, "password": password}
-    
-    async with httpx.AsyncClient() as client:
-        response = await client.post(url, json=data)
-        if response.status_code == 200:
-            # Aquí asumimos que el registro fue exitoso
-            
-            page.dialog("Registro exitoso", "El usuario ha sido registrado correctamente.")
-        else:
-            # Manejo de error
-            error_message = response.json().get("detail", "Error durante el registro")
-            page.dialog("Error de Registro", error_message)
+def signup_user(page: Page, nombre: str, correo_electronico: str, contraseña: str, direccion: str = None, telefono: str = None):
+    def do_signup():
+        url = "http://127.0.0.1:8000/users/sign_up/"  # Asegúrate de ajustar la URL a tu configuración
+        data = {"nombre": nombre, 
+                "correo_electronico": correo_electronico, 
+                "contraseña": contraseña,
+                "direccion": direccion,
+                "telefono": telefono,
+        }
+        
+        # Usar httpx.Client en lugar de httpx.AsyncClient
+        with httpx.Client() as client:
+            response = client.post(url, json=data)
+            if response.status_code == 200:
+                # Este código se ejecuta en el hilo secundario.
+                # Asegúrate de que cualquier actualización de la UI se ejecute en el hilo principal.
+                # Flet maneja internamente las actualizaciones de la UI en el hilo principal,
+                # pero esto es algo a tener en cuenta al usar threads.
+                print("Registro exitoso", "El usuario ha sido registrado correctamente.")
+            else:
+                # Manejo de error
+                error_message = response.json().get("detail", "Error durante el registro")
+                print("Error de Registro", error_message)
+
+    # Iniciar la operación de registro en un hilo secundario
+    threading.Thread(target=do_signup).start()
 
 def check_email_registered_sync(correo_electronico: str) -> bool:
     try:

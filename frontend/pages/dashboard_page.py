@@ -6,8 +6,8 @@ from state import update_state, get_state
 def dashboard_page_view(page: Page, params: Params, basket: Basket):
 
     offset = transform.Offset(0,0,)
-    email = email
-    switch_page = switch_page
+    email = get_state("email")  # Obtiene el correo electrónico del estado global.
+    print(email)
     expand = True
     content = Container(
     
@@ -27,11 +27,11 @@ def dashboard_page_view(page: Page, params: Params, basket: Basket):
             
             ),
             Text(
-            value=f'Tu correo es\n{email}',
+            value=f'Tu correo es',
             
             ),
             Container(
-            on_click= switch_page,
+            #on_click= switch_page,
             data ='logout',
             height=50,
             width=100,

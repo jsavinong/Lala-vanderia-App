@@ -3,7 +3,7 @@ from utils.extras import *
 from flet_route import Params, Basket
 from navigation import go_back
 from state import get_state
-from services import fetch_user_info
+from services import fetch_user_info, login_user
 
 def login_page_view(page: Page, params: Params, basket: Basket):
     offset = transform.Offset(
@@ -14,6 +14,19 @@ def login_page_view(page: Page, params: Params, basket: Basket):
 
     email = get_state("email")  # Obtiene el correo electrónico del estado global.
     
+    password_text_field = TextField(
+            hint_text="Contraseña",
+            hint_style=TextStyle(size=16, color=input_hint_color),
+            text_style=TextStyle(size=16, color=input_hint_color),
+            border=InputBorder.NONE,
+            content_padding=content_padding,
+        )
+    pwd_input = Container(
+        height=altura_btn,
+        bgcolor="white",
+        border_radius=10,
+        content=password_text_field
+    )
     email_text = Text(value=email, size=14)
     username_text = Text(value="", size=14, weight="bold")  # Inicialmente vacío
     page.add(username_text)
@@ -22,10 +35,18 @@ def login_page_view(page: Page, params: Params, basket: Basket):
         content=Text(value="Continuar", size=18),
         width=anchura_btn,
         height=altura_btn,  # Opcional: Añade un ícono al botón
-        # on_click=lambda e: on_click_handler(page, email_text_field),  # Reemplaza esto con tu función de manejo de clics real
+        on_click=lambda e: on_continuar_clicked(page, email_text.value, password_text_field.value),  # Reemplaza esto con tu función de manejo de clics real
         style=ButtonStyle(
                 shape=RoundedRectangleBorder(radius=10), bgcolor=blue_base)
 )
+    def on_continuar_clicked(page: Page, correo_electronico: str, contraseña: str):
+        # Extrae los valores directamente de los campos de texto
+        # correo_electronico= email_text.value
+        # contraseña = password_text_field.value
+        print(password_text_field.value, email_text.value)
+        # Llama a la función de inicio de sesión
+        login_user(page, correo_electronico, contraseña)
+
     def update_username_ui(username):
         print(username)
         username_text.value = username
@@ -35,18 +56,6 @@ def login_page_view(page: Page, params: Params, basket: Basket):
     # Llama a fetch_user_info pasando el email y el callback
     fetch_user_info(email, lambda username: update_username_ui(username))
 
-    pwd_input = Container(
-        height=altura_btn,
-        bgcolor="white",
-        border_radius=10,
-        content=TextField(
-            hint_text="Contraseña",
-            hint_style=TextStyle(size=16, color=input_hint_color),
-            text_style=TextStyle(size=16, color=input_hint_color),
-            border=InputBorder.NONE,
-            content_padding=content_padding,
-        ),
-    )
 
 
     login_box = Column(

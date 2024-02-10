@@ -2,6 +2,7 @@ import httpx
 from flet import Page
 import threading
 import requests
+from navigation import navigate_to
 
 
 def signup_user(page: Page, nombre: str, correo_electronico: str, contraseña: str, direccion: str = None, telefono: str = None):
@@ -20,8 +21,10 @@ def signup_user(page: Page, nombre: str, correo_electronico: str, contraseña: s
             if response.status_code == 200:
                 # Este código se ejecuta en el hilo secundario.
                 # Asegúrate de que cualquier actualización de la UI se ejecute en el hilo principal.
-                # Flet maneja internamente las actualizaciones de la UI en el hilo principal,
-                # pero esto es algo a tener en cuenta al usar threads.
+                # Puedes usar page.update() para enviar actualizaciones de UI seguras desde un hilo secundario
+                #page.update()
+                # Navegar al dashboard después de actualizar la página
+                navigate_to(page, "/dashboard")
                 print("Registro exitoso", "El usuario ha sido registrado correctamente.")
             else:
                 # Manejo de error
@@ -60,3 +63,27 @@ def fetch_user_info(correo_electronico: str, update_ui_callback):
             print(f"Error al obtener la información del usuario: {e}")
     
     threading.Thread(target=run).start()
+
+def login_user(page: Page, correo_electronico: str, contraseña: str):
+    def do_login():
+        url = "http://127.0.0.1:8000/login"  # Asegúrate de que esta URL es correcta
+        data = {
+            "correo_electronico": correo_electronico,
+            "contraseña": contraseña,
+        }
+        
+        with httpx.Client() as client:
+            response = client.post(url, json=data)
+            if response.status_code == 200:
+                # Extrae el token de la respuesta
+                token_data = response.json()
+                access_token = token_data.get("access_token")
+                # Aquí deberías almacenar el access_token para uso futuro en solicitudes autenticadas
+                navigate_to(page, "/dashboard")
+                print("Inicio de sesión exitoso, token:", access_token)
+                # Navegar al dashboard o actualizar el estado del usuario como "logueado"
+            else:
+                print("Error de Inicio de Sesión:", response.status_code, response.text)
+
+    threading.Thread(target=do_login).start()
+

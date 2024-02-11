@@ -2,7 +2,7 @@ from flet import *
 from utils.extras import *
 from flet_route import Params, Basket
 from navigation import go_back
-from state import get_state
+from state import get_state, update_state
 from services import fetch_user_info, login_user
 
 def login_page_view(page: Page, params: Params, basket: Basket):
@@ -14,12 +14,29 @@ def login_page_view(page: Page, params: Params, basket: Basket):
 
     email = get_state("email")  # Obtiene el correo electrónico del estado global.
     
+    def show_hide_password(e):
+        det = password_text_field.password
+        if det == True:
+            password_text_field.password = False
+            view_text.value = "Ocultar"
+        else:
+            password_text_field.password = True
+            view_text.value = "Ver"
+        password_text_field.update()
+        view_text.update()
+    
+    view_text = Text(value="Ver", color=color_base)
+
     password_text_field = TextField(
+            password=True,
+            suffix=Container(on_click=show_hide_password, content=view_text),
             hint_text="Contraseña",
             hint_style=TextStyle(size=16, color=input_hint_color),
             text_style=TextStyle(size=16, color=input_hint_color),
             border=InputBorder.NONE,
             content_padding=content_padding,
+            selection_color=blue_base,
+            cursor_color=color_base,
         )
     pwd_input = Container(
         height=altura_btn,
@@ -43,7 +60,8 @@ def login_page_view(page: Page, params: Params, basket: Basket):
         # Extrae los valores directamente de los campos de texto
         # correo_electronico= email_text.value
         # contraseña = password_text_field.value
-        print(password_text_field.value, email_text.value)
+        print(password_text_field.value, email_text.value, username_text.value)
+        update_state("nombre", username_text.value)
         # Llama a la función de inicio de sesión
         login_user(page, correo_electronico, contraseña)
 
@@ -55,8 +73,6 @@ def login_page_view(page: Page, params: Params, basket: Basket):
 
     # Llama a fetch_user_info pasando el email y el callback
     fetch_user_info(email, lambda username: update_username_ui(username))
-
-
 
     login_box = Column(
         controls=[

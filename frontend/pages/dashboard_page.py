@@ -2,13 +2,22 @@ from flet import *
 from utils.extras import *
 from flet_route import Params, Basket
 from state import update_state, get_state
+from navigation import navigate_to
 
 def dashboard_page_view(page: Page, params: Params, basket: Basket):
 
     offset = transform.Offset(0,0,)
-    email = get_state("email")  # Obtiene el correo electrónico del estado global.
-    print(email)
+    nombre = get_state("nombre")  # Obtiene el nombre  del estado global.
+    print(nombre)
     expand = True
+    
+    logout_btn=Icon(
+                icons.LOGOUT_OUTLINED,
+                color='black')
+
+    def on_logout_clicked(e):
+        navigate_to(page, "/")
+
     content = Container(
     
         height=altura_base,
@@ -27,20 +36,18 @@ def dashboard_page_view(page: Page, params: Params, basket: Basket):
             
             ),
             Text(
-            value=f'Tu correo es',
+            value=nombre,
             
             ),
             Container(
-            #on_click= switch_page,
+            on_click= on_logout_clicked,
             data ='logout',
             height=50,
             width=100,
             border_radius=30,
             bgcolor='white',
-            content=Icon(
-                icons.LOGOUT_OUTLINED,
-                color='black'
-            )
+            content=logout_btn
+            
             )
         ]
         )

@@ -5,6 +5,7 @@ from navigation import go_back
 from state import update_state, get_state
 from services import signup_user
 from threading import Thread
+import re
 
 #from services.services import signup_user
 
@@ -33,16 +34,20 @@ def signup_page_view(page: Page, params: Params, basket: Basket):
     def on_aceptar_continuar_clicked(page: Page, correo_electronico: str, nombre: str, contraseña: str):
 
         def do_signup():
+            mensaje_error = ""
+            # Verificar que los campos no estén vacíos
+            if not nombre:
+                mensaje_error = "El campo de nombre está vacío."
+            elif not contraseña or len(contraseña) < 8:
+                mensaje_error = "La contraseña debe tener al menos 8 caracteres."
+            elif not re.search("[a-z]", contraseña) or not re.search("[A-Z]", contraseña) or not re.search("[0-9]", contraseña) or not re.search("[\W_]", contraseña):
+                mensaje_error = "La contraseña debe contener mayúsculas, minúsculas, números y caracteres especiales."
             
-            # Lógica de validación o cualquier preparación previa al registro
-            if not nombre or not correo_electronico or not contraseña:
-                # Suponiendo que tienes una forma de mostrar mensajes en la UI
-                # Asegúrate de hacer cualquier actualización de la UI en el hilo principal
-
-
-                print("Error", "Todos los campos son obligatorios.")
+            # Si hay un mensaje de error, mostrarlo y detener el registro
+            if mensaje_error:
+                mostrar_snackbar(page, mensaje_error)
                 return
-
+            update_state("nombre", nombre)
             # Aquí llamas a signup_user, que ahora debería estar adaptada para trabajar con threads
             signup_user(page, nombre, correo_electronico, contraseña)
 

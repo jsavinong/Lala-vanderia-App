@@ -64,7 +64,7 @@ def fetch_user_info(correo_electronico: str, update_ui_callback):
     
     threading.Thread(target=run).start()
 
-def login_user(page: Page, correo_electronico: str, contraseña: str):
+def login_user(page: Page, correo_electronico: str, contraseña: str, on_result):
     def do_login():
         url = "http://127.0.0.1:8000/login"  # Asegúrate de que esta URL es correcta
         data = {
@@ -80,10 +80,12 @@ def login_user(page: Page, correo_electronico: str, contraseña: str):
                 access_token = token_data.get("access_token")
                 # Aquí deberías almacenar el access_token para uso futuro en solicitudes autenticadas
                 navigate_to(page, "/dashboard")
-                print("Inicio de sesión exitoso, token:", access_token)
+                #print("Inicio de sesión exitoso, token:", access_token)
                 # Navegar al dashboard o actualizar el estado del usuario como "logueado"
+                on_result(True, "Inicio de sesión exitoso")
             else:
-                print("Error de Inicio de Sesión:", response.status_code, response.text)
+                # En caso de error, pasar un mensaje de error
+                on_result(False, "Error de Inicio de Sesión: Verifica tus credenciales.")
 
     threading.Thread(target=do_login).start()
 

@@ -22,7 +22,14 @@ def signup_page_view(page: Page, params: Params, basket: Basket):
         on_click=lambda e: on_aceptar_continuar_clicked(page, email, name_box.value, password_box.value),  # Reemplaza esto con tu función de manejo de clics real
         style=ButtonStyle(
                 shape=RoundedRectangleBorder(radius=10), bgcolor=blue_base)
-)
+    )
+
+    def mostrar_snackbar(page: Page, mensaje: str):
+        snackbar = SnackBar(content=Text(mensaje), open=True, duration=4000)
+        page.snack_bar = snackbar
+        page.update()
+
+
     def on_aceptar_continuar_clicked(page: Page, correo_electronico: str, nombre: str, contraseña: str):
 
         def do_signup():

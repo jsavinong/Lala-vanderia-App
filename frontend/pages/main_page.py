@@ -5,6 +5,7 @@ from navigation import navigate_to
 from flet_route import Params, Basket
 from services import check_email_registered_sync
 from threading import Thread
+import re
 
 def main_page_view(page: Page, params: Params, basket: Basket):
     # Construcción de la UI de MainPage
@@ -33,6 +34,14 @@ def main_page_view(page: Page, params: Params, basket: Basket):
         style=ButtonStyle(
                 shape=RoundedRectangleBorder(radius=10), bgcolor=blue_base)
 )
+    def mostrar_snackbar(page: Page, mensaje: str):
+        snackbar = SnackBar(content=Text(mensaje), open=True, duration=4000)
+        page.snack_bar = snackbar
+        page.update()
+    def es_correo_valido(correo):
+        # Esta es una expresión regular muy básica para validación de correo
+        patron_correo = r"^\S+@\S+\.\S+$"
+        return re.match(patron_correo, correo) is not None
 
     def on_email_checked(page: Page, is_registered: bool):
         if is_registered:
@@ -56,6 +65,12 @@ def main_page_view(page: Page, params: Params, basket: Basket):
 
     def on_click_handler(page: Page, email_text_field: TextField):
         email = email_text_field.value
+        if not email:
+            mostrar_snackbar(page, "Por favor, ingresa un correo electrónico.")
+            return
+        elif not es_correo_valido(email):
+            mostrar_snackbar(page, "Por favor, ingresa un correo electrónico válido.")
+            return
         # Almacenar el email en el estado global antes de verificar si está registrado
         update_state("email", email)
         check_email_and_navigate(page, email)

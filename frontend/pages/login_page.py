@@ -1,7 +1,7 @@
 from flet import *
 from utils.extras import *
 from flet_route import Params, Basket
-from navigation import go_back
+from navigation import go_back, navigate_to
 from state import get_state, update_state
 from services import fetch_user_info, login_user
 
@@ -14,6 +14,12 @@ def login_page_view(page: Page, params: Params, basket: Basket):
 
     email = get_state("email")  # Obtiene el correo electrónico del estado global.
     
+    def mostrar_snackbar(page: Page, mensaje: str):
+        snackbar = SnackBar(content=Text(mensaje), open=True, duration=4000)
+        page.snack_bar = snackbar
+        page.update()
+    
+
     def show_hide_password(e):
         det = password_text_field.password
         if det == True:
@@ -60,10 +66,16 @@ def login_page_view(page: Page, params: Params, basket: Basket):
         # Extrae los valores directamente de los campos de texto
         # correo_electronico= email_text.value
         # contraseña = password_text_field.value
-        print(password_text_field.value, email_text.value, username_text.value)
+        # print(password_text_field.value, email_text.value, username_text.value)
         update_state("nombre", username_text.value)
-        # Llama a la función de inicio de sesión
-        login_user(page, correo_electronico, contraseña)
+        def on_login_result(success, message):
+            if success:
+                # Navegar al dashboard o realizar acciones de éxito
+                navigate_to(page, "/dashboard")
+            else:# Llama a la función de inicio de sesión con el callback
+                # Mostrar mensaje de error
+                mostrar_snackbar(page, message)
+        login_user(page, correo_electronico, contraseña, on_login_result)
 
     def update_username_ui(username):
         print(username)

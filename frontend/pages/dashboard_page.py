@@ -4,8 +4,10 @@ from flet_route import Params, Basket
 from state import update_state, get_state
 from navigation import navigate_to
 
-def dashboard_page_view(page: Page, params: Params, basket: Basket):
+def dashboard_page_view(page: Page, params: Params=None, basket: Basket=None):
 
+    
+    
     offset = transform.Offset(0,0,)
     nombre = get_state("nombre")  # Obtiene el nombre  del estado global.
     print(nombre)
@@ -32,7 +34,7 @@ def dashboard_page_view(page: Page, params: Params, basket: Basket):
         horizontal_alignment='center',
         controls=[
             Text(
-            value=f'Saludos!',
+            value=f'Buenas!',
             
             ),
             Text(
@@ -53,4 +55,16 @@ def dashboard_page_view(page: Page, params: Params, basket: Basket):
         )
         
     )
-    return View("/dashboard", controls=[content])
+    navigation_bar = NavigationBar(
+        destinations=[
+            NavigationDestination(icon=icons.EXPLORE, label="Explore"),
+            NavigationDestination(icon=icons.COMMUTE, label="Commute"),
+            NavigationDestination(
+                icon=icons.BOOKMARK_BORDER,
+                selected_icon=icons.BOOKMARK,
+                label="Bookmarks",
+            ),
+        ]
+    )
+    return View("/dashboard", controls=[content,navigation_bar])
+

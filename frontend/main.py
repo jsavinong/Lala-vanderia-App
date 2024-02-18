@@ -32,7 +32,7 @@ class App(UserControl):
         pg.window_bgcolor = colors.TRANSPARENT
         pg.window_width = anchura_base
         pg.window_height = altura_base
-
+        
         self.pg = pg
         self.setup_routing()
         self.pg.spacing = 0

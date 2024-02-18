@@ -95,7 +95,7 @@ def login_page_view(page: Page, params: Params, basket: Basket):
                         width=50,
                         border_radius=25,
                         image_fit=ImageFit.COVER,
-                        image_src=img_src,
+                        image_src=img_src_avatar,
                     ),
                     Column(
                         spacing=0,
@@ -130,7 +130,7 @@ def login_page_view(page: Page, params: Params, basket: Basket):
                     width=anchura_base,
                     bgcolor=colors.BLACK,
                     content=Image(
-                        src="assets\images\gianluca-d-intino-vl4QuDMyeyY-unsplash (1).jpg",
+                        src="/images/gianluca-d-intino-vl4QuDMyeyY-unsplash (1).jpg",
                         # bgcolor="#cc2d2b2c",
                         # scale=1.5,
                         fit=ImageFit.COVER,

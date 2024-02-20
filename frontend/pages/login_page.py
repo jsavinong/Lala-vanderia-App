@@ -130,7 +130,7 @@ def login_page_view(page: Page, params: Params, basket: Basket):
                     width=anchura_base,
                     bgcolor=colors.BLACK,
                     content=Image(
-                        src="/images/gianluca-d-intino-vl4QuDMyeyY-unsplash (1).jpg",
+                        src="http://10.0.0.20:5000/images/gianluca-d-intino-vl4QuDMyeyY-unsplash (1).jpg",
                         # bgcolor="#cc2d2b2c",
                         # scale=1.5,
                         fit=ImageFit.COVER,

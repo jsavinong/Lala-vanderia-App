@@ -98,7 +98,7 @@ def main_page_view(page: Page, params: Params, basket: Basket):
                 padding=10,
                 content=Row(
                     controls=[
-                        Image(src="/icons/facebook.png", scale=0.7),
+                        Image(src="http://10.0.0.20:5000/icons/facebook.png", scale=0.7),
                         Text(
                             value="Continuar con Facebook",
                             size=18,
@@ -117,7 +117,7 @@ def main_page_view(page: Page, params: Params, basket: Basket):
                 padding=10,
                 content=Row(
                     controls=[
-                        Image(src="/icons/google.png", scale=0.7),
+                        Image(src="http://10.0.0.20:5000/icons/google.png", scale=0.7),
                         Text(
                             value="Continuar con Google",
                             size=18,
@@ -136,7 +136,7 @@ def main_page_view(page: Page, params: Params, basket: Basket):
                 padding=10,
                 content=Row(
                     controls=[
-                        Image(src="/icons/apple.png", scale=0.7),
+                        Image(src="http://10.0.0.20:5000/icons/apple.png", scale=0.7),
                         Text(
                             value="Continuar con Apple",
                             size=18,
@@ -168,7 +168,7 @@ def main_page_view(page: Page, params: Params, basket: Basket):
                     width=anchura_base,
                     bgcolor=colors.BLACK,
                     content=Image(
-                        src="/images/gianluca-d-intino-vl4QuDMyeyY-unsplash (1).jpg",
+                        src="http://10.0.0.20:5000/images/gianluca-d-intino-vl4QuDMyeyY-unsplash (1).jpg",
                         # scale=1.5,
                         fit=ImageFit.COVER,
                         opacity=0.5,

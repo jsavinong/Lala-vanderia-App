@@ -20,6 +20,15 @@ def dashboard_page_view(page: Page, params: Params=None, basket: Basket=None):
     def on_logout_clicked(e):
         navigate_to(page, "/")
 
+    navigation_bar = NavigationBar(
+        destinations=[
+            NavigationDestination(icon=icons.HOME_OUTLINED, selected_icon=icons.HOME, label="Inicio"),
+            NavigationDestination(icon=icons.LOCAL_LAUNDRY_SERVICE_OUTLINED,selected_icon=icons.LOCAL_LAUNDRY_SERVICE, label="Servicios"),
+            NavigationDestination(icon=icons.SHOP_OUTLINED, selected_icon=icons.SHOP, label="Pedidos"),
+            NavigationDestination(icon=icons.ACCOUNT_CIRCLE_OUTLINED, selected_icon=icons.ACCOUNT_CIRCLE, label="Cuenta")
+        ]
+    )
+
     content = Container(
     
         height=altura_base,
@@ -50,21 +59,12 @@ def dashboard_page_view(page: Page, params: Params=None, basket: Basket=None):
             bgcolor='white',
             content=logout_btn
             
-            )
+            ),
+
         ]
         )
         
     )
-    navigation_bar = NavigationBar(
-        destinations=[
-            NavigationDestination(icon=icons.EXPLORE, label="Explore"),
-            NavigationDestination(icon=icons.COMMUTE, label="Commute"),
-            NavigationDestination(
-                icon=icons.BOOKMARK_BORDER,
-                selected_icon=icons.BOOKMARK,
-                label="Bookmarks",
-            ),
-        ]
-    )
+
     return View("/dashboard", controls=[content,navigation_bar])
 

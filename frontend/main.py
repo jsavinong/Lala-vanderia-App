@@ -3,7 +3,10 @@ from pages.main_page import main_page_view
 from pages.login_page import login_page_view
 from pages.sign_up_page import signup_page_view
 from pages.dashboard_page import dashboard_page_view
-from pages.
+from pages.inicio_db_page import inicio_db_page_view
+from pages.servicios_db_page import servicios_db_page_view
+from pages.pedidos_db_page import pedidos_db_page_view
+from pages.cuenta_db_page import cuenta_db_page_view
 from utils.extras import *
 from flet_route import Routing, path
 
@@ -60,10 +63,10 @@ class App(UserControl):
             path(url="/login", clear=True, view=login_page_view),
             path(url="/signup", clear=True, view=signup_page_view),
             path(url="/dashboard", clear=True, view=dashboard_page_view),
-            path(url="/inicio", clear=True, view=inicio_page_view),
-            path(url="/servicios", clear=True, view=servicios_page_view),
-            path(url="/pedidos", clear=True, view=pedidos_page_view),
-            path(url="/cuenta", clear=True, view=cuenta_page_view)
+            path(url="/inicio", clear=True, view=inicio_db_page_view),
+            path(url="/servicios", clear=True, view=servicios_db_page_view),
+            path(url="/pedidos", clear=True, view=pedidos_db_page_view),
+            path(url="/cuenta", clear=True, view=cuenta_db_page_view)
         ]
         Routing(page=self.pg, app_routes=app_routes)
         self.pg.go(self.pg.route)

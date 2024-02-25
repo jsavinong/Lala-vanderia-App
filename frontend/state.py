@@ -2,7 +2,8 @@
 # Este diccionario actúa como almacenamiento centralizado para todos los datos globales y el historial de navegación
 app_state = {
     "data": {},  # Diccionario para almacenar datos globales como configuraciones de usuario, datos de sesión, etc.
-    "navigation_history": []  # Lista para mantener un registro de todas las rutas visitadas para la navegación hacia atrás
+    "navigation_history": [],  # Lista para mantener un registro de todas las rutas visitadas para la navegación hacia atrás+
+    "selected_nav_index": 0,
 }
 
 # Función para actualizar datos dentro del estado global

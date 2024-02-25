@@ -12,6 +12,8 @@ def dashboard_page_view(page: Page, params: Params=None, basket: Basket=None):
     nombre = get_state("nombre")  # Obtiene el nombre  del estado global.
     print(nombre)
     expand = True
+
+    selected_index = get_state("selected_nav_index", 0)
     
     logout_btn=Icon(
                 icons.LOGOUT_OUTLINED,
@@ -20,19 +22,32 @@ def dashboard_page_view(page: Page, params: Params=None, basket: Basket=None):
     def on_logout_clicked(e):
         navigate_to(page, "/")
 
+    def on_navigation_changed(e):
+        if e.control.selected_index == 0:
+            navigate_to(page, "/inicio")
+        elif e.control.selected_index == 1:
+            navigate_to(page, "/servicios")
+        elif e.control.selected_index == 2:
+            navigate_to(page, "/pedidos")
+        elif e.control.selected_index == 3:
+            navigate_to(page, "/cuenta")
+    
     navigation_bar = NavigationBar(
         destinations=[
             NavigationDestination(icon=icons.HOME_OUTLINED, selected_icon=icons.HOME, label="Inicio"),
             NavigationDestination(icon=icons.LOCAL_LAUNDRY_SERVICE_OUTLINED,selected_icon=icons.LOCAL_LAUNDRY_SERVICE, label="Servicios"),
             NavigationDestination(icon=icons.SHOP_OUTLINED, selected_icon=icons.SHOP, label="Pedidos"),
             NavigationDestination(icon=icons.ACCOUNT_CIRCLE_OUTLINED, selected_icon=icons.ACCOUNT_CIRCLE, label="Cuenta")
-        ]
+        ],
+        selected_index=selected_index,
+        on_change=on_navigation_changed
     )
     dashboard_content = Container(
         height=660,
         content=Column(
             alignment="end",
-            controls=[navigation_bar
+            controls=[
+                navigation_bar
             ]
         )
     )

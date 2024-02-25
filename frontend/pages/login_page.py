@@ -95,7 +95,7 @@ def login_page_view(page: Page, params: Params, basket: Basket):
                         width=50,
                         border_radius=25,
                         image_fit=ImageFit.COVER,
-                        image_src=img_src_avatar,
+                        image_src="http://10.0.0.20:5000/icons/neutral acc img.png",
                     ),
                     Column(
                         spacing=0,

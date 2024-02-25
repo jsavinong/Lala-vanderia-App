@@ -28,7 +28,15 @@ def dashboard_page_view(page: Page, params: Params=None, basket: Basket=None):
             NavigationDestination(icon=icons.ACCOUNT_CIRCLE_OUTLINED, selected_icon=icons.ACCOUNT_CIRCLE, label="Cuenta")
         ]
     )
-
+    dashboard_content = Container(
+        height=660,
+        content=Column(
+            alignment="end",
+            controls=[navigation_bar
+            ]
+        )
+    )
+    
     content = Container(
     
         height=altura_base,
@@ -39,32 +47,33 @@ def dashboard_page_view(page: Page, params: Params=None, basket: Basket=None):
         border_radius=radio_borde,
         
         content=Column(
-        alignment='center',
-        horizontal_alignment='center',
-        controls=[
-            Text(
-            value=f'Buenas!',
-            
+            #alignment='center',
+            #horizontal_alignment='center',
+            controls=[
+                Text(
+                value=f'Buenas!',
+                
+                ),
+                Text(
+                value=nombre,
+                
+                ),
+                Container(
+                on_click= on_logout_clicked,
+                data ='logout',
+                height=50,
+                width=100,
+                border_radius=30,
+                bgcolor='white',
+                content=logout_btn
+                
+                ),
+                dashboard_content
+            ]
             ),
-            Text(
-            value=nombre,
-            
-            ),
-            Container(
-            on_click= on_logout_clicked,
-            data ='logout',
-            height=50,
-            width=100,
-            border_radius=30,
-            bgcolor='white',
-            content=logout_btn
-            
-            ),
-
-        ]
-        )
+        
         
     )
 
-    return View("/dashboard", controls=[content,navigation_bar])
+    return View("/dashboard", controls=[content])
 

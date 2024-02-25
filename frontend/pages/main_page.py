@@ -89,24 +89,24 @@ def main_page_view(page: Page, params: Params, basket: Basket):
                     )
                 ],
             ),
-            Container(
-                height=altura_btn,
-                width=anchura_btn,
-                bgcolor=gray_light,
-                border_radius=10,
-                alignment=alignment.center,
-                padding=10,
-                content=Row(
-                    controls=[
-                        Image(src="http://10.0.0.20:5000/icons/facebook.png", scale=0.7),
-                        Text(
-                            value="Continuar con Facebook",
-                            size=18,
-                            color=color_base,
-                        ),
-                    ]
-                ),
-            ),
+            # Container(
+            #     height=altura_btn,
+            #     width=anchura_btn,
+            #     bgcolor=gray_light,
+            #     border_radius=10,
+            #     alignment=alignment.center,
+            #     padding=10,
+            #     content=Row(
+            #         controls=[
+            #             Image(src="http://10.0.0.20:5000/icons/facebook.png", scale=0.7),
+            #             Text(
+            #                 value="Continuar con Facebook",
+            #                 size=18,
+            #                 color=color_base,
+            #             ),
+            #         ]
+            #     ),
+            # ),
             Container(height=0),
             Container(
                 height=altura_btn,
@@ -127,24 +127,24 @@ def main_page_view(page: Page, params: Params, basket: Basket):
                 ),
             ),
             Container(height=0),
-            Container(
-                height=altura_btn,
-                width=anchura_btn,
-                bgcolor=gray_light,
-                border_radius=10,
-                alignment=alignment.center,
-                padding=10,
-                content=Row(
-                    controls=[
-                        Image(src="http://10.0.0.20:5000/icons/apple.png", scale=0.7),
-                        Text(
-                            value="Continuar con Apple",
-                            size=18,
-                            color=color_base,
-                        ),
-                    ]
-                ),
-            ),
+            # Container(
+            #     height=altura_btn,
+            #     width=anchura_btn,
+            #     bgcolor=gray_light,
+            #     border_radius=10,
+            #     alignment=alignment.center,
+            #     padding=10,
+            #     content=Row(
+            #         controls=[
+            #             Image(src="http://10.0.0.20:5000/icons/apple.png", scale=0.7),
+            #             Text(
+            #                 value="Continuar con Apple",
+            #                 size=18,
+            #                 color=color_base,
+            #             ),
+            #         ]
+            #     ),
+            # ),
             Container(height=20),
             Text(
                 value="Olvidaste tu contraseña?",

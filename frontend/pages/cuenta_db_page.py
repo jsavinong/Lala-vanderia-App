@@ -4,25 +4,40 @@ from flet_route import Params, Basket
 from state import update_state, get_state
 from navigation import navigate_to
 
-def dashboard_page_view(page: Page, params: Params=None, basket: Basket=None):
 
+def cuenta_db_page_view(page: Page, params: Params=None, basket: Basket=None):
     
+    selected_index = get_state("selected_nav_index", default=0)
     
-    offset = transform.Offset(0,0,)
+    content = Column(controls=[Text("Página de Cuenta")])
+
     nombre = get_state("nombre")  # Obtiene el nombre  del estado global.
-    print(nombre)
-    expand = True
-
-    selected_index = get_state("selected_nav_index", 0)
     
-    logout_btn=Icon(
-                icons.LOGOUT_OUTLINED,
-                color='black')
 
     def on_logout_clicked(e):
         navigate_to(page, "/")
 
+    logout_btn=Container(
+        on_click=on_logout_clicked,
+        content=Row(
+            width=200,
+            alignment=MainAxisAlignment.CENTER,
+            
+            controls=[
+                Text(
+                    "Log out",
+                    color='white' 
+                    )
+                ]
+            )
+            
+        )
+    
+
+
+        
     def on_navigation_changed(e):
+        update_state("selected_nav_index", e.control.selected_index)
         if e.control.selected_index == 0:
             navigate_to(page, "/inicio")
         elif e.control.selected_index == 1:
@@ -43,7 +58,7 @@ def dashboard_page_view(page: Page, params: Params=None, basket: Basket=None):
         on_change=on_navigation_changed
     )
     dashboard_content = Container(
-        height=660,
+        #height=720,
         content=Column(
             alignment="end",
             controls=[
@@ -59,36 +74,32 @@ def dashboard_page_view(page: Page, params: Params=None, basket: Basket=None):
         bgcolor=color_base,
         clip_behavior=ClipBehavior.ANTI_ALIAS,
         expand=True,
-        border_radius=radio_borde,
+        #border_radius=radio_borde,
         
         content=Column(
             #alignment='center',
             #horizontal_alignment='center',
             controls=[
+                Container(height=10),
                 Text(
-                value=f'Buenas!',
+                value=f'Buenas Cuenta!',
+                height=50, 
+                width=200,
+                text_align=TextAlign.CENTER,
+                weight=FontWeight.BOLD,
+                size=24 
+
+            
                 
                 ),
-                Text(
-                value=nombre,
                 
-                ),
-                Container(
-                on_click= on_logout_clicked,
-                data ='logout',
-                height=50,
-                width=100,
-                border_radius=30,
-                bgcolor='white',
-                content=logout_btn
-                
-                ),
-                dashboard_content
+                logout_btn
+                #dashboard_content,
+                #content_text
             ]
             ),
         
         
     )
-
-    return View("/dashboard", controls=[content])
-
+    
+    return View("/cuenta", controls=[content, dashboard_content])

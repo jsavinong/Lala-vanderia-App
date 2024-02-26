@@ -178,7 +178,7 @@ def signup_page_view(page: Page, params: Params, basket: Basket):
                     width=anchura_base,
                     bgcolor=colors.BLACK,
                     content=Image(
-                        src="http://10.0.0.20:5000/images/gianluca-d-intino-vl4QuDMyeyY-unsplash (1).jpg",
+                        src="https://jsavinong.github.io/Lala-vanderia-App/frontend/assets/images/gianluca-d-intino-vl4QuDMyeyY-unsplash (1).jpg",
                         # bgcolor="#cc2d2b2c",
                         # scale=1.5,
                         fit=ImageFit.COVER,

@@ -4,25 +4,18 @@ from flet_route import Params, Basket
 from state import update_state, get_state
 from navigation import navigate_to
 
-def dashboard_page_view(page: Page, params: Params=None, basket: Basket=None):
 
+def inicio_db_page_view(page: Page, params: Params=None, basket: Basket=None):
     
+    selected_index = get_state("selected_nav_index", default=0)
+
+    content_text = Column(controls=[Text("Página de Inicio")])
     
-    offset = transform.Offset(0,0,)
     nombre = get_state("nombre")  # Obtiene el nombre  del estado global.
     print(nombre)
-    expand = True
-
-    selected_index = get_state("selected_nav_index", 0)
-    
-    logout_btn=Icon(
-                icons.LOGOUT_OUTLINED,
-                color='black')
-
-    def on_logout_clicked(e):
-        navigate_to(page, "/")
 
     def on_navigation_changed(e):
+        update_state("selected_nav_index", e.control.selected_index)
         if e.control.selected_index == 0:
             navigate_to(page, "/inicio")
         elif e.control.selected_index == 1:
@@ -43,7 +36,7 @@ def dashboard_page_view(page: Page, params: Params=None, basket: Basket=None):
         on_change=on_navigation_changed
     )
     dashboard_content = Container(
-        height=660,
+        height=720,
         content=Column(
             alignment="end",
             controls=[
@@ -66,29 +59,21 @@ def dashboard_page_view(page: Page, params: Params=None, basket: Basket=None):
             #horizontal_alignment='center',
             controls=[
                 Text(
-                value=f'Buenas!',
+                value=f'Buenas Inicio!',
                 
                 ),
                 Text(
                 value=nombre,
                 
                 ),
-                Container(
-                on_click= on_logout_clicked,
-                data ='logout',
-                height=50,
-                width=100,
-                border_radius=30,
-                bgcolor='white',
-                content=logout_btn
                 
-                ),
-                dashboard_content
+                dashboard_content,
+                content_text
             ]
             ),
         
         
     )
 
-    return View("/dashboard", controls=[content])
-
+    
+    return View("/inicio", controls=[content])

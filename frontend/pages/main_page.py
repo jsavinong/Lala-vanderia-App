@@ -117,7 +117,7 @@ def main_page_view(page: Page, params: Params, basket: Basket):
                 padding=10,
                 content=Row(
                     controls=[
-                        Image(src="http://10.0.0.20:5000/icons/google.png", scale=0.7),
+                        Image(src="https://jsavinong.github.io/Lala-vanderia-App/frontend/assets/icons/google.png", scale=0.7),
                         Text(
                             value="Continuar con Google",
                             size=18,
@@ -168,7 +168,7 @@ def main_page_view(page: Page, params: Params, basket: Basket):
                     width=anchura_base,
                     bgcolor=colors.BLACK,
                     content=Image(
-                        src="http://10.0.0.20:5000/images/gianluca-d-intino-vl4QuDMyeyY-unsplash (1).jpg",
+                        src="https://jsavinong.github.io/Lala-vanderia-App/frontend/assets/images/gianluca-d-intino-vl4QuDMyeyY-unsplash%20(1).jpg",
                         # scale=1.5,
                         fit=ImageFit.COVER,
                         opacity=0.5,

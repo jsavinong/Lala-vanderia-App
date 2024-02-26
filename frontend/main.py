@@ -73,6 +73,6 @@ class App(UserControl):
 
         self.pg.update()
 
-# app(target=App, assets_dir="assets", view=AppView.WEB_BROWSER)
-app(target=App, assets_dir="assets")
+app(target=App, assets_dir="assets", view=AppView.WEB_BROWSER)
+#app(target=App, assets_dir="assets")
 

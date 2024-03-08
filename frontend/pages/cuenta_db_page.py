@@ -82,7 +82,7 @@ def cuenta_db_page_view(page: Page, params: Params=None, basket: Basket=None):
             controls=[
                 Container(height=10),
                 Text(
-                value=f'Buenas Cuenta!',
+                value=f'Buenas CUENTA!',
                 height=50, 
                 width=200,
                 text_align=TextAlign.CENTER,

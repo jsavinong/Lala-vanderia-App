@@ -1,7 +1,7 @@
 from flet import *
 from utils.extras import *
 from flet_route import Params, Basket
-from state import update_state, get_state
+from state import update_state, get_state, actualizar_indice_navegacion
 from navigation import navigate_to
 
 
@@ -15,6 +15,7 @@ def cuenta_db_page_view(page: Page, params: Params=None, basket: Basket=None):
     
 
     def on_logout_clicked(e):
+        actualizar_indice_navegacion(0)
         navigate_to(page, "/")
 
     logout_btn=Container(

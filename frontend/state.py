@@ -17,3 +17,5 @@ def update_state(key, value):
 def get_state(key, default=None):
     return app_state["data"].get(key, default)  # Retorna el valor para la clave dada desde el diccionario de datos, o un valor predeterminado
 
+def actualizar_indice_navegacion(nuevo_indice):
+    update_state("selected_nav_index", nuevo_indice)

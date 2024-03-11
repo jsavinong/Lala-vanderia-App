@@ -18,21 +18,32 @@ def cuenta_db_page_view(page: Page, params: Params=None, basket: Basket=None):
         actualizar_indice_navegacion(0)
         navigate_to(page, "/")
 
-    logout_btn=Container(
-        on_click=on_logout_clicked,
+    # logout_btn=Container(
+    #     on_click=on_logout_clicked,
+    #     content=Row(
+    #         width=200,
+    #         alignment=MainAxisAlignment.CENTER,
+            
+    #         controls=[
+    #             Text(
+    #                 "Cerrar sesión",
+    #                 color='white' 
+    #                 )
+    #             ]
+    #         )
+            
+    #     )
+    
+    logout_btn = TextButton(
         content=Row(
-            width=200,
-            alignment=MainAxisAlignment.CENTER,
-            
             controls=[
-                Text(
-                    "Log out",
-                    color='white' 
-                    )
-                ]
-            )
-            
-        )
+                #Icon(icons.DESCRIPTION, size=24),  
+                Text(" Cerrar sesión", style=TextStyle(size=18, color=colors.WHITE))  
+            ],
+            alignment="left",
+        ),
+        on_click=on_logout_clicked
+    )
     
 
 
@@ -67,6 +78,71 @@ def cuenta_db_page_view(page: Page, params: Params=None, basket: Basket=None):
             ]
         )
     )
+
+    plan_name = Container(
+        content=Row(
+            controls=[
+                Text(
+                    value=f'No Plan', # TODO: Configurar Nombre del Plan  
+                    size=12,
+                    weight=FontWeight.BOLD,
+                    #text_align=TextAlign.END
+        )
+        ],
+        alignment=MainAxisAlignment.CENTER,
+        )
+    
+    )
+    
+    container_name = Container(
+        content=Column(
+            controls=[
+                Text(
+                    value=nombre, # TODO: Agregar nombre del usuario
+                    weight=FontWeight.BOLD, 
+                    size=24,color=colors.WHITE),
+                plan_name
+            ]
+        ),
+        padding=15,
+        bgcolor=blue_base,
+        width=anchura_base,
+        height=80
+    )
+
+
+    suscribir_btn = FilledButton(
+        content=Text(value="SUSCRIBIR", size=24, weight=FontWeight.BOLD),
+        width=anchura_btn,
+        height=altura_btn,  
+        #on_click=lambda e: on_click_handler(page, email_text_field),  
+        style=ButtonStyle(
+                shape=RoundedRectangleBorder(radius=10), bgcolor=colors.BLUE_100)
+                
+)
+    
+    faq_textbtn = TextButton(
+        content=Row(
+            controls=[
+                Icon(icons.QUESTION_ANSWER, size=24),  
+                Text("  FAQ", style=TextStyle(size=18)),  
+            ],
+            alignment="left",
+        ),
+        on_click=lambda e: print("Botón presionado"),  # Reemplaza esto con tu función de callback real
+    )
+    
+
+    terminos_de_uso_textbtn = TextButton(
+        content=Row(
+            controls=[
+                Icon(icons.DESCRIPTION, size=24),  
+                Text(" Términos de uso", style=TextStyle(size=18)),  
+            ],
+            alignment="left",
+        ),
+        on_click=lambda e: print("Botón presionado"),  # Reemplaza esto con tu función de callback real
+    )
     
     content = Container(
     
@@ -81,23 +157,29 @@ def cuenta_db_page_view(page: Page, params: Params=None, basket: Basket=None):
             #alignment='center',
             #horizontal_alignment='center',
             controls=[
+                #Container(height=10),
+                # Container (
+                #     Text(
+                #     value=f'NOMBRE',
+                #     height=50, 
+                #     width=200,
+                #     text_align=TextAlign.CENTER,
+                #     weight=FontWeight.BOLD,
+                #     size=24 ),
+                container_name,
                 Container(height=10),
-                Text(
-                value=f'Buenas CUENTA!',
-                height=50, 
-                width=200,
-                text_align=TextAlign.CENTER,
-                weight=FontWeight.BOLD,
-                size=24 
-
-            
+                suscribir_btn,
+                Container(height=10),
+                faq_textbtn,
+                terminos_de_uso_textbtn,
                 
-                ),
+                
                 
                 logout_btn
                 #dashboard_content,
                 #content_text
-            ]
+            ],
+            horizontal_alignment=CrossAxisAlignment.CENTER
             ),
         
         

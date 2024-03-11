@@ -17,27 +17,10 @@ def cuenta_db_page_view(page: Page, params: Params=None, basket: Basket=None):
     def on_logout_clicked(e):
         actualizar_indice_navegacion(0)
         navigate_to(page, "/")
-
-    # logout_btn=Container(
-    #     on_click=on_logout_clicked,
-    #     content=Row(
-    #         width=200,
-    #         alignment=MainAxisAlignment.CENTER,
-            
-    #         controls=[
-    #             Text(
-    #                 "Cerrar sesión",
-    #                 color='white' 
-    #                 )
-    #             ]
-    #         )
-            
-    #     )
     
     logout_btn = TextButton(
         content=Row(
             controls=[
-                #Icon(icons.DESCRIPTION, size=24),  
                 Text(" Cerrar sesión", style=TextStyle(size=18, color=colors.WHITE))  
             ],
             alignment="left",
@@ -86,7 +69,6 @@ def cuenta_db_page_view(page: Page, params: Params=None, basket: Basket=None):
                     value=f'No Plan', # TODO: Configurar Nombre del Plan  
                     size=12,
                     weight=FontWeight.BOLD,
-                    #text_align=TextAlign.END
         )
         ],
         alignment=MainAxisAlignment.CENTER,
@@ -154,30 +136,17 @@ def cuenta_db_page_view(page: Page, params: Params=None, basket: Basket=None):
         #border_radius=radio_borde,
         
         content=Column(
-            #alignment='center',
-            #horizontal_alignment='center',
             controls=[
-                #Container(height=10),
-                # Container (
-                #     Text(
-                #     value=f'NOMBRE',
-                #     height=50, 
-                #     width=200,
-                #     text_align=TextAlign.CENTER,
-                #     weight=FontWeight.BOLD,
-                #     size=24 ),
                 container_name,
                 Container(height=10),
                 suscribir_btn,
                 Container(height=10),
                 faq_textbtn,
+                Divider(),
                 terminos_de_uso_textbtn,
-                
-                
-                
+                Divider(),
                 logout_btn
-                #dashboard_content,
-                #content_text
+
             ],
             horizontal_alignment=CrossAxisAlignment.CENTER
             ),

@@ -63,11 +63,28 @@ def pedidos_db_page_view(page: Page, params: Params=None, basket: Basket=None):
     
     # )
     
-    img = Image(
-        src="https://jsavinong.github.io/Lala-vanderia-App/frontend/assets/images/noPedidos.png",
-        width=100,
-        height=100,
-        fit=ImageFit.CONTAIN,
+    img_contenedor = Container( # TODO Agregar funcionalidad para que desaparezca al crear pedido
+        content=Column(
+            controls=[
+                Row(
+                    controls=[
+                        Image(
+                            src="https://jsavinong.github.io/Lala-vanderia-App/frontend/assets/images/noPedidos.png",
+                            width=250,
+                            height=250,
+                            fit=ImageFit.CONTAIN,
+                        )
+                    ],
+                    alignment=MainAxisAlignment.CENTER
+                ),
+                Text(value="No tienes pedidos aún",weight=FontWeight.W_500, 
+                    size=24,color=colors.BLACK) 
+            ],horizontal_alignment=CrossAxisAlignment.CENTER
+        ),
+        bgcolor=colors.WHITE60,
+        border_radius=10,
+        #alignment=CrossAxisAlignment.CENTER,
+        #alignment=MainAxisAlignment.CENTER  # This centers the Column within the Container
     )
 
     container_name = Container(
@@ -124,7 +141,7 @@ def pedidos_db_page_view(page: Page, params: Params=None, basket: Basket=None):
             controls=[
                 container_name,
                 Container(height=10),
-                img,
+                img_contenedor,
                 Container(height=10),
                 # faq_textbtn,
                 # terminos_de_uso_textbtn,

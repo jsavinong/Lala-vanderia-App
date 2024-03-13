@@ -80,7 +80,7 @@ def cuenta_db_page_view(page: Page, params: Params=None, basket: Basket=None):
         content=Column(
             controls=[
                 Text(
-                    value=nombre, # TODO: Agregar nombre del usuario
+                    value=nombre, 
                     weight=FontWeight.BOLD, 
                     size=24,color=colors.WHITE),
                 plan_name

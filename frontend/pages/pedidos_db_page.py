@@ -63,6 +63,13 @@ def pedidos_db_page_view(page: Page, params: Params=None, basket: Basket=None):
     
     # )
     
+    img = Image(
+        src="https://jsavinong.github.io/Lala-vanderia-App/frontend/assets/images/noPedidos.png",
+        width=100,
+        height=100,
+        fit=ImageFit.CONTAIN,
+    )
+
     container_name = Container(
         content=Column(
             controls=[
@@ -117,6 +124,7 @@ def pedidos_db_page_view(page: Page, params: Params=None, basket: Basket=None):
             controls=[
                 container_name,
                 Container(height=10),
+                img,
                 Container(height=10),
                 # faq_textbtn,
                 # terminos_de_uso_textbtn,

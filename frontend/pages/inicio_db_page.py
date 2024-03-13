@@ -7,13 +7,18 @@ from navigation import navigate_to
 
 def inicio_db_page_view(page: Page, params: Params=None, basket: Basket=None):
     
+
     selected_index = get_state("selected_nav_index", default=0)
-
-    content_text = Column(controls=[Text("Página de Inicio")])
     
-    nombre = get_state("nombre")  # Obtiene el nombre  del estado global.
-    print(nombre)
+    content = Column(controls=[Text("Página de Cuenta")])
 
+    nombre = get_state("nombre")  # Obtiene el nombre  del estado global.
+    
+
+
+
+
+        
     def on_navigation_changed(e):
         update_state("selected_nav_index", e.control.selected_index)
         if e.control.selected_index == 0:
@@ -36,7 +41,7 @@ def inicio_db_page_view(page: Page, params: Params=None, basket: Basket=None):
         on_change=on_navigation_changed
     )
     dashboard_content = Container(
-        height=720,
+        #height=720,
         content=Column(
             alignment="end",
             controls=[
@@ -44,6 +49,66 @@ def inicio_db_page_view(page: Page, params: Params=None, basket: Basket=None):
             ]
         )
     )
+
+    # user_name = Container(
+    #     content=Row(
+    #         controls=[
+    #             Text(
+    #                 value=nombre,
+    #                 size=12,
+    #                 weight=FontWeight.BOLD,
+    #     )
+    #     ],
+    #     alignment=MainAxisAlignment.CENTER,
+    #     )
+    
+    # )
+    
+    container_name = Container(
+        content=Row(
+            controls=[
+                Text(
+                    value=f"Bienvenido",
+                    weight=FontWeight.BOLD, 
+                    size=24,color=colors.WHITE),
+                Text(
+                    value=nombre,
+                    size=24,
+                    weight=FontWeight.BOLD,
+        )
+            ]
+        ),
+        padding=15,
+        bgcolor=blue_base,
+        width=anchura_base,
+        height=80
+    )
+
+
+
+    
+    # faq_textbtn = TextButton(
+    #     content=Row(
+    #         controls=[
+    #             Icon(icons.QUESTION_ANSWER, size=24),  
+    #             Text("  FAQ", style=TextStyle(size=18)),  
+    #         ],
+    #         alignment="left",
+    #     ),
+    #     on_click=lambda e: print("Botón presionado"),  # Reemplaza esto con tu función de callback real
+    # )
+    
+
+    # terminos_de_uso_textbtn = TextButton(
+    #     content=Row(
+    #         controls=[
+    #             Icon(icons.DESCRIPTION, size=24),  
+    #             Text(" Términos de uso", style=TextStyle(size=18)),  
+    #         ],
+    #         alignment="left",
+    #     ),
+    #     on_click=lambda e: print("Botón presionado"),  # Reemplaza esto con tu función de callback real
+    # )
     
     content = Container(
     
@@ -52,28 +117,22 @@ def inicio_db_page_view(page: Page, params: Params=None, basket: Basket=None):
         bgcolor=color_base,
         clip_behavior=ClipBehavior.ANTI_ALIAS,
         expand=True,
-        border_radius=radio_borde,
+        #border_radius=radio_borde,
         
         content=Column(
-            #alignment='center',
-            #horizontal_alignment='center',
             controls=[
-                Text(
-                value=f'Buenas Inicio!',
-                
-                ),
-                Text(
-                value=nombre,
-                
-                ),
-                
-                dashboard_content,
-                content_text
-            ]
+                container_name,
+                #user_name,
+                Container(height=10),
+                Container(height=10),
+                # faq_textbtn,
+                # terminos_de_uso_textbtn,
+
+            ],
+            horizontal_alignment=CrossAxisAlignment.CENTER
             ),
         
         
     )
-
     
-    return View("/inicio", controls=[content])
+    return View("/inicio", controls=[content, dashboard_content])

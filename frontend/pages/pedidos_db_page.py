@@ -87,6 +87,16 @@ def pedidos_db_page_view(page: Page, params: Params=None, basket: Basket=None):
         #alignment=MainAxisAlignment.CENTER  # This centers the Column within the Container
     )
 
+    hacer_pedido_btn = FilledButton(
+        content=Text(value="Hacer pedido", size=20, weight=FontWeight.BOLD),
+        width=250,
+        height=altura_btn,  
+        #on_click=lambda e: on_click_handler(page, email_text_field),  
+        style=ButtonStyle(
+                shape=RoundedRectangleBorder(radius=10), bgcolor=colors.WHITE60)
+                
+)
+    
     container_name = Container(
         content=Column(
             controls=[
@@ -143,6 +153,7 @@ def pedidos_db_page_view(page: Page, params: Params=None, basket: Basket=None):
                 Container(height=10),
                 img_contenedor,
                 Container(height=10),
+                hacer_pedido_btn,
                 # faq_textbtn,
                 # terminos_de_uso_textbtn,
 

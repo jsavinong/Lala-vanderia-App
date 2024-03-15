@@ -26,8 +26,8 @@ def go_back(page: Page):
         # Navegar a la ruta anterior
         page.go(previous_route)
     elif len(app_state["navigation_history"]) == 1:
-        # Opcional: si solo queda la ruta inicial, podrías manejarlo de manera especial
-        app_state["navigation_history"].pop()
-        page.go("/")  # Asume que "/" es la página de inicio o raíz
+        # Si solo queda la ruta inicial, navegar a ella y luego limpiar el historial
+        page.go("/")
+        app_state["navigation_history"] = []
 
 

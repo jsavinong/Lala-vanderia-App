@@ -7,6 +7,7 @@ from pages.inicio_db_page import inicio_db_page_view
 from pages.servicios_db_page import servicios_db_page_view
 from pages.pedidos_db_page import pedidos_db_page_view
 from pages.cuenta_db_page import cuenta_db_page_view
+from pages.planes_page import planes_page_view
 from utils.extras import *
 from flet_route import Routing, path
 
@@ -66,7 +67,8 @@ class App(UserControl):
             path(url="/inicio", clear=True, view=inicio_db_page_view),
             path(url="/servicios", clear=True, view=servicios_db_page_view),
             path(url="/pedidos", clear=True, view=pedidos_db_page_view),
-            path(url="/cuenta", clear=True, view=cuenta_db_page_view)
+            path(url="/cuenta", clear=True, view=cuenta_db_page_view),
+            path(url="/planes", clear=True, view=planes_page_view),
         ]
         Routing(page=self.pg, app_routes=app_routes)
         self.pg.go(self.pg.route)

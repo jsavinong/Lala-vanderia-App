@@ -28,7 +28,8 @@ def cuenta_db_page_view(page: Page, params: Params=None, basket: Basket=None):
         on_click=on_logout_clicked
     )
     
-
+    def on_click_suscribir(e):
+        navigate_to(page, "/planes")
 
         
     def on_navigation_changed(e):
@@ -97,7 +98,7 @@ def cuenta_db_page_view(page: Page, params: Params=None, basket: Basket=None):
         content=Text(value="SUSCRIBIR", size=24, weight=FontWeight.BOLD),
         width=anchura_btn,
         height=altura_btn,  
-        #on_click=lambda e: on_click_handler(page, email_text_field),  
+        on_click=on_click_suscribir,
         style=ButtonStyle(
                 shape=RoundedRectangleBorder(radius=10), bgcolor=colors.BLUE_100)
                 

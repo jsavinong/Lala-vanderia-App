@@ -30,13 +30,15 @@ class App(UserControl):
     def __init__(self, pg: Page):
         super().__init__()
 
-        pg.window_title_bar_hidden = True
-        pg.window_frameless = True
-        pg.window_title_bar_buttons_hidden = True
-        pg.bgcolor = colors.TRANSPARENT
-        pg.window_bgcolor = colors.TRANSPARENT
-        pg.window_width = anchura_base
-        pg.window_height = altura_base
+        pg.window_title_bar_hidden = True  # Muestra la barra de título para poder arrastrar la ventana
+        pg.window_frameless = False  # La ventana con bordes permite redimensionar
+        pg.window_title_bar_buttons_hidden = True  # Muestra botones de la barra de título para cerrar, minimizar, etc.
+        pg.bgcolor = colors.WHITE  # Define un color de fondo estándar para la ventana
+        pg.window_width = 0  # Establece el ancho inicial de la ventana, 0 para automático
+        pg.window_height = 0  # Establece la altura inicial de la ventana, 0 para automático
+        pg.window_min_width = 400  # Establece el mínimo ancho permitido para la ventana
+        pg.window_min_height = 300  # Establece el mínimo altura permitido para la ventana
+        pg.window_resizable = True  # Permite que la ventana sea redimensionable
         
         self.pg = pg
         self.setup_routing()

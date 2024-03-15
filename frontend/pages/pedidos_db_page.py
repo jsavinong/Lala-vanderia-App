@@ -29,6 +29,12 @@ def pedidos_db_page_view(page: Page, params: Params=None, basket: Basket=None):
         elif e.control.selected_index == 3:
             navigate_to(page, "/cuenta")
     
+    def on_click_hacer_pedidos(e):
+        update_state("selected_nav_index", 1)
+        navigate_to(page, "/servicios")
+        page.update()
+
+
     navigation_bar = NavigationBar(
         destinations=[
             NavigationDestination(icon=icons.HOME_OUTLINED, selected_icon=icons.HOME, label="Inicio"),
@@ -91,7 +97,7 @@ def pedidos_db_page_view(page: Page, params: Params=None, basket: Basket=None):
         content=Text(value="Hacer pedido", size=20, weight=FontWeight.BOLD),
         width=250,
         height=altura_btn,  
-        #on_click=lambda e: on_click_handler(page, email_text_field),  
+        on_click= on_click_hacer_pedidos, 
         style=ButtonStyle(
                 shape=RoundedRectangleBorder(radius=10), bgcolor=colors.WHITE60)
                 

@@ -6,6 +6,7 @@ from state import update_state, get_state
 from services import signup_user
 from threading import Thread
 import re
+from config.translations import gettext as _
 
 #from services.services import signup_user
 
@@ -17,7 +18,7 @@ def signup_page_view(page: Page, params: Params, basket: Basket):
     offset = transform.Offset(0,0,)
     expand = True
     aceptar_continuar_btn = ElevatedButton(
-        content=Text(value="Aceptar y Continuar", size=18),
+        content=Text(value=_("accept_continue"), size=18),
         width=anchura_btn,
         height=altura_btn,  # Opcional: Añade un ícono al botón
         on_click=lambda e: on_aceptar_continuar_clicked(page, email, name_box.value, password_box.value),  # Reemplaza esto con tu función de manejo de clics real
@@ -37,11 +38,11 @@ def signup_page_view(page: Page, params: Params, basket: Basket):
             mensaje_error = ""
             # Verificar que los campos no estén vacíos
             if not nombre:
-                mensaje_error = "El campo de nombre está vacío."
+                mensaje_error = _("empty_name_field")
             elif not contraseña or len(contraseña) < 8:
-                mensaje_error = "La contraseña debe tener al menos 8 caracteres."
+                mensaje_error = _("pwd_8_chars")
             elif not re.search("[a-z]", contraseña) or not re.search("[A-Z]", contraseña) or not re.search("[0-9]", contraseña) or not re.search("[\W_]", contraseña):
-                mensaje_error = "La contraseña debe contener mayúsculas, minúsculas, números y caracteres especiales."
+                mensaje_error = _("pwd_caps_nums_specialchars")
             
             # Si hay un mensaje de error, mostrarlo y detener el registro
             if mensaje_error:
@@ -55,7 +56,7 @@ def signup_page_view(page: Page, params: Params, basket: Basket):
         Thread(target=do_signup).start()
 
     name_box = TextField(
-        hint_text="Nombre",
+        hint_text=_("name"),
         hint_style=TextStyle(
             size=16,
             color=input_hint_color,
@@ -72,19 +73,19 @@ def signup_page_view(page: Page, params: Params, basket: Basket):
         det = password_box.password
         if det == True:
             password_box.password = False
-            view_text.value = "Ocultar"
+            view_text.value = _("hide")
         else:
             password_box.password = True
-            view_text.value = "Ver"
+            view_text.value = _("show")
         password_box.update()
         view_text.update()
 
-    view_text = Text(value="Ver", color=color_base)
+    view_text = Text(value=_("show"), color=color_base)
 
     password_box = TextField(
         password=True,
         suffix=Container(on_click=show_hide_password, content=view_text),
-        hint_text="Contraseña",
+        hint_text=_("pwd"),
         hint_style=TextStyle(
             size=16,
             color=input_hint_color,
@@ -107,7 +108,7 @@ def signup_page_view(page: Page, params: Params, basket: Basket):
                 spacing=0,
                 controls=[
                     Text(
-                        value="Al parecer no tienes una cuenta con nosotros.\nAsí que vamos a crear una para",
+                        value=_("sign_up_misc_text1"),
                         size=14,
                         color="#ccffffff",
                     ),
@@ -132,7 +133,7 @@ def signup_page_view(page: Page, params: Params, basket: Basket):
                     spacing=0,
                     controls=[
                         Text(
-                            value="Al presionar 'Aceptar y Continuar' debajo, aceptas",
+                            value=_("sign_up_text_accept_continue"),
                             size=14,
                             color="#ccffffff",
                         ),
@@ -145,7 +146,7 @@ def signup_page_view(page: Page, params: Params, basket: Basket):
                                 # color='#ccffffff'
                                 # ),
                                 Text(
-                                    value="Términos de servicio y Políticas de privacidad",
+                                    value=_("terms_policy"),
                                     size=14,
                                     weight=FontWeight.BOLD,
                                     color=blue_base,
@@ -158,7 +159,7 @@ def signup_page_view(page: Page, params: Params, basket: Basket):
             aceptar_continuar_btn,
             Container(height=20),
             Text(
-                value="Olvidaste tu contraseña?",
+                value=_("forgot_pwd"),
                 color=gray_base,
                 size=16,
             ),
@@ -202,7 +203,7 @@ def signup_page_view(page: Page, params: Params, basket: Basket):
                             Container(
                                 margin=margin.only(left=20),
                                 content=Text(
-                                    value="Sign Up",
+                                    value=_("signup"),
                                     weight=FontWeight.BOLD,
                                     size=30,
                                 ),

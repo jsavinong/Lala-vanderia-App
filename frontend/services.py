@@ -3,6 +3,7 @@ from flet import Page
 import threading
 import requests
 from navigation import navigate_to
+from config.translations import gettext as _
 
 
 def signup_user(page: Page, nombre: str, correo_electronico: str, contraseña: str, direccion: str = None, telefono: str = None):
@@ -82,10 +83,10 @@ def login_user(page: Page, correo_electronico: str, contraseña: str, on_result)
                 navigate_to(page, "/dashboard")
                 #print("Inicio de sesión exitoso, token:", access_token)
                 # Navegar al dashboard o actualizar el estado del usuario como "logueado"
-                on_result(True, "Inicio de sesión exitoso")
+                on_result(True, _("ok_login"))
             else:
                 # En caso de error, pasar un mensaje de error
-                on_result(False, "Error de Inicio de Sesión: Verifica tus credenciales.")
+                on_result(False, _("err_login"))
 
     threading.Thread(target=do_login).start()
 

@@ -10,10 +10,13 @@ from pages.cuenta_db_page import cuenta_db_page_view
 from pages.planes_page import planes_page_view
 from utils.extras import *
 from flet_route import Routing, path
+from config.translations import load_translations
 
 
 # from pages.dashboard import DashboardPage
 
+# Carga las traducciones para el idioma deseado al inicio de tu aplicación
+load_translations("en")  # Cargando inglés por defecto
 
 class WindowDrag(UserControl):
     def __init__(self):
@@ -35,7 +38,7 @@ class App(UserControl):
         pg.window_title_bar_buttons_hidden = True  # Muestra botones de la barra de título para cerrar, minimizar, etc.
         pg.bgcolor = colors.WHITE  # Define un color de fondo estándar para la ventana
         pg.window_width = 0  # Establece el ancho inicial de la ventana, 0 para automático
-        pg.window_height = 0  # Establece la altura inicial de la ventana, 0 para automático
+        pg.window_height = 700  # Establece la altura inicial de la ventana, 0 para automático
         pg.window_min_width = 400  # Establece el mínimo ancho permitido para la ventana
         pg.window_min_height = 300  # Establece el mínimo altura permitido para la ventana
         pg.window_resizable = True  # Permite que la ventana sea redimensionable

@@ -3,13 +3,13 @@ from utils.extras import *
 from flet_route import Params, Basket
 from state import update_state, get_state, actualizar_indice_navegacion
 from navigation import navigate_to
-
+from config.translations import gettext as _
 
 def cuenta_db_page_view(page: Page, params: Params=None, basket: Basket=None):
     
     selected_index = get_state("selected_nav_index", default=0)
     
-    content = Column(controls=[Text("Página de Cuenta")])
+    #content = Column(controls=[Text("Página de Cuenta")])
 
     nombre = get_state("nombre")  # Obtiene el nombre  del estado global.
     
@@ -21,7 +21,7 @@ def cuenta_db_page_view(page: Page, params: Params=None, basket: Basket=None):
     logout_btn = TextButton(
         content=Row(
             controls=[
-                Text(" Cerrar sesión", style=TextStyle(size=18, color=colors.WHITE))  
+                Text(_("logout"), style=TextStyle(size=18, color=colors.WHITE))  
             ],
             alignment="left",
         ),
@@ -45,10 +45,10 @@ def cuenta_db_page_view(page: Page, params: Params=None, basket: Basket=None):
     
     navigation_bar = NavigationBar(
         destinations=[
-            NavigationDestination(icon=icons.HOME_OUTLINED, selected_icon=icons.HOME, label="Inicio"),
-            NavigationDestination(icon=icons.LOCAL_LAUNDRY_SERVICE_OUTLINED,selected_icon=icons.LOCAL_LAUNDRY_SERVICE, label="Servicios"),
-            NavigationDestination(icon=icons.SHOP_OUTLINED, selected_icon=icons.SHOP, label="Pedidos"),
-            NavigationDestination(icon=icons.ACCOUNT_CIRCLE_OUTLINED, selected_icon=icons.ACCOUNT_CIRCLE, label="Cuenta")
+            NavigationDestination(icon=icons.HOME_OUTLINED, selected_icon=icons.HOME, label=_("home")),
+            NavigationDestination(icon=icons.LOCAL_LAUNDRY_SERVICE_OUTLINED,selected_icon=icons.LOCAL_LAUNDRY_SERVICE, label=_("services")),
+            NavigationDestination(icon=icons.SHOP_OUTLINED, selected_icon=icons.SHOP, label=_("orders")),
+            NavigationDestination(icon=icons.ACCOUNT_CIRCLE_OUTLINED, selected_icon=icons.ACCOUNT_CIRCLE, label=_("acc"))
         ],
         selected_index=selected_index,
         on_change=on_navigation_changed
@@ -95,7 +95,7 @@ def cuenta_db_page_view(page: Page, params: Params=None, basket: Basket=None):
 
 
     suscribir_btn = FilledButton(
-        content=Text(value="SUSCRIBIR", size=24, weight=FontWeight.BOLD),
+        content=Text(value=_("subscribe").upper(), size=24, weight=FontWeight.BOLD),
         width=anchura_btn,
         height=altura_btn,  
         on_click=on_click_suscribir,
@@ -120,7 +120,7 @@ def cuenta_db_page_view(page: Page, params: Params=None, basket: Basket=None):
         content=Row(
             controls=[
                 Icon(icons.DESCRIPTION, size=24),  
-                Text(" Términos de uso", style=TextStyle(size=18)),  
+                Text(_("use_terms"), style=TextStyle(size=18)),  
             ],
             alignment="left",
         ),

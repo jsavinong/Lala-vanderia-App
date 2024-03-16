@@ -3,7 +3,7 @@ from utils.extras import *
 from flet_route import Params, Basket
 from state import update_state, get_state
 from navigation import navigate_to
-
+from config.translations import gettext as _
 
 def servicios_db_page_view(page: Page, params: Params=None, basket: Basket=None):
     
@@ -31,10 +31,10 @@ def servicios_db_page_view(page: Page, params: Params=None, basket: Basket=None)
     
     navigation_bar = NavigationBar(
         destinations=[
-            NavigationDestination(icon=icons.HOME_OUTLINED, selected_icon=icons.HOME, label="Inicio"),
-            NavigationDestination(icon=icons.LOCAL_LAUNDRY_SERVICE_OUTLINED,selected_icon=icons.LOCAL_LAUNDRY_SERVICE, label="Servicios"),
-            NavigationDestination(icon=icons.SHOP_OUTLINED, selected_icon=icons.SHOP, label="Pedidos"),
-            NavigationDestination(icon=icons.ACCOUNT_CIRCLE_OUTLINED, selected_icon=icons.ACCOUNT_CIRCLE, label="Cuenta")
+            NavigationDestination(icon=icons.HOME_OUTLINED, selected_icon=icons.HOME, label=_("home")),
+            NavigationDestination(icon=icons.LOCAL_LAUNDRY_SERVICE_OUTLINED,selected_icon=icons.LOCAL_LAUNDRY_SERVICE, label=_("services")),
+            NavigationDestination(icon=icons.SHOP_OUTLINED, selected_icon=icons.SHOP, label=_("orders")),
+            NavigationDestination(icon=icons.ACCOUNT_CIRCLE_OUTLINED, selected_icon=icons.ACCOUNT_CIRCLE, label=_("acc"))
         ],
         selected_index=selected_index,
         on_change=on_navigation_changed
@@ -67,7 +67,7 @@ def servicios_db_page_view(page: Page, params: Params=None, basket: Basket=None)
         content=Column(
             controls=[
                 Text(
-                    value=f"Servicios", # TODO: Agregar nombre del usuario
+                    value=_("services"), # TODO: Agregar nombre del usuario
                     weight=FontWeight.BOLD, 
                     size=24,color=colors.WHITE)
             ]

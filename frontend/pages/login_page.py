@@ -4,6 +4,7 @@ from flet_route import Params, Basket
 from navigation import go_back, navigate_to
 from state import get_state, update_state
 from services import fetch_user_info, login_user
+from config.translations import gettext as _
 
 def login_page_view(page: Page, params: Params, basket: Basket):
     offset = transform.Offset(
@@ -24,19 +25,19 @@ def login_page_view(page: Page, params: Params, basket: Basket):
         det = password_text_field.password
         if det == True:
             password_text_field.password = False
-            view_text.value = "Ocultar"
+            view_text.value = _("hide")
         else:
             password_text_field.password = True
-            view_text.value = "Ver"
+            view_text.value = _("show")
         password_text_field.update()
         view_text.update()
     
-    view_text = Text(value="Ver", color=color_base)
+    view_text = Text(value=_("show"), color=color_base)
 
     password_text_field = TextField(
             password=True,
             suffix=Container(on_click=show_hide_password, content=view_text),
-            hint_text="Contraseña",
+            hint_text=_("pwd"),
             hint_style=TextStyle(size=16, color=input_hint_color),
             text_style=TextStyle(size=16, color=input_hint_color),
             border=InputBorder.NONE,
@@ -55,7 +56,7 @@ def login_page_view(page: Page, params: Params, basket: Basket):
     page.add(username_text)
 
     continue_button = ElevatedButton(
-        content=Text(value="Continuar", size=18),
+        content=Text(value=_("continue"), size=18),
         width=anchura_btn,
         height=altura_btn,  # Opcional: Añade un ícono al botón
         on_click=lambda e: on_continuar_clicked(page, email_text.value, password_text_field.value),  # Reemplaza esto con tu función de manejo de clics real
@@ -111,7 +112,7 @@ def login_page_view(page: Page, params: Params, basket: Basket):
             continue_button,
             Container(height=20),
             Text(
-                value="Olvidaste tu contraseña?",
+                value=_("forgot_pwd"),
                 color=gray_base,
                 size=16,
             ),
@@ -155,7 +156,7 @@ def login_page_view(page: Page, params: Params, basket: Basket):
                             Container(
                                 margin=margin.only(left=20),
                                 content=Text(
-                                    value="Login",
+                                    value=_("login"),
                                     weight=FontWeight.BOLD,
                                     size=30,
                                 ),

@@ -3,13 +3,14 @@ from utils.extras import *
 from flet_route import Params, Basket
 from state import update_state, get_state
 from navigation import navigate_to
+from config.translations import gettext as _
 
 
 def pedidos_db_page_view(page: Page, params: Params=None, basket: Basket=None):
     
     selected_index = get_state("selected_nav_index", default=0)
     
-    content = Column(controls=[Text("Página de Cuenta")])
+    #content = Column(controls=[Text("Página de Cuenta")])
 
     nombre = get_state("nombre")  # Obtiene el nombre  del estado global.
     
@@ -37,10 +38,10 @@ def pedidos_db_page_view(page: Page, params: Params=None, basket: Basket=None):
 
     navigation_bar = NavigationBar(
         destinations=[
-            NavigationDestination(icon=icons.HOME_OUTLINED, selected_icon=icons.HOME, label="Inicio"),
-            NavigationDestination(icon=icons.LOCAL_LAUNDRY_SERVICE_OUTLINED,selected_icon=icons.LOCAL_LAUNDRY_SERVICE, label="Servicios"),
-            NavigationDestination(icon=icons.SHOP_OUTLINED, selected_icon=icons.SHOP, label="Pedidos"),
-            NavigationDestination(icon=icons.ACCOUNT_CIRCLE_OUTLINED, selected_icon=icons.ACCOUNT_CIRCLE, label="Cuenta")
+            NavigationDestination(icon=icons.HOME_OUTLINED, selected_icon=icons.HOME, label=_("home")),
+            NavigationDestination(icon=icons.LOCAL_LAUNDRY_SERVICE_OUTLINED,selected_icon=icons.LOCAL_LAUNDRY_SERVICE, label=_("services")),
+            NavigationDestination(icon=icons.SHOP_OUTLINED, selected_icon=icons.SHOP, label=_("orders")),
+            NavigationDestination(icon=icons.ACCOUNT_CIRCLE_OUTLINED, selected_icon=icons.ACCOUNT_CIRCLE, label=_("acc"))
         ],
         selected_index=selected_index,
         on_change=on_navigation_changed
@@ -59,7 +60,7 @@ def pedidos_db_page_view(page: Page, params: Params=None, basket: Basket=None):
     #     content=Row(
     #         controls=[
     #             Text(
-    #                 value=f'No Plan', # TODO: Configurar Nombre del Plan  
+    #                 value=f'No Plan',
     #                 size=12,
     #                 weight=FontWeight.BOLD,
     #     )
@@ -83,7 +84,7 @@ def pedidos_db_page_view(page: Page, params: Params=None, basket: Basket=None):
                     ],
                     alignment=MainAxisAlignment.CENTER
                 ),
-                Text(value="No tienes pedidos aún",weight=FontWeight.W_500, 
+                Text(value=_("no_orders"),weight=FontWeight.W_500, 
                     size=24,color=colors.BLACK) 
             ],horizontal_alignment=CrossAxisAlignment.CENTER
         ),
@@ -94,7 +95,7 @@ def pedidos_db_page_view(page: Page, params: Params=None, basket: Basket=None):
     )
 
     hacer_pedido_btn = FilledButton(
-        content=Text(value="Hacer pedido", size=20, weight=FontWeight.BOLD),
+        content=Text(value=_("make_order"), size=20, weight=FontWeight.BOLD),
         width=250,
         height=altura_btn,  
         on_click= on_click_hacer_pedidos, 
@@ -107,7 +108,7 @@ def pedidos_db_page_view(page: Page, params: Params=None, basket: Basket=None):
         content=Column(
             controls=[
                 Text(
-                    value=f"Pedidos", # TODO: Agregar nombre del usuario
+                    value=_("orders"), 
                     weight=FontWeight.BOLD, 
                     size=24,color=colors.WHITE)
             ]

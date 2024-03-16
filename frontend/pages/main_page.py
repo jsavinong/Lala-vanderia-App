@@ -6,13 +6,15 @@ from flet_route import Params, Basket
 from services import check_email_registered_sync
 from threading import Thread
 import re
+from config.translations import gettext as _
+
 
 def main_page_view(page: Page, params: Params, basket: Basket):
     # Construcción de la UI de MainPage
-    
+
     # Crear directamente el TextField y mantener una referencia a él
     email_text_field = TextField(
-        hint_text="E-mail",
+        hint_text=_("e_mail"),
         hint_style=TextStyle(size=16, color=input_hint_color),
         text_style=TextStyle(size=16, color=input_hint_color),
         border=InputBorder.NONE,
@@ -24,20 +26,23 @@ def main_page_view(page: Page, params: Params, basket: Basket):
         bgcolor="white",
         border_radius=10,
         content=email_text_field,  # Usar la referencia aquí
-        )
-    
+    )
+
     continue_button = ElevatedButton(
-        content=Text(value="Continuar", size=18),
+        content=Text(value=_("continue"), size=18),
         width=anchura_btn,
         height=altura_btn,  # Opcional: Añade un ícono al botón
-        on_click=lambda e: on_click_handler(page, email_text_field),  # Reemplaza esto con tu función de manejo de clics real
-        style=ButtonStyle(
-                shape=RoundedRectangleBorder(radius=10), bgcolor=blue_base)
-)
+        on_click=lambda e: on_click_handler(
+            page, email_text_field
+        ),  # Reemplaza esto con tu función de manejo de clics real
+        style=ButtonStyle(shape=RoundedRectangleBorder(radius=10), bgcolor=blue_base),
+    )
+
     def mostrar_snackbar(page: Page, mensaje: str):
         snackbar = SnackBar(content=Text(mensaje), open=True, duration=4000)
         page.snack_bar = snackbar
         page.update()
+
     def es_correo_valido(correo):
         # Esta es una expresión regular muy básica para validación de correo
         patron_correo = r"^\S+@\S+\.\S+$"
@@ -51,8 +56,6 @@ def main_page_view(page: Page, params: Params, basket: Basket):
             # Navega a la página de registro si el correo no está registrado
             navigate_to(page, "/signup")
 
-    
-
     def check_email_and_navigate(page: Page, email: str):
         # Esta es la función que se ejecutará en el hilo
         def run():
@@ -60,21 +63,20 @@ def main_page_view(page: Page, params: Params, basket: Basket):
             # Necesitas asegurarte de que la actualización de la UI se ejecute en el hilo principal
             # La implementación específica dependerá de Flet y cómo gestiona las actualizaciones de la UI desde hilos
             on_email_checked(page, is_registered)
-            
+
         Thread(target=run).start()
 
     def on_click_handler(page: Page, email_text_field: TextField):
         email = email_text_field.value
         if not email:
-            mostrar_snackbar(page, "Por favor, ingresa un correo electrónico.")
+            mostrar_snackbar(page, _("type_mail"))
             return
         elif not es_correo_valido(email):
-            mostrar_snackbar(page, "Por favor, ingresa un correo electrónico válido.")
+            mostrar_snackbar(page, _("type_valid_mail"))
             return
         # Almacenar el email en el estado global antes de verificar si está registrado
         update_state("email", email)
         check_email_and_navigate(page, email)
-
 
     main_content = Column(
         controls=[
@@ -84,7 +86,7 @@ def main_page_view(page: Page, params: Params, basket: Basket):
                 alignment="center",
                 controls=[
                     Text(
-                        value="o",
+                        value=_("or"),
                         size=16,
                     )
                 ],
@@ -117,9 +119,12 @@ def main_page_view(page: Page, params: Params, basket: Basket):
                 padding=10,
                 content=Row(
                     controls=[
-                        Image(src="https://jsavinong.github.io/Lala-vanderia-App/frontend/assets/icons/google.png", scale=0.7),
+                        Image(
+                            src="https://jsavinong.github.io/Lala-vanderia-App/frontend/assets/icons/google.png",
+                            scale=0.7,
+                        ),
                         Text(
-                            value="Continuar con Google",
+                            value=_("continue_w_Google"),
                             size=18,
                             color=color_base,
                         ),
@@ -147,7 +152,7 @@ def main_page_view(page: Page, params: Params, basket: Basket):
             # ),
             Container(height=20),
             Text(
-                value="Olvidaste tu contraseña?",
+                value=_("forgot_pwd"),
                 color=gray_base,
                 size=16,
             ),
@@ -184,7 +189,7 @@ def main_page_view(page: Page, params: Params, basket: Basket):
                             Container(
                                 margin=margin.only(left=20),
                                 content=Text(
-                                    value="Hola!",
+                                    value=_("greetings"),
                                     weight=FontWeight.BOLD,
                                     size=30,
                                 ),
@@ -199,7 +204,7 @@ def main_page_view(page: Page, params: Params, basket: Basket):
                         ]
                     ),
                 ),
-            # Agrega aquí los controles para tu fondo y contenido principal
+                # Agrega aquí los controles para tu fondo y contenido principal
             ]
         ),
     )

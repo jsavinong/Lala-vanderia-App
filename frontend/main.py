@@ -8,6 +8,7 @@ from pages.servicios_db_page import servicios_db_page_view
 from pages.pedidos_db_page import pedidos_db_page_view
 from pages.cuenta_db_page import cuenta_db_page_view
 from pages.planes_page import planes_page_view
+from pages.idioma import idioma_page_view
 from utils.extras import *
 from flet_route import Routing, path
 from config.translations import load_translations
@@ -33,35 +34,18 @@ class App(UserControl):
     def __init__(self, pg: Page):
         super().__init__()
 
-        pg.window_title_bar_hidden = True  # Muestra la barra de título para poder arrastrar la ventana
-        pg.window_frameless = False  # La ventana con bordes permite redimensionar
-        pg.window_title_bar_buttons_hidden = True  # Muestra botones de la barra de título para cerrar, minimizar, etc.
-        pg.bgcolor = colors.WHITE  # Define un color de fondo estándar para la ventana
-        pg.window_width = 0  # Establece el ancho inicial de la ventana, 0 para automático
-        pg.window_height = 700  # Establece la altura inicial de la ventana, 0 para automático
-        pg.window_min_width = 400  # Establece el mínimo ancho permitido para la ventana
-        pg.window_min_height = 300  # Establece el mínimo altura permitido para la ventana
-        pg.window_resizable = True  # Permite que la ventana sea redimensionable
-        
         self.pg = pg
+        self.setup_ui()
         self.setup_routing()
-        self.pg.spacing = 0
-        # self.main_page = MainPage()
-        # self.screen_views = Stack(
-        #     expand=True,
-        #     controls=[
-        #         # self.main_page,
-        #         # LoginPage(),
-        #         SignupPage()
-        #     ],
-        # )
-        self.init_helper()
 
-    def init_helper(self):
-        self.pg.add(
-            WindowDrag(),
-            #self.screen_views,
-        )
+    def setup_ui(self):
+        # Configuración inicial de la UI
+        self.pg.window_title_bar_hidden = True
+        self.pg.window_frameless = False
+        self.pg.window_title_bar_buttons_hidden = True
+        self.pg.bgcolor = colors.WHITE
+        self.pg.window_resizable = True
+        self.pg.add(WindowDrag())
     
     def setup_routing(self):
         app_routes = [
@@ -74,11 +58,13 @@ class App(UserControl):
             path(url="/pedidos", clear=True, view=pedidos_db_page_view),
             path(url="/cuenta", clear=True, view=cuenta_db_page_view),
             path(url="/planes", clear=True, view=planes_page_view),
+            path(url="/idioma", clear=True, view=idioma_page_view),
         ]
         Routing(page=self.pg, app_routes=app_routes)
         self.pg.go(self.pg.route)
+        #self.pg.go("/idioma")
 
-        self.pg.update()
+        #self.pg.update()
 
 app(target=App, assets_dir="assets", view=AppView.WEB_BROWSER)
 #app(target=App, assets_dir="assets")

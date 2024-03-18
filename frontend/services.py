@@ -25,7 +25,7 @@ def signup_user(page: Page, nombre: str, correo_electronico: str, contraseña: s
                 # Puedes usar page.update() para enviar actualizaciones de UI seguras desde un hilo secundario
                 #page.update()
                 # Navegar al dashboard después de actualizar la página
-                navigate_to(page, "/dashboard")
+                navigate_to(page, "/inicio")
                 print("Registro exitoso", "El usuario ha sido registrado correctamente.")
             else:
                 # Manejo de error
@@ -80,7 +80,7 @@ def login_user(page: Page, correo_electronico: str, contraseña: str, on_result)
                 token_data = response.json()
                 access_token = token_data.get("access_token")
                 # Aquí deberías almacenar el access_token para uso futuro en solicitudes autenticadas
-                navigate_to(page, "/dashboard")
+                navigate_to(page, "/inicio")
                 #print("Inicio de sesión exitoso, token:", access_token)
                 # Navegar al dashboard o actualizar el estado del usuario como "logueado"
                 on_result(True, _("ok_login"))

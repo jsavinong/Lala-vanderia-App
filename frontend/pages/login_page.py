@@ -72,7 +72,7 @@ def login_page_view(page: Page, params: Params, basket: Basket):
         def on_login_result(success, message):
             if success:
                 # Navegar al dashboard o realizar acciones de éxito
-                navigate_to(page, "/dashboard")
+                #navigate_to(page, "/dashboard")
                 navigate_to(page, "/inicio")
             else:# Llama a la función de inicio de sesión con el callback
                 # Mostrar mensaje de error

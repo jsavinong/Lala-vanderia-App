@@ -36,6 +36,7 @@
     "use_terms" : "Términos de uso",
     "subscribe" : "Suscribir",
     "ok_login": "Inicio de sesión exitoso",
-    "err_login": "Error de Inicio de Sesión: Verifica tus credenciales." 
+    "err_login": "Error de Inicio de Sesión: Verifica tus credenciales.",
+    "language": "Idioma"
 
 }

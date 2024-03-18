@@ -3,7 +3,7 @@ from utils.extras import *
 from flet_route import Params, Basket
 from state import update_state, get_state, actualizar_indice_navegacion
 from navigation import navigate_to
-from config.translations import gettext as _
+from config.translations import load_translations, gettext as _
 
 def cuenta_db_page_view(page: Page, params: Params=None, basket: Basket=None):
     
@@ -13,6 +13,38 @@ def cuenta_db_page_view(page: Page, params: Params=None, basket: Basket=None):
 
     nombre = get_state("nombre")  # Obtiene el nombre  del estado global.
     
+    current_language = get_state("user_language", default="es")
+    
+    def on_language_change(e):
+        selected_language = e.control.value
+        # Cargar las nuevas traducciones
+        load_translations(selected_language)
+        # Actualizar el estado global con el nuevo idioma seleccionado
+        update_state("user_language", selected_language)
+        # Refrescar la página para que se muestren las traducciones actualizadas
+        page.update()
+        # Si tienes una estructura de navegación, podrías redirigir a la página actual para forzar un refresco completo
+
+    language_dropdown = Dropdown(
+        value=current_language,
+        options=[
+            dropdown.Option("es", "Español"),
+            dropdown.Option("en", "English"),
+        ],
+        on_change=on_language_change,
+        width=200, label=_("language"), label_style=TextStyle(weight=FontWeight.BOLD, color="#9ecaff"), 
+        prefix_icon="language", border_color="#9ecaff"
+        
+        
+    )
+
+    dropdown_container = Container(
+        content=Row(
+            controls=[
+                language_dropdown
+            ]
+        )
+    )
 
     def on_logout_clicked(e):
         actualizar_indice_navegacion(0)
@@ -108,7 +140,7 @@ def cuenta_db_page_view(page: Page, params: Params=None, basket: Basket=None):
         content=Row(
             controls=[
                 Icon(icons.QUESTION_ANSWER, size=24),  
-                Text("  FAQ", style=TextStyle(size=18)),  
+                Text("FAQ", style=TextStyle(size=18)),  
             ],
             alignment="left",
         ),
@@ -145,6 +177,8 @@ def cuenta_db_page_view(page: Page, params: Params=None, basket: Basket=None):
                 faq_textbtn,
                 Divider(),
                 terminos_de_uso_textbtn,
+                Divider(),
+                dropdown_container,
                 Divider(),
                 logout_btn
 

@@ -32,5 +32,6 @@
     "use_terms": "Terms of Use",
     "subscribe": "Subscribe",
     "ok_login": "Login Successful",
-    "err_login": "Login Error: Check your credentials."
+    "err_login": "Login Error: Check your credentials.",
+    "language": "Language"
 }

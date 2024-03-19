@@ -99,14 +99,15 @@ def cuenta_db_page_view(page: Page, params: Params=None, basket: Basket=None):
         content=Row(
             controls=[
                 Text(
-                    value=f'No Plan', # TODO: Configurar Nombre del Plan  
+                    value=f'No Plan', # TODO: Configurar Nombre del Plan (código y margen) 
                     size=12,
                     weight=FontWeight.BOLD,
         )
         ],
         alignment=MainAxisAlignment.CENTER,
-        )
-    
+        ),
+        #padding=Padding(0,0,0,50),
+        #height=50
     )
     
     container_name = Container(
@@ -119,7 +120,7 @@ def cuenta_db_page_view(page: Page, params: Params=None, basket: Basket=None):
                 plan_name
             ]
         ),
-        padding=15,
+        padding=Padding(15,20,5,15),
         bgcolor=blue_base,
         width=anchura_base,
         height=80
@@ -128,7 +129,7 @@ def cuenta_db_page_view(page: Page, params: Params=None, basket: Basket=None):
 
     suscribir_btn = FilledButton(
         content=Text(value=_("subscribe").upper(), size=24, weight=FontWeight.BOLD),
-        width=anchura_btn,
+        width=300,
         height=altura_btn,  
         on_click=on_click_suscribir,
         style=ButtonStyle(
@@ -170,7 +171,7 @@ def cuenta_db_page_view(page: Page, params: Params=None, basket: Basket=None):
         
         content=Column(
             controls=[
-                container_name,
+                
                 Container(height=10),
                 suscribir_btn,
                 Container(height=10),
@@ -189,4 +190,4 @@ def cuenta_db_page_view(page: Page, params: Params=None, basket: Basket=None):
         
     )
     
-    return View("/cuenta", controls=[content, dashboard_content])
+    return View("/cuenta", controls=[container_name, content, dashboard_content])

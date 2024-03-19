@@ -33,5 +33,9 @@
     "subscribe": "Subscribe",
     "ok_login": "Login Successful",
     "err_login": "Login Error: Check your credentials.",
-    "language": "Language"
+    "language": "Language",
+    "pick_service": "Choose a service",
+    "washing_service": "Washing Service",
+    "drying_service": "Drying Service",
+    "plans": "Plans"
 }

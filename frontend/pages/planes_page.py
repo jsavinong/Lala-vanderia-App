@@ -3,6 +3,7 @@ from utils.extras import *
 from flet_route import Params, Basket
 from state import update_state, get_state
 from navigation import navigate_to, go_back
+from config.translations import load_translations, gettext as _
 
 
 def planes_page_view(page: Page, params: Params=None, basket: Basket=None):
@@ -74,13 +75,13 @@ def planes_page_view(page: Page, params: Params=None, basket: Basket=None):
             controls=[
                 container_go_back,
                 Text(
-                    value=f"Planes", 
+                    value=_("plans"), 
                     weight=FontWeight.BOLD, 
                     size=24,color=colors.WHITE),
                 
             ]
         ),
-        padding=15,
+        padding=Padding(15,20,5,15),
         bgcolor=blue_base,
         width=anchura_base,
         height=80
@@ -123,7 +124,7 @@ def planes_page_view(page: Page, params: Params=None, basket: Basket=None):
         
         content=Column(
             controls=[
-                container_name,
+                
                 Container(height=10),
                 Container(height=10),
                 # faq_textbtn,
@@ -136,4 +137,4 @@ def planes_page_view(page: Page, params: Params=None, basket: Basket=None):
         
     )
     
-    return View("/planes", controls=[content, dashboard_content])
+    return View("/planes", controls=[container_name, content, dashboard_content])

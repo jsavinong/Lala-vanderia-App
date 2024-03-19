@@ -78,7 +78,7 @@ def inicio_db_page_view(page: Page, params: Params=None, basket: Basket=None):
         )
             ]
         ),
-        padding=15,
+        padding=Padding(15,20,5,15),
         bgcolor=blue_base,
         width=anchura_base,
         height=80
@@ -121,7 +121,7 @@ def inicio_db_page_view(page: Page, params: Params=None, basket: Basket=None):
         
         content=Column(
             controls=[
-                container_name,
+                
                 #user_name,
                 Container(height=10),
                 Container(height=10),
@@ -135,4 +135,4 @@ def inicio_db_page_view(page: Page, params: Params=None, basket: Basket=None):
         
     )
     
-    return View("/inicio", controls=[content, dashboard_content])
+    return View("/inicio", controls=[container_name, content, dashboard_content])

@@ -37,6 +37,10 @@
     "subscribe" : "Suscribir",
     "ok_login": "Inicio de sesión exitoso",
     "err_login": "Error de Inicio de Sesión: Verifica tus credenciales.",
-    "language": "Idioma"
+    "language": "Idioma",
+    "pick_service": "Elige un servicio",
+    "washing_service": "Servicio de lavado",
+    "drying_service": "Servicio de secado",
+    "plans": "Planes"
 
 }

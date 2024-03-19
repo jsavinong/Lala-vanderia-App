@@ -113,7 +113,7 @@ def pedidos_db_page_view(page: Page, params: Params=None, basket: Basket=None):
                     size=24,color=colors.WHITE)
             ]
         ),
-        padding=15,
+        padding=Padding(15,20,5,15),
         bgcolor=blue_base,
         width=anchura_base,
         height=80
@@ -156,7 +156,7 @@ def pedidos_db_page_view(page: Page, params: Params=None, basket: Basket=None):
         
         content=Column(
             controls=[
-                container_name,
+                
                 Container(height=10),
                 img_contenedor,
                 Container(height=10),
@@ -165,10 +165,11 @@ def pedidos_db_page_view(page: Page, params: Params=None, basket: Basket=None):
                 # terminos_de_uso_textbtn,
 
             ],
-            horizontal_alignment=CrossAxisAlignment.CENTER
+            horizontal_alignment=CrossAxisAlignment.CENTER,
+            scroll="auto"
             ),
         
         
     )
     
-    return View("/pedidos", controls=[content, dashboard_content])
+    return View("/pedidos", controls=[container_name, content, dashboard_content])

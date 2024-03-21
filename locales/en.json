@@ -37,5 +37,7 @@
     "pick_service": "Choose a service",
     "washing_service": "Washing Service",
     "drying_service": "Drying Service",
-    "plans": "Plans"
+    "plans": "Plans",
+    "add": "Add",
+    "view_order": "View order"
 }

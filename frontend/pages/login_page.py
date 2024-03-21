@@ -4,7 +4,7 @@ from flet_route import Params, Basket
 from navigation import go_back, navigate_to
 from state import get_state, update_state
 from services import fetch_user_info, login_user
-from config.translations import gettext as _
+from translations import gettext as _
 
 def login_page_view(page: Page, params: Params, basket: Basket):
     offset = transform.Offset(

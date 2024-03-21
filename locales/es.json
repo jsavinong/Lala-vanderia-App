@@ -29,7 +29,7 @@
     "home": "Inicio",
     "services": "Servicios",
     "orders": "Pedidos",
-    "aa": "Cuenta",
+    "acc": "Cuenta",
     "no_orders": "No tienes pedidos aún.",
     "make_order": "Hacer pedido",
     "logout": "Cerrar Sesión",
@@ -41,6 +41,8 @@
     "pick_service": "Elige un servicio",
     "washing_service": "Servicio de lavado",
     "drying_service": "Servicio de secado",
-    "plans": "Planes"
+    "plans": "Planes",
+    "add": "Agregar",
+    "view_order": "Ver pedido"
 
 }

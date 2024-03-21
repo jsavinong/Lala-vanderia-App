@@ -6,7 +6,7 @@ from state import update_state, get_state
 from services import signup_user
 from threading import Thread
 import re
-from config.translations import gettext as _
+from translations import gettext as _
 
 #from services.services import signup_user
 

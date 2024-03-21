@@ -6,7 +6,7 @@ from flet_route import Params, Basket
 from services import check_email_registered_sync
 from threading import Thread
 import re
-from config.translations import gettext as _
+from translations import gettext as _
 
 
 def main_page_view(page: Page, params: Params, basket: Basket):

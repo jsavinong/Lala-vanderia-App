@@ -3,7 +3,7 @@ from flet import Page
 import threading
 import requests
 from navigation import navigate_to
-from config.translations import gettext as _
+from translations import gettext as _
 
 
 def signup_user(page: Page, nombre: str, correo_electronico: str, contraseña: str, direccion: str = None, telefono: str = None):

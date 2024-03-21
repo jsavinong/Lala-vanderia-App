@@ -3,7 +3,7 @@ from utils.extras import *
 from flet_route import Params, Basket
 from state import update_state, get_state
 from navigation import navigate_to, go_back
-from config.translations import load_translations, gettext as _
+from translations import load_translations, gettext as _
 
 
 def planes_page_view(page: Page, params: Params=None, basket: Basket=None):
@@ -117,7 +117,7 @@ def planes_page_view(page: Page, params: Params=None, basket: Basket=None):
     
         height=altura_base,
         width=anchura_base,
-        bgcolor=color_base,
+        bgcolor=colors.BLUE_GREY_900,
         clip_behavior=ClipBehavior.ANTI_ALIAS,
         expand=True,
         #border_radius=radio_borde,

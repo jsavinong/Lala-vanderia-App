@@ -11,7 +11,7 @@ from pages.planes_page import planes_page_view
 from pages.idioma import idioma_page_view
 from utils.extras import *
 from flet_route import Routing, path
-from config.translations import load_translations
+from translations import load_translations
 
 
 # from pages.dashboard import DashboardPage

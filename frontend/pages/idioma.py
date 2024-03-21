@@ -3,9 +3,8 @@ from utils.extras import *
 from flet_route import Params, Basket
 from state import update_state, get_state
 from navigation import navigate_to
-from config.translations import gettext as _
 from flet import *
-from config.translations import load_translations, gettext as _
+from translations import load_translations, gettext as _
 from utils.extras import *
 
 # Esta función podría estar en otro módulo, como parte de tu lógica de navegación o estado global

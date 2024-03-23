@@ -39,5 +39,9 @@
     "drying_service": "Drying Service",
     "plans": "Plans",
     "add": "Add",
-    "view_order": "View order"
+    "view_order": "View order",
+    "pick_plan": "Choose a plan",
+    "plan_small": "Plan Small",
+    "plan_medium": "Plan Medium",
+    "plan_large": "Plan Large"
 }

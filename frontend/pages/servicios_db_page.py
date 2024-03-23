@@ -13,7 +13,7 @@ def servicios_db_page_view(page: Page, params: Params=None, basket: Basket=None)
 
     nombre = get_state("nombre")  # Obtiene el nombre  del estado global.
     
-   
+
 
         
     def on_navigation_changed(e):
@@ -30,8 +30,9 @@ def servicios_db_page_view(page: Page, params: Params=None, basket: Basket=None)
     def agregar_servicio(e):
         contador_servicios = get_state("contador_servicios", default=0) + 1  # Obtiene el contador actual y lo incrementa
         update_state("contador_servicios", contador_servicios)  # Actualiza el contador en el estado global
-        ver_pedido_btn.text = f"Ver pedido ({contador_servicios})"  # Actualiza el texto del botón
-        ver_pedido_btn.visible = True  # Asegura que el botón sea visible
+        ver_pedido_btn.content.text = _("view_order") +f" ({contador_servicios})"  # Actualiza el texto del botón
+        ver_pedido_btn.content.visible = True  # Asegura que el botón sea visible
+        print("btn clicked")
         page.update()  # Actualiza la UI
 
     def ver_pedido(e):
@@ -83,7 +84,7 @@ def servicios_db_page_view(page: Page, params: Params=None, basket: Basket=None)
             controls=[
                 Image(src="https://jsavinong.github.io/Lala-vanderia-App/frontend/assets/images/planchado.jpg", border_radius=10),
                 Text(value=_("drying_service"), size=20, style=TextStyle(weight="bold")),
-                FilledTonalButton(_("add"), icon="add", style=ButtonStyle(shape=RoundedRectangleBorder(radius=10)))
+                FilledTonalButton(_("add"), icon="add", on_click=agregar_servicio, style=ButtonStyle(shape=RoundedRectangleBorder(radius=10)))
             ],
             horizontal_alignment=CrossAxisAlignment.CENTER,
         ),
@@ -93,7 +94,7 @@ def servicios_db_page_view(page: Page, params: Params=None, basket: Basket=None)
     )
 
     ver_pedido_btn = Container(content= 
-        FilledButton(content=Text(value=_("view_order")+" (0)", size=20), visible=True, on_click=ver_pedido, 
+        FilledButton(Text(value=_("view_order")+" (0)",),visible=False, on_click=ver_pedido, 
             style=ButtonStyle(shape=RoundedRectangleBorder(radius=10)),), width=300)
 
     
@@ -152,15 +153,15 @@ def servicios_db_page_view(page: Page, params: Params=None, basket: Basket=None)
 
     content_stack = Stack(
         [
-            content
-            ,
+            content,
             Row(controls=[
                 Column(
                     controls=[
                         ver_pedido_btn,
                     ],
                     alignment=MainAxisAlignment.END,
-                    horizontal_alignment=CrossAxisAlignment.CENTER,
+                    #horizontal_alignment=CrossAxisAlignment.NONE
+                    
                     
                     
                 ),
@@ -168,6 +169,7 @@ def servicios_db_page_view(page: Page, params: Params=None, basket: Basket=None)
         ], 
         #left=100,
         #top=470,
+        alignment=MainAxisAlignment.CENTER
         )
 
             

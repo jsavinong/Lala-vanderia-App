@@ -43,6 +43,10 @@
     "drying_service": "Servicio de secado",
     "plans": "Planes",
     "add": "Agregar",
-    "view_order": "Ver pedido"
+    "view_order": "Ver pedido",
+    "pick_plan": "Elige un plan",
+    "plan_small": "Plan Básico",
+    "plan_medium": "Plan Medio",
+    "plan_large": "Plan Grande"
 
 }

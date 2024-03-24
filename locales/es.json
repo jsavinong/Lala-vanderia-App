@@ -47,6 +47,8 @@
     "pick_plan": "Elige un plan",
     "plan_small": "Plan Básico",
     "plan_medium": "Plan Medio",
-    "plan_large": "Plan Grande"
+    "plan_large": "Plan Grande",
+    "continue_google": "Continuar con Google",
+    "not_ready": "Esto no está listo amiguito"
 
 }

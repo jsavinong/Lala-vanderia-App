@@ -78,11 +78,19 @@ def main_page_view(page: Page, params: Params, basket: Basket):
         update_state("email", email)
         check_email_and_navigate(page, email)
 
-    main_content = Column(
-        controls=[
-            email_input,
-            continue_button,
-            Row(
+    
+
+    # continue_google_button = FilledTonalButton(
+    #             content=Text(value=_("continue"), size=18, ),
+    #             width=anchura_btn,
+    #             height=altura_btn,  # Opcional: Añade un ícono al botón
+    #             on_click=lambda e: on_click_handler(
+    #                 page, email_text_field
+    #             ),  # Reemplaza esto con tu función de manejo de clics real
+    #             style=ButtonStyle(shape=RoundedRectangleBorder(radius=10), bgcolor=blue_base),
+    # )
+
+    o_txt = Row(
                 alignment="center",
                 controls=[
                     Text(
@@ -90,7 +98,51 @@ def main_page_view(page: Page, params: Params, basket: Basket):
                         size=16,
                     )
                 ],
+            )
+    
+    continuar_google_btn = Container(
+            # Altura fija para el botón, la anchura se ajusta al contenido o contenedor padre
+            height=50,
+            bgcolor=colors.BLUE_GREY_600,
+            border_radius=10,
+            alignment=alignment.center,
+            padding=10,
+            expand=True,
+            expand_loose=True,
+            on_click=lambda e: mostrar_snackbar(page,_("not_ready")),
+            content=ResponsiveRow(
+                controls=[
+                    Image(
+                        src="https://jsavinong.github.io/Lala-vanderia-App/frontend/assets/icons/google.ico",
+                        width=30,
+                        height=30,
+                        col=2
+                        
+                        #width=30,  
+                    ),#TextField(label="Hola probando paralbras largas", icon=icons. ),
+                    # Un pequeño espacio entre la imagen y el texto
+                    #Container(width=5),
+                    Text(
+                        value=_("continue_google"),
+                        #color=color_base,
+                        size=18, text_align="center",
+                        col=10
+                        
+                        #style=TextStyle(weight=FontWeight.BOLD)  
+                    ),
+                ],
+                alignment=MainAxisAlignment.SPACE_EVENLY,
+                
+            # expand=True,
+            # expand_loose=True,
             ),
+        )
+    
+    main_content = Column(
+        controls=[
+            email_input,
+            continue_button,
+            o_txt,
             # Container(
             #     height=altura_btn,
             #     width=anchura_btn,
@@ -110,27 +162,42 @@ def main_page_view(page: Page, params: Params, basket: Basket):
             #     ),
             # ),
             Container(height=0),
-            Container(
-                height=altura_btn,
-                width=anchura_btn,
-                bgcolor=gray_light,
-                border_radius=10,
-                alignment=alignment.center,
-                padding=10,
-                content=Row(
-                    controls=[
-                        Image(
-                            src="https://jsavinong.github.io/Lala-vanderia-App/frontend/assets/icons/google.png",
-                            scale=0.7,
-                        ),
-                        Text(
-                            value=_("continue_w_Google"),
-                            size=18,
-                            color=color_base,
-                        ),
-                    ]
+            # Container(
+            #     height=altura_btn,
+            #     width=anchura_btn,
+            #     bgcolor=gray_light,
+            #     border_radius=10,
+            #     alignment=alignment.center,
+            #     padding=10,
+            #     content=Row(
+            #         controls=[
+            #             Image(
+            #                 src="https://jsavinong.github.io/Lala-vanderia-App/frontend/assets/icons/google.png",
+            #                 scale=0.7,
+            #             ),
+            #             Text(
+            #                 value=_("continue_w_Google"),
+            #                 size=18,
+            #                 color=color_base,
+            #             ),
+            #         ]
+            #     ),
+            # ),
+            continuar_google_btn,
+            Container(content=Column(
+                controls=[
+                    Text("author probando lenght", weight=FontWeight.BOLD),
+                    Text("body"),
+                    ],
                 ),
-            ),
+                #border = border.all(1, colors.BLACK),
+                #border_radius = border_radius.all(10),
+                #bgcolor = colors.GREEN_200,
+                #padding = 10,
+                # expand = True,
+                # expand_loose = True,
+                ),
+
             Container(height=0),
             # Container(
             #     height=altura_btn,
@@ -152,10 +219,14 @@ def main_page_view(page: Page, params: Params, basket: Basket):
             # ),
             Container(height=20),
             Text(
-                value=_("forgot_pwd"),
-                color=gray_base,
-                size=16,
-            ),
+            
+            spans=[
+                TextSpan(
+                    _("forgot_pwd"),
+                    
+                    on_click=lambda e: mostrar_snackbar(page,_("not_ready")),
+                ),
+                ])
         ]
     )
 
@@ -166,6 +237,7 @@ def main_page_view(page: Page, params: Params, basket: Basket):
         border_radius=radio_borde,
         clip_behavior=ClipBehavior.ANTI_ALIAS,
         expand=True,
+        
         content=Stack(
             controls=[
                 Container(

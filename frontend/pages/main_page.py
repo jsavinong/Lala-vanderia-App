@@ -79,16 +79,15 @@ def main_page_view(page: Page, params: Params, basket: Basket):
         check_email_and_navigate(page, email)
 
     
-
-    # continue_google_button = FilledTonalButton(
-    #             content=Text(value=_("continue"), size=18, ),
-    #             width=anchura_btn,
-    #             height=altura_btn,  # Opcional: Añade un ícono al botón
-    #             on_click=lambda e: on_click_handler(
-    #                 page, email_text_field
-    #             ),  # Reemplaza esto con tu función de manejo de clics real
-    #             style=ButtonStyle(shape=RoundedRectangleBorder(radius=10), bgcolor=blue_base),
-    # )
+    forgot_pwd_link = Text(
+            
+            spans=[
+                TextSpan(
+                    _("forgot_pwd"),
+                    
+                    on_click=lambda e: mostrar_snackbar(page,_("not_ready")),
+                ),
+                ])
 
     o_txt = Row(
                 alignment="center",
@@ -184,20 +183,7 @@ def main_page_view(page: Page, params: Params, basket: Basket):
             #     ),
             # ),
             continuar_google_btn,
-            Container(content=Column(
-                controls=[
-                    Text("author probando lenght", weight=FontWeight.BOLD),
-                    Text("body"),
-                    ],
-                ),
-                #border = border.all(1, colors.BLACK),
-                #border_radius = border_radius.all(10),
-                #bgcolor = colors.GREEN_200,
-                #padding = 10,
-                # expand = True,
-                # expand_loose = True,
-                ),
-
+            
             Container(height=0),
             # Container(
             #     height=altura_btn,
@@ -218,15 +204,7 @@ def main_page_view(page: Page, params: Params, basket: Basket):
             #     ),
             # ),
             Container(height=20),
-            Text(
-            
-            spans=[
-                TextSpan(
-                    _("forgot_pwd"),
-                    
-                    on_click=lambda e: mostrar_snackbar(page,_("not_ready")),
-                ),
-                ])
+            forgot_pwd_link
         ]
     )
 

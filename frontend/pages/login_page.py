@@ -63,6 +63,17 @@ def login_page_view(page: Page, params: Params, basket: Basket):
         style=ButtonStyle(
                 shape=RoundedRectangleBorder(radius=10), bgcolor=blue_base)
 )
+    
+    forgot_pwd_link = Text(
+            
+            spans=[
+                TextSpan(
+                    _("forgot_pwd"),
+                    
+                    on_click=lambda e: mostrar_snackbar(page,_("not_ready")),
+                ),
+                ])
+    
     def on_continuar_clicked(page: Page, correo_electronico: str, contraseña: str):
         # Extrae los valores directamente de los campos de texto
         # correo_electronico= email_text.value
@@ -102,7 +113,7 @@ def login_page_view(page: Page, params: Params, basket: Basket):
                     Column(
                         spacing=0,
                         controls=[
-                            username_text, email_text
+                            username_text, email_text   # TODO PENDIENTE ResponsiveRow aquí
                             
                         ],
                     ),
@@ -111,11 +122,8 @@ def login_page_view(page: Page, params: Params, basket: Basket):
             pwd_input,
             continue_button,
             Container(height=20),
-            Text(
-                value=_("forgot_pwd"),
-                color=gray_base,
-                size=16,
-            ),
+            forgot_pwd_link
+            
         ]
     )
     content = Container(

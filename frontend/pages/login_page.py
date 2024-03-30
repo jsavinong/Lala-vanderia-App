@@ -7,11 +7,6 @@ from services import fetch_user_info, login_user
 from translations import gettext as _
 
 def login_page_view(page: Page, params: Params, basket: Basket):
-    offset = transform.Offset(
-        0,
-        0,
-    )
-    expand = True
 
     email = get_state("email")  # Obtiene el correo electrónico del estado global.
     
@@ -38,8 +33,8 @@ def login_page_view(page: Page, params: Params, basket: Basket):
             password=True,
             suffix=Container(on_click=show_hide_password, content=view_text),
             hint_text=_("pwd"),
-            hint_style=TextStyle(size=16, color=input_hint_color),
-            text_style=TextStyle(size=16, color=input_hint_color),
+            hint_style=TextStyle(size=16, color="#09252a"),
+            text_style=TextStyle(size=16, color="#09252a"),
             border=InputBorder.NONE,
             content_padding=content_padding,
             selection_color=blue_base,
@@ -47,7 +42,7 @@ def login_page_view(page: Page, params: Params, basket: Basket):
         )
     pwd_input = Container(
         height=altura_btn,
-        bgcolor="white",
+        bgcolor="#f2fbfb",
         border_radius=10,
         content=password_text_field
     )
@@ -56,12 +51,12 @@ def login_page_view(page: Page, params: Params, basket: Basket):
     page.add(username_text)
 
     continue_button = ElevatedButton(
-        content=Text(value=_("continue"), size=18),
+        content=Text(value=_("continue"), size=18, color="#f2fbfb", style=TextStyle(weight=FontWeight.BOLD)),
         width=anchura_btn,
         height=altura_btn,  # Opcional: Añade un ícono al botón
         on_click=lambda e: on_continuar_clicked(page, email_text.value, password_text_field.value),  # Reemplaza esto con tu función de manejo de clics real
         style=ButtonStyle(
-                shape=RoundedRectangleBorder(radius=10), bgcolor=blue_base)
+                shape=RoundedRectangleBorder(radius=10), bgcolor="#0f766e")
 )
     
     forgot_pwd_link = Text(
@@ -109,12 +104,9 @@ def login_page_view(page: Page, params: Params, basket: Basket):
                     
                     ),
                     Container(
-                        #spacing=0,
                         col=10,
                         content=(Column(controls=[
-                            username_text, email_text   # TODO PENDIENTE ResponsiveRow aquí
-                            #Text("Hola estoy probando text largo", col=5),
-                            #Text("Hola estoy probando text largo", col=5),
+                            username_text, email_text   
                 ])),height=50,clip_behavior=ClipBehavior.ANTI_ALIAS
                     ),
                 ]
@@ -127,53 +119,49 @@ def login_page_view(page: Page, params: Params, basket: Basket):
         ]
     )
     content = Container(
-        height=altura_base,
-        width=anchura_base,
-        bgcolor="color_base",
-        border_radius=radio_borde,
-        clip_behavior=ClipBehavior.ANTI_ALIAS,
         expand=True,
         content=Stack(
             controls=[
                 Container(
-                    height=altura_base,
-                    width=anchura_base,
-                    bgcolor=colors.BLACK,
-                    content=Image(
-                        src="https://jsavinong.github.io/Lala-vanderia-App/frontend/assets/images/gianluca-d-intino-vl4QuDMyeyY-unsplash (1).jpg",
-                        # bgcolor="#cc2d2b2c",
-                        # scale=1.5,
-                        fit=ImageFit.COVER,
-                        opacity=0.5,
+                    gradient=LinearGradient(
+                        rotation=30,
+                        begin=alignment.center_left,
+                        end=alignment.bottom_right,
+                        colors=["#09252a", "#d2f5f4"],
                     ),
                 ),
                 Container(
-                    height=altura_base,
-                    width=anchura_base,
+                    alignment=alignment.center,
                     padding=padding.only(top=30, left=10, right=10),
                     content=Column(
                         controls=[
                             Container(
-                                data="main_page", # !pa qué sirve?
+                                #data="main_page", # !pa qué sirve?
                                 on_click = lambda e: go_back(page),
+                                width = anchura_base,
+                                alignment=alignment.top_left,
                                 content=Icon(
-                                    icons.ARROW_BACK_IOS_OUTLINED, size=28
+                                    icons.ARROW_BACK_IOS_OUTLINED, size=28, color="#09252a"
                                 ),
                             ),
-                            Container(height=160),
+                            Container(height=160, 
+                                    width=anchura_base),
                             Container(
                                 margin=margin.only(left=20),
                                 content=Text(
                                     value=_("login"),
                                     weight=FontWeight.BOLD,
                                     size=30,
+                                    width=anchura_base
                                 ),
                             ),
-                            Container(height=2),
+                            Container(height=2,
+                                    width=anchura_base),
                             Container(
                                 padding=20,
-                                bgcolor="#cc2d2b2c",
+                                bgcolor="#661b4d54",
                                 border_radius=10,
+                                width=anchura_base,
                                 content=login_box,
                             ),
                         ]

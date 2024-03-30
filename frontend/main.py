@@ -17,7 +17,7 @@ from translations import load_translations
 # from pages.dashboard import DashboardPage
 
 # Carga las traducciones para el idioma deseado al inicio de tu aplicación
-load_translations("en")  # Cargando inglés por defecto
+load_translations("es")  # Cargando inglés por defecto
 
 class WindowDrag(UserControl):
     def __init__(self):

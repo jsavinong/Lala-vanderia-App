@@ -10,15 +10,14 @@ from translations import gettext as _
 
 
 def main_page_view(page: Page, params: Params, basket: Basket):
-    page.vertical_alignment = "right"
-    page.horizontal_alignment = "right"
-    # Construcción de la UI de MainPage
 
+    # Construcción de la UI de MainPage
+    
     # Crear directamente el TextField y mantener una referencia a él
     email_text_field = TextField(
         hint_text=_("e_mail"),
-        hint_style=TextStyle(size=16, color=input_hint_color),
-        text_style=TextStyle(size=16, color=input_hint_color),
+        hint_style=TextStyle(size=16, color="#09252a"),
+        text_style=TextStyle(size=16, color="#09252a"),
         border=InputBorder.NONE,
         content_padding=content_padding,
         width=anchura_btn,
@@ -27,19 +26,19 @@ def main_page_view(page: Page, params: Params, basket: Basket):
     email_input = Container(
         height=altura_btn,
         width=anchura_btn,
-        bgcolor="white",
+        bgcolor="#f2fbfb",
         border_radius=10,
         content=email_text_field,  # Usar la referencia aquí
     )
 
     continue_button = ElevatedButton(
-        content=Text(value=_("continue"), size=18),
+        content=Text(value=_("continue"), size=18, color="#f2fbfb", style=TextStyle(weight=FontWeight.BOLD)),
         width=anchura_btn,
-        height=altura_btn,  # Opcional: Añade un ícono al botón
+        height=altura_btn,  
         on_click=lambda e: on_click_handler(
             page, email_text_field
-        ),  # Reemplaza esto con tu función de manejo de clics real
-        style=ButtonStyle(shape=RoundedRectangleBorder(radius=10), bgcolor=blue_base),
+        ),  
+        style=ButtonStyle(shape=RoundedRectangleBorder(radius=10), bgcolor="#0f766e"),
     )
 
     def mostrar_snackbar(page: Page, mensaje: str):
@@ -106,12 +105,11 @@ def main_page_view(page: Page, params: Params, basket: Basket):
         # Altura fija para el botón, la anchura se ajusta al contenido o contenedor padre
         height=altura_btn,
         width=anchura_btn,
-        bgcolor=colors.BLUE_GREY_600,
+        bgcolor="#0f766e",
         border_radius=10,
         alignment=alignment.center,
         padding=10,
-        expand=True,
-        expand_loose=True,
+        
         on_click=lambda e: mostrar_snackbar(page, _("not_ready")),
         content=ResponsiveRow(
             controls=[
@@ -120,22 +118,19 @@ def main_page_view(page: Page, params: Params, basket: Basket):
                     width=30,
                     height=30,
                     col=2,
-                    # width=30,
-                ),  # TextField(label="Hola probando paralbras largas", icon=icons. ),
-                # Un pequeño espacio entre la imagen y el texto
-                # Container(width=5),
+                    
+                ),  
                 Text(
                     value=_("continue_google"),
                     # color=color_base,
                     size=18,
                     text_align="center",
                     col=10,
-                    # style=TextStyle(weight=FontWeight.BOLD)
+                    style=TextStyle(weight=FontWeight.BOLD)
                 ),
             ],
             alignment=MainAxisAlignment.SPACE_EVENLY,
-            # expand=True,
-            # expand_loose=True,
+            
         ),
     )
 
@@ -149,38 +144,29 @@ def main_page_view(page: Page, params: Params, basket: Basket):
                 continuar_google_btn,
                 Container(height=0),
                 Container(height=20),
-                forgot_pwd_link,
+                #forgot_pwd_link,
             ],
-            # alignment=
         ),
-        alignment=alignment.Alignment(0, 0),
     )
+    
+    # Importante fijar el ancho de los componentes para poder tener el centralizado correctamente
 
     content = Container(
-        # height=altura_base,
-        # width=800,
-        # bgcolor="color_base",
-        # border_radius=radio_borde,
-        # clip_behavior=ClipBehavior.ANTI_ALIAS,
-        expand=True,
-        # alignment=alignment.center,
+        expand=True, # ! OJO
         content=Stack(
             controls=[
                 Container(
                     gradient=LinearGradient(
-                        rotation=45,
+                        rotation=30,
                         begin=alignment.center_left,
                         end=alignment.bottom_right,
-                        colors=["#3e688c", "#f5f7fa"],
+                        colors=["#09252a", "#d2f5f4"],
                     ),
                 ),
                 Container(
                     alignment=alignment.center,
                     
                     padding=padding.only(top=30, left=10, right=10),
-                    #margin = margin.only(left=500),
-                    #alignment=alignment.center,
-                    #width=350,
                     content=Column(
                         controls=[
                             Container(height=160,
@@ -198,16 +184,14 @@ def main_page_view(page: Page, params: Params, basket: Basket):
                                 width=anchura_base),
                             Container(
                                 padding=20,
-                                bgcolor="#2a3d50",
+                                width=anchura_base,
+                                bgcolor="#661b4d54",
                                 border_radius=10,
                                 content=main_container,
-                                opacity=0.7,
-                                width=anchura_base
                             ),
                         ]
                     ),
                 ),
-                # Agrega aquí los controles para tu fondo y contenido principal
             ],
         ),
     )

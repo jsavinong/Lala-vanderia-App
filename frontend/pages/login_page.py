@@ -101,21 +101,21 @@ def login_page_view(page: Page, params: Params, basket: Basket):
 
     login_box = Column(
         controls=[
-            Row(
+            ResponsiveRow(
                 controls=[
-                    Container(
-                        height=50,
-                        width=50,
-                        border_radius=25,
-                        image_fit=ImageFit.COVER,
-                        image_src="https://jsavinong.github.io/Lala-vanderia-App/frontend/assets/icons/neutral acc img.png",
+                    CircleAvatar(
+                    foreground_image_url="https://jsavinong.github.io/Lala-vanderia-App/frontend/assets/icons/neutral acc img.png",
+                    col=2, min_radius=20, max_radius=30, radius=30, 
+                    
                     ),
-                    Column(
-                        spacing=0,
-                        controls=[
+                    Container(
+                        #spacing=0,
+                        col=10,
+                        content=(Column(controls=[
                             username_text, email_text   # TODO PENDIENTE ResponsiveRow aquí
-                            
-                        ],
+                            #Text("Hola estoy probando text largo", col=5),
+                            #Text("Hola estoy probando text largo", col=5),
+                ])),height=50,clip_behavior=ClipBehavior.ANTI_ALIAS
                     ),
                 ]
             ),

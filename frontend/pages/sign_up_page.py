@@ -100,7 +100,15 @@ def signup_page_view(page: Page, params: Params, basket: Basket):
         cursor_color=color_base,
     )
 
-
+    terms_conditions_link = Text(
+            
+            spans=[
+                TextSpan(
+                    _("terms_policy"),
+                    
+                    on_click=lambda e: mostrar_snackbar(page,_("not_ready")),
+                ),
+                ])
 
     signup_box = Column(
         controls=[
@@ -137,20 +145,15 @@ def signup_page_view(page: Page, params: Params, basket: Basket):
                             size=14,
                             color="#ccffffff",
                         ),
-                        Row(
-                            spacing=0,
+                        ResponsiveRow(
+                            #spacing=0,
                             controls=[
                                 # Text(
                                 # value="Acepto",
                                 # size=14,
                                 # color='#ccffffff'
                                 # ),
-                                Text(
-                                    value=_("terms_policy"),
-                                    size=14,
-                                    weight=FontWeight.BOLD,
-                                    color=blue_base,
-                                ),
+                            terms_conditions_link
                             ],
                         ),
                     ],
@@ -158,11 +161,7 @@ def signup_page_view(page: Page, params: Params, basket: Basket):
             ),
             aceptar_continuar_btn,
             Container(height=20),
-            Text(
-                value=_("forgot_pwd"),
-                color=gray_base,
-                size=16,
-            ),
+        
         ]
     )
     content = Container(
@@ -199,7 +198,7 @@ def signup_page_view(page: Page, params: Params, basket: Basket):
                                     icons.ARROW_BACK_IOS_OUTLINED, size=28
                                 ),
                             ),
-                            Container(height=160),
+                            Container(height=100),
                             Container(
                                 margin=margin.only(left=20),
                                 content=Text(

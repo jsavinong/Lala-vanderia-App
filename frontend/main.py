@@ -40,11 +40,14 @@ class App(UserControl):
 
     def setup_ui(self):
         # Configuración inicial de la UI
-        self.pg.window_title_bar_hidden = True
+        self.pg.window_title_bar_hidden = False
         self.pg.window_frameless = False
         self.pg.window_title_bar_buttons_hidden = True
         self.pg.bgcolor = colors.WHITE
         self.pg.window_resizable = True
+        self.pg.vertical_alignment = "center"
+        self.pg.horizontal_alignment = "center"
+        self.pg.padding = 0
         self.pg.add(WindowDrag())
     
     def setup_routing(self):

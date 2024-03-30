@@ -10,6 +10,8 @@ from translations import gettext as _
 
 
 def main_page_view(page: Page, params: Params, basket: Basket):
+    page.vertical_alignment = "right"
+    page.horizontal_alignment = "right"
     # Construcción de la UI de MainPage
 
     # Crear directamente el TextField y mantener una referencia a él
@@ -19,10 +21,12 @@ def main_page_view(page: Page, params: Params, basket: Basket):
         text_style=TextStyle(size=16, color=input_hint_color),
         border=InputBorder.NONE,
         content_padding=content_padding,
+        width=anchura_btn,
     )
 
     email_input = Container(
         height=altura_btn,
+        width=anchura_btn,
         bgcolor="white",
         border_radius=10,
         content=email_text_field,  # Usar la referencia aquí
@@ -78,184 +82,133 @@ def main_page_view(page: Page, params: Params, basket: Basket):
         update_state("email", email)
         check_email_and_navigate(page, email)
 
-    
     forgot_pwd_link = Text(
-            
-            spans=[
-                TextSpan(
-                    _("forgot_pwd"),
-                    
-                    on_click=lambda e: mostrar_snackbar(page,_("not_ready")),
-                ),
-                ])
-
-    o_txt = Row(
-                alignment="center",
-                controls=[
-                    Text(
-                        value=_("or"),
-                        size=16,
-                    )
-                ],
-            )
-    
-    continuar_google_btn = Container(
-            # Altura fija para el botón, la anchura se ajusta al contenido o contenedor padre
-            height=50,
-            bgcolor=colors.BLUE_GREY_600,
-            border_radius=10,
-            alignment=alignment.center,
-            padding=10,
-            expand=True,
-            expand_loose=True,
-            on_click=lambda e: mostrar_snackbar(page,_("not_ready")),
-            content=ResponsiveRow(
-                controls=[
-                    Image(
-                        src="https://jsavinong.github.io/Lala-vanderia-App/frontend/assets/icons/google.ico",
-                        width=30,
-                        height=30,
-                        col=2
-                        
-                        #width=30,  
-                    ),#TextField(label="Hola probando paralbras largas", icon=icons. ),
-                    # Un pequeño espacio entre la imagen y el texto
-                    #Container(width=5),
-                    Text(
-                        value=_("continue_google"),
-                        #color=color_base,
-                        size=18, text_align="center",
-                        col=10
-                        
-                        #style=TextStyle(weight=FontWeight.BOLD)  
-                    ),
-                ],
-                alignment=MainAxisAlignment.SPACE_EVENLY,
-                
-            # expand=True,
-            # expand_loose=True,
+        spans=[
+            TextSpan(
+                _("forgot_pwd"),
+                on_click=lambda e: mostrar_snackbar(page, _("not_ready")),
             ),
-        )
-    
-    main_content = Column(
-        controls=[
-            email_input,
-            continue_button,
-            o_txt,
-            # Container(
-            #     height=altura_btn,
-            #     width=anchura_btn,
-            #     bgcolor=gray_light,
-            #     border_radius=10,
-            #     alignment=alignment.center,
-            #     padding=10,
-            #     content=Row(
-            #         controls=[
-            #             Image(src="http://10.0.0.20:5000/icons/facebook.png", scale=0.7),
-            #             Text(
-            #                 value="Continuar con Facebook",
-            #                 size=18,
-            #                 color=color_base,
-            #             ),
-            #         ]
-            #     ),
-            # ),
-            Container(height=0),
-            # Container(
-            #     height=altura_btn,
-            #     width=anchura_btn,
-            #     bgcolor=gray_light,
-            #     border_radius=10,
-            #     alignment=alignment.center,
-            #     padding=10,
-            #     content=Row(
-            #         controls=[
-            #             Image(
-            #                 src="https://jsavinong.github.io/Lala-vanderia-App/frontend/assets/icons/google.png",
-            #                 scale=0.7,
-            #             ),
-            #             Text(
-            #                 value=_("continue_w_Google"),
-            #                 size=18,
-            #                 color=color_base,
-            #             ),
-            #         ]
-            #     ),
-            # ),
-            continuar_google_btn,
-            
-            Container(height=0),
-            # Container(
-            #     height=altura_btn,
-            #     width=anchura_btn,
-            #     bgcolor=gray_light,
-            #     border_radius=10,
-            #     alignment=alignment.center,
-            #     padding=10,
-            #     content=Row(
-            #         controls=[
-            #             Image(src="http://10.0.0.20:5000/icons/apple.png", scale=0.7),
-            #             Text(
-            #                 value="Continuar con Apple",
-            #                 size=18,
-            #                 color=color_base,
-            #             ),
-            #         ]
-            #     ),
-            # ),
-            Container(height=20),
-            forgot_pwd_link
         ]
     )
 
-    content = Container(
-        height=altura_base,
-        width=anchura_base,
-        bgcolor="color_base",
-        border_radius=radio_borde,
-        clip_behavior=ClipBehavior.ANTI_ALIAS,
+    o_txt = Row(
+        alignment="center",
+        width=350,
+        controls=[
+            Text(
+                value=_("or"),
+                size=16,
+            )
+        ],
+    )
+
+    continuar_google_btn = Container(
+        # Altura fija para el botón, la anchura se ajusta al contenido o contenedor padre
+        height=altura_btn,
+        width=anchura_btn,
+        bgcolor=colors.BLUE_GREY_600,
+        border_radius=10,
+        alignment=alignment.center,
+        padding=10,
         expand=True,
-        
+        expand_loose=True,
+        on_click=lambda e: mostrar_snackbar(page, _("not_ready")),
+        content=ResponsiveRow(
+            controls=[
+                Image(
+                    src="https://jsavinong.github.io/Lala-vanderia-App/frontend/assets/icons/google.png",
+                    width=30,
+                    height=30,
+                    col=2,
+                    # width=30,
+                ),  # TextField(label="Hola probando paralbras largas", icon=icons. ),
+                # Un pequeño espacio entre la imagen y el texto
+                # Container(width=5),
+                Text(
+                    value=_("continue_google"),
+                    # color=color_base,
+                    size=18,
+                    text_align="center",
+                    col=10,
+                    # style=TextStyle(weight=FontWeight.BOLD)
+                ),
+            ],
+            alignment=MainAxisAlignment.SPACE_EVENLY,
+            # expand=True,
+            # expand_loose=True,
+        ),
+    )
+
+    main_container = Container(
+        content=Column(
+            controls=[
+                email_input,
+                continue_button,
+                o_txt,
+                Container(height=0),
+                continuar_google_btn,
+                Container(height=0),
+                Container(height=20),
+                forgot_pwd_link,
+            ],
+            # alignment=
+        ),
+        alignment=alignment.Alignment(0, 0),
+    )
+
+    content = Container(
+        # height=altura_base,
+        # width=800,
+        # bgcolor="color_base",
+        # border_radius=radio_borde,
+        # clip_behavior=ClipBehavior.ANTI_ALIAS,
+        expand=True,
+        # alignment=alignment.center,
         content=Stack(
             controls=[
                 Container(
-                    height=altura_base,
-                    width=anchura_base,
-                    bgcolor=colors.BLACK,
-                    content=Image(
-                        src="https://jsavinong.github.io/Lala-vanderia-App/frontend/assets/images/gianluca-d-intino-vl4QuDMyeyY-unsplash%20(1).jpg",
-                        # scale=1.5,
-                        fit=ImageFit.COVER,
-                        opacity=0.5,
+                    gradient=LinearGradient(
+                        rotation=45,
+                        begin=alignment.center_left,
+                        end=alignment.bottom_right,
+                        colors=["#3e688c", "#f5f7fa"],
                     ),
                 ),
                 Container(
-                    height=altura_base,
-                    width=anchura_base,
+                    alignment=alignment.center,
+                    
                     padding=padding.only(top=30, left=10, right=10),
+                    #margin = margin.only(left=500),
+                    #alignment=alignment.center,
+                    #width=350,
                     content=Column(
                         controls=[
-                            Container(height=160),
+                            Container(height=160,
+                                width=anchura_base),
                             Container(
                                 margin=margin.only(left=20),
                                 content=Text(
                                     value=_("greetings"),
                                     weight=FontWeight.BOLD,
                                     size=30,
+                                    width=anchura_base
                                 ),
                             ),
-                            Container(height=2),
+                            Container(height=2,
+                                width=anchura_base),
                             Container(
                                 padding=20,
-                                bgcolor="#cc2d2b2c",
+                                bgcolor="#2a3d50",
                                 border_radius=10,
-                                content=main_content,
+                                content=main_container,
+                                opacity=0.7,
+                                width=anchura_base
                             ),
                         ]
                     ),
                 ),
                 # Agrega aquí los controles para tu fondo y contenido principal
-            ]
+            ],
         ),
     )
 

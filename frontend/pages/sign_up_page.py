@@ -13,17 +13,13 @@ from translations import gettext as _
 def signup_page_view(page: Page, params: Params, basket: Basket):
     email = get_state("email")  # Obtiene el correo electrónico del estado global.
     
-    # self.email = email
-    # self.dp_url = dp
-    offset = transform.Offset(0,0,)
-    expand = True
     aceptar_continuar_btn = ElevatedButton(
-        content=Text(value=_("accept_continue"), size=18),
+        content=Text(value=_("accept_continue"), size=18, color="#f2fbfb", style=TextStyle(weight=FontWeight.BOLD)),
         width=anchura_btn,
         height=altura_btn,  # Opcional: Añade un ícono al botón
         on_click=lambda e: on_aceptar_continuar_clicked(page, email, name_box.value, password_box.value),  # Reemplaza esto con tu función de manejo de clics real
         style=ButtonStyle(
-                shape=RoundedRectangleBorder(radius=10), bgcolor=blue_base)
+                shape=RoundedRectangleBorder(radius=10), bgcolor="#0f766e")
     )
 
     def mostrar_snackbar(page: Page, mensaje: str):
@@ -59,11 +55,11 @@ def signup_page_view(page: Page, params: Params, basket: Basket):
         hint_text=_("name"),
         hint_style=TextStyle(
             size=16,
-            color=input_hint_color,
+            color="#09252a",
         ),
         text_style=TextStyle(
             size=16,
-            color=input_hint_color,
+            color="#09252a",
         ),
         border=InputBorder.NONE,
         content_padding=content_padding,
@@ -88,11 +84,11 @@ def signup_page_view(page: Page, params: Params, basket: Basket):
         hint_text=_("pwd"),
         hint_style=TextStyle(
             size=16,
-            color=input_hint_color,
+            color="#09252a",
         ),
         text_style=TextStyle(
             size=16,
-            color=input_hint_color,
+            color="#09252a",
         ),
         border=InputBorder.NONE,
         content_padding=content_padding,
@@ -104,11 +100,11 @@ def signup_page_view(page: Page, params: Params, basket: Basket):
             
             spans=[
                 TextSpan(
-                    _("terms_policy"),
+                    _("terms_policy"), TextStyle(weight=FontWeight.BOLD),
                     
-                    on_click=lambda e: mostrar_snackbar(page,_("not_ready")),
+                    on_click=lambda e: mostrar_snackbar(page,_("not_ready"), )
                 ),
-                ])
+                ],)
 
     signup_box = Column(
         controls=[
@@ -126,13 +122,13 @@ def signup_page_view(page: Page, params: Params, basket: Basket):
             Container(
                 height=altura_btn,
                 border_radius=10,
-                bgcolor="white",
+                bgcolor="#f2fbfb",
                 content=name_box,
             ),
             Container(
                 height=altura_btn,
                 border_radius=10,
-                bgcolor="white",
+                bgcolor="#f2fbfb",
                 content=password_box,
             ),
             Container(height=1),
@@ -174,15 +170,11 @@ def signup_page_view(page: Page, params: Params, basket: Basket):
         content=Stack(
             controls=[
                 Container(
-                    height=altura_base,
-                    width=anchura_base,
-                    bgcolor=colors.BLACK,
-                    content=Image(
-                        src="https://jsavinong.github.io/Lala-vanderia-App/frontend/assets/images/gianluca-d-intino-vl4QuDMyeyY-unsplash (1).jpg",
-                        # bgcolor="#cc2d2b2c",
-                        # scale=1.5,
-                        fit=ImageFit.COVER,
-                        opacity=0.5,
+                    gradient=LinearGradient(
+                        rotation=30,
+                        begin=alignment.center_left,
+                        end=alignment.bottom_right,
+                        colors=["#CC09252a", "#CCd2f5f4"],
                     ),
                 ),
                 Container(
@@ -195,7 +187,7 @@ def signup_page_view(page: Page, params: Params, basket: Basket):
                                 data="main_page",
                                 on_click = lambda e: go_back(page),
                                 content=Icon(
-                                    icons.ARROW_BACK_IOS_OUTLINED, size=28
+                                    icons.ARROW_BACK_IOS_OUTLINED, size=28, color="#09252a"
                                 ),
                             ),
                             Container(height=100),
@@ -210,7 +202,7 @@ def signup_page_view(page: Page, params: Params, basket: Basket):
                             Container(height=2),
                             Container(
                                 padding=20,
-                                bgcolor="#cc2d2b2c",
+                                bgcolor="#661b4d54",
                                 border_radius=10,
                                 content=signup_box,
                             ),

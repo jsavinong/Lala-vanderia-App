@@ -11,14 +11,8 @@ def inicio_db_page_view(page: Page, params: Params=None, basket: Basket=None):
 
     selected_index = get_state("selected_nav_index", default=0)
     
-    #
     nombre = get_state("nombre")  # Obtiene el nombre  del estado global.
     
-
-
-
-
-        
     def on_navigation_changed(e):
         update_state("selected_nav_index", e.control.selected_index)
         if e.control.selected_index == 0:
@@ -38,10 +32,16 @@ def inicio_db_page_view(page: Page, params: Params=None, basket: Basket=None):
             NavigationDestination(icon=icons.ACCOUNT_CIRCLE_OUTLINED, selected_icon=icons.ACCOUNT_CIRCLE, label=_("acc"))
         ],
         selected_index=selected_index,
-        on_change=on_navigation_changed
+        on_change=on_navigation_changed,
+        width=anchura_base,
+        shadow_color="#042f2e",
+        bgcolor="#042f2e",
+        indicator_color="#134e4a",
+        adaptive=True,
     )
     dashboard_content = Container(
         #height=720,
+        alignment=alignment.center,
         content=Column(
             alignment="end",
             controls=[
@@ -49,90 +49,86 @@ def inicio_db_page_view(page: Page, params: Params=None, basket: Basket=None):
             ]
         )
     )
-
-    # user_name = Container(
-    #     content=Row(
-    #         controls=[
-    #             Text(
-    #                 value=nombre,
-    #                 size=12,
-    #                 weight=FontWeight.BOLD,
-    #     )
-    #     ],
-    #     alignment=MainAxisAlignment.CENTER,
-    #     )
-    
-    # )
     
     container_name = Container(
-        content=Row(
+        content=ResponsiveRow(
             controls=[
                 Text(
                     value=_("welcome"),
                     weight=FontWeight.BOLD, 
-                    size=24,color=colors.WHITE),
+                    size=24,color="#f0fdfa",
+                    col=6
+                    ),
                 Text(
                     value=nombre,
                     size=24,
                     weight=FontWeight.BOLD,
-        )
+                    color="#f0fdfa",
+                    col = 6
+                    )
             ]
         ),
         padding=Padding(15,20,5,15),
-        bgcolor=blue_base,
+        bgcolor="#042f2e",
         width=anchura_base,
-        height=80
+        height=80, 
+        #alignment=alignment.center
     )
 
-
-
-    
-    # faq_textbtn = TextButton(
-    #     content=Row(
-    #         controls=[
-    #             Icon(icons.QUESTION_ANSWER, size=24),  
-    #             Text("  FAQ", style=TextStyle(size=18)),  
-    #         ],
-    #         alignment="left",
-    #     ),
-    #     on_click=lambda e: print("Botón presionado"),  # Reemplaza esto con tu función de callback real
-    # )
-    
-
-    # terminos_de_uso_textbtn = TextButton(
-    #     content=Row(
-    #         controls=[
-    #             Icon(icons.DESCRIPTION, size=24),  
-    #             Text(" Términos de uso", style=TextStyle(size=18)),  
-    #         ],
-    #         alignment="left",
-    #     ),
-    #     on_click=lambda e: print("Botón presionado"),  # Reemplaza esto con tu función de callback real
-    # )
-    
     content = Container(
     
-        height=altura_base,
+        #height=altura_base,
         width=anchura_base,
-        bgcolor=colors.BLUE_GREY_900,
-        clip_behavior=ClipBehavior.ANTI_ALIAS,
+        bgcolor="#3309252a",
+        #clip_behavior=ClipBehavior.ANTI_ALIAS,
         expand=True,
         #border_radius=radio_borde,
-        
-        content=Column(
+        alignment=alignment.center,
+        content=Stack(
             controls=[
                 
-                #user_name,
-                Container(height=10),
-                Container(height=10),
-                # faq_textbtn,
-                # terminos_de_uso_textbtn,
+                #Container(height=10,
+                        #width=anchura_base),
+                #Container(height=10,
+                        #width=anchura_base),
+                
 
             ],
-            horizontal_alignment=CrossAxisAlignment.CENTER
+            #horizontal_alignment=CrossAxisAlignment.CENTER
             ),
-        
-        
+    
+    )
+
+    main_container = Container(
+        expand=True,
+        content = Stack([
+            Container(
+                    
+                gradient=LinearGradient(
+                    rotation=30,
+                    begin=alignment.center_left,
+                    end=alignment.bottom_right,
+                    colors=["#CC09252a", "#CCd2f5f4"],
+                    ),
+                ),
+                Container(
+                    alignment=alignment.center,
+                    content=Column(
+                        controls=[
+                            Container(
+                            width=anchura_base,
+                            height= altura_base,
+                            #bgcolor="#0009252a",
+                            content=Column(
+                                controls=[
+                                    container_name,
+                                    content,
+                                    dashboard_content,
+                                ]
+                            )
+                    )
+        ])),
+        ])
     )
     
-    return View("/inicio", controls=[container_name, content, dashboard_content])
+    return View("/inicio", controls=[main_container])

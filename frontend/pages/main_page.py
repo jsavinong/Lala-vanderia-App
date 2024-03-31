@@ -153,14 +153,16 @@ def main_page_view(page: Page, params: Params, basket: Basket):
 
     content = Container(
         expand=True, # ! OJO
+        bgcolor="#ccfbf1", 
         content=Stack(
             controls=[
                 Container(
+                    
                     gradient=LinearGradient(
                         rotation=30,
                         begin=alignment.center_left,
                         end=alignment.bottom_right,
-                        colors=["#09252a", "#d2f5f4"],
+                        colors=["#CC09252a", "#CCd2f5f4"],
                     ),
                 ),
                 Container(

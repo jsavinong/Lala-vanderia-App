@@ -119,7 +119,8 @@ def login_page_view(page: Page, params: Params, basket: Basket):
         ]
     )
     content = Container(
-        expand=True,
+        expand=True, # ! OJO
+        bgcolor="#ccfbf1", 
         content=Stack(
             controls=[
                 Container(
@@ -127,7 +128,7 @@ def login_page_view(page: Page, params: Params, basket: Basket):
                         rotation=30,
                         begin=alignment.center_left,
                         end=alignment.bottom_right,
-                        colors=["#09252a", "#d2f5f4"],
+                        colors=["#CC09252a", "#CCd2f5f4"],
                     ),
                 ),
                 Container(
@@ -136,7 +137,7 @@ def login_page_view(page: Page, params: Params, basket: Basket):
                     content=Column(
                         controls=[
                             Container(
-                                #data="main_page", # !pa qué sirve?
+                                
                                 on_click = lambda e: go_back(page),
                                 width = anchura_base,
                                 alignment=alignment.top_left,

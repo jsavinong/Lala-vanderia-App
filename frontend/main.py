@@ -40,7 +40,7 @@ class App(UserControl):
 
     def setup_ui(self):
         # Configuración inicial de la UI
-        self.pg.window_title_bar_hidden = True
+        self.pg.window_title_bar_hidden = False
         self.pg.window_frameless = False
         self.pg.window_title_bar_buttons_hidden = True
         self.pg.bgcolor = colors.WHITE

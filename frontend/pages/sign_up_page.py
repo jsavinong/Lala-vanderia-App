@@ -63,6 +63,7 @@ def signup_page_view(page: Page, params: Params, basket: Basket):
         ),
         border=InputBorder.NONE,
         content_padding=content_padding,
+        width=anchura_btn
     )
     
     def show_hide_password(e):
@@ -94,6 +95,7 @@ def signup_page_view(page: Page, params: Params, basket: Basket):
         content_padding=content_padding,
         selection_color=blue_base,
         cursor_color=color_base,
+        width=anchura_btn
     )
 
     terms_conditions_link = Text(
@@ -161,11 +163,11 @@ def signup_page_view(page: Page, params: Params, basket: Basket):
         ]
     )
     content = Container(
-        height=altura_base,
-        width=anchura_base,
-        bgcolor="color_base",
-        border_radius=radio_borde,
-        clip_behavior=ClipBehavior.ANTI_ALIAS,
+        #height=altura_base,
+        #width=anchura_base,
+        bgcolor="ccfbf1",
+        #border_radius=radio_borde,
+        #clip_behavior=ClipBehavior.ANTI_ALIAS,
         expand=True,
         content=Stack(
             controls=[
@@ -178,8 +180,7 @@ def signup_page_view(page: Page, params: Params, basket: Basket):
                     ),
                 ),
                 Container(
-                    height=altura_base,
-                    width=anchura_base,
+                    alignment=alignment.center,
                     padding=padding.only(top=30, left=10, right=10),
                     content=Column(
                         controls=[
@@ -189,22 +190,28 @@ def signup_page_view(page: Page, params: Params, basket: Basket):
                                 content=Icon(
                                     icons.ARROW_BACK_IOS_OUTLINED, size=28, color="#09252a"
                                 ),
+                                width=30, 
+                                alignment=alignment.top_left
                             ),
-                            Container(height=100),
+                            Container(height=100,
+                                    width=anchura_base),
                             Container(
                                 margin=margin.only(left=20),
                                 content=Text(
                                     value=_("signup"),
                                     weight=FontWeight.BOLD,
                                     size=30,
+                                    width=anchura_base
                                 ),
                             ),
-                            Container(height=2),
+                            Container(height=2,
+                                    width=anchura_base),
                             Container(
                                 padding=20,
                                 bgcolor="#661b4d54",
                                 border_radius=10,
                                 content=signup_box,
+                                width=anchura_base
                             ),
                         ]
                     ),

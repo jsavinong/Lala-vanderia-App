@@ -117,7 +117,7 @@ def inicio_db_page_view(page: Page, params: Params=None, basket: Basket=None):
                         controls=[
                             Container(
                             width=anchura_base,
-                            height= altura_base,
+                            height= 700,
                             #bgcolor="#0009252a",
                             content=Column(
                                 controls=[

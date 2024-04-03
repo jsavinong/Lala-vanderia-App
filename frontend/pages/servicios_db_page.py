@@ -42,6 +42,11 @@ def servicios_db_page_view(page: Page, params: Params = None, basket: Basket = N
     def ver_pedido(e):
         pass
 
+    def mostrar_snackbar(page: Page, mensaje: str):
+        snackbar = SnackBar(content=Text(mensaje), open=True, duration=4000)
+        page.snack_bar = snackbar
+        page.update()
+
     navigation_bar = NavigationBar(
         destinations=[
             NavigationDestination(
@@ -162,7 +167,7 @@ def servicios_db_page_view(page: Page, params: Params = None, basket: Basket = N
                 value=_("view_order") + " (0)",
             ),
             visible=False,
-            on_click=ver_pedido,
+            on_click=lambda e: mostrar_snackbar(page,_("not_ready")),
             style=ButtonStyle(
                 shape=RoundedRectangleBorder(radius=10),
                 color="#f0fdfa",
@@ -244,7 +249,7 @@ def servicios_db_page_view(page: Page, params: Params = None, basket: Basket = N
                         controls=[
                             Container(
                                 width=anchura_base,
-                                height=altura_base,
+                                height=700,
                                 content=Column(
                                     controls=[
                                         container_name,

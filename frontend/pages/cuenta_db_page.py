@@ -83,10 +83,16 @@ def cuenta_db_page_view(page: Page, params: Params=None, basket: Basket=None):
             NavigationDestination(icon=icons.ACCOUNT_CIRCLE_OUTLINED, selected_icon=icons.ACCOUNT_CIRCLE, label=_("acc"))
         ],
         selected_index=selected_index,
-        on_change=on_navigation_changed
+        on_change=on_navigation_changed,
+        width=anchura_base,
+        shadow_color="#042f2e",
+        bgcolor="#042f2e",
+        indicator_color="#134e4a",
+        adaptive=True,
     )
     dashboard_content = Container(
         #height=720,
+        alignment=alignment.center,
         content=Column(
             alignment="end",
             controls=[
@@ -121,7 +127,7 @@ def cuenta_db_page_view(page: Page, params: Params=None, basket: Basket=None):
             ]
         ),
         padding=Padding(15,20,5,15),
-        bgcolor=blue_base,
+        bgcolor="#042f2e",
         width=anchura_base,
         height=80
     )
@@ -162,19 +168,21 @@ def cuenta_db_page_view(page: Page, params: Params=None, basket: Basket=None):
     
     content = Container(
     
-        height=altura_base,
+        #height=altura_base,
         width=anchura_base,
-        bgcolor=colors.BLUE_GREY_900,
-        clip_behavior=ClipBehavior.ANTI_ALIAS,
+        bgcolor="#3309252a",
+        #clip_behavior=ClipBehavior.ANTI_ALIAS,
         expand=True,
         #border_radius=radio_borde,
-        
+        alignment=alignment.center,
         content=Column(
             controls=[
                 
-                Container(height=10),
+                Container(height=10,
+                        width=anchura_base),
                 suscribir_btn,
-                Container(height=10),
+                Container(height=10,
+                        width=anchura_base),
                 faq_textbtn,
                 Divider(),
                 terminos_de_uso_textbtn,
@@ -184,10 +192,59 @@ def cuenta_db_page_view(page: Page, params: Params=None, basket: Basket=None):
                 logout_btn
 
             ],
-            horizontal_alignment=CrossAxisAlignment.CENTER
+            horizontal_alignment=CrossAxisAlignment.CENTER,
+            scroll="auto",
             ),
         
         
     )
     
-    return View("/cuenta", controls=[container_name, content, dashboard_content])
+    main_contianer = Container(
+        expand=True,
+        content=Stack(
+            [
+                Container(
+                    gradient=LinearGradient(
+                        rotation=30,
+                        begin=alignment.center_left,
+                        end=alignment.bottom_right,
+                        colors=["#CC09252a", "#CCd2f5f4"],
+                    ),
+                ),
+                Container(
+                    alignment=alignment.center,
+                    content=Column(
+                        controls=[
+                            Container(
+                                width=anchura_base,
+                                height=700,
+                                content=Column(
+                                    controls=[
+                                        container_name,
+                                        content,
+                                        
+                                        dashboard_content,
+                                        
+                                    ]
+                                ),
+                            )
+                        ]
+                    ),
+                ),
+                # Row(
+                #     controls=[
+                #         Column(
+                #             controls=[
+                #                 ver_pedido_btn,
+                #             ],
+                #             alignment=MainAxisAlignment.END,
+                #         ),
+                #     ],
+                #     # left=100,
+                #     # top=470,
+                # ),
+            ],
+        ),
+    )
+
+    return View("/cuenta", controls=[main_contianer])

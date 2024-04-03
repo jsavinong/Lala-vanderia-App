@@ -14,10 +14,6 @@ def pedidos_db_page_view(page: Page, params: Params=None, basket: Basket=None):
 
     nombre = get_state("nombre")  # Obtiene el nombre  del estado global.
     
-
-
-
-
         
     def on_navigation_changed(e):
         update_state("selected_nav_index", e.control.selected_index)
@@ -44,10 +40,16 @@ def pedidos_db_page_view(page: Page, params: Params=None, basket: Basket=None):
             NavigationDestination(icon=icons.ACCOUNT_CIRCLE_OUTLINED, selected_icon=icons.ACCOUNT_CIRCLE, label=_("acc"))
         ],
         selected_index=selected_index,
-        on_change=on_navigation_changed
+        on_change=on_navigation_changed,
+        width=anchura_base,
+        shadow_color="#042f2e",
+        bgcolor="#042f2e",
+        indicator_color="#134e4a",
+        adaptive=True,
     )
     dashboard_content = Container(
         #height=720,
+        alignment=alignment.center,
         content=Column(
             alignment="end",
             controls=[
@@ -55,20 +57,6 @@ def pedidos_db_page_view(page: Page, params: Params=None, basket: Basket=None):
             ]
         )
     )
-
-    # plan_name = Container(
-    #     content=Row(
-    #         controls=[
-    #             Text(
-    #                 value=f'No Plan',
-    #                 size=12,
-    #                 weight=FontWeight.BOLD,
-    #     )
-    #     ],
-    #     alignment=MainAxisAlignment.CENTER,
-    #     )
-    
-    # )
     
     img_contenedor = Container( # TODO Agregar funcionalidad para que desaparezca al crear pedido
         content=Column(
@@ -90,6 +78,7 @@ def pedidos_db_page_view(page: Page, params: Params=None, basket: Basket=None):
         ),
         bgcolor=colors.WHITE60,
         border_radius=10,
+        width=anchura_btn
         #alignment=CrossAxisAlignment.CENTER,
         #alignment=MainAxisAlignment.CENTER  # This centers the Column within the Container
     )
@@ -110,56 +99,31 @@ def pedidos_db_page_view(page: Page, params: Params=None, basket: Basket=None):
                 Text(
                     value=_("orders"), 
                     weight=FontWeight.BOLD, 
-                    size=24,color=colors.WHITE)
+                    size=24,color="#f0fdfa")
             ]
         ),
         padding=Padding(15,20,5,15),
-        bgcolor=blue_base,
+        bgcolor="#042f2e",
         width=anchura_base,
         height=80
     )
-
-
-
-    
-    # faq_textbtn = TextButton(
-    #     content=Row(
-    #         controls=[
-    #             Icon(icons.QUESTION_ANSWER, size=24),  
-    #             Text("  FAQ", style=TextStyle(size=18)),  
-    #         ],
-    #         alignment="left",
-    #     ),
-    #     on_click=lambda e: print("Botón presionado"),  # Reemplaza esto con tu función de callback real
-    # )
-    
-
-    # terminos_de_uso_textbtn = TextButton(
-    #     content=Row(
-    #         controls=[
-    #             Icon(icons.DESCRIPTION, size=24),  
-    #             Text(" Términos de uso", style=TextStyle(size=18)),  
-    #         ],
-    #         alignment="left",
-    #     ),
-    #     on_click=lambda e: print("Botón presionado"),  # Reemplaza esto con tu función de callback real
-    # )
     
     content = Container(
     
-        height=altura_base,
         width=anchura_base,
-        bgcolor=colors.BLUE_GREY_900,
-        clip_behavior=ClipBehavior.ANTI_ALIAS,
+        bgcolor="#3309252a",
+        #clip_behavior=ClipBehavior.ANTI_ALIAS,
         expand=True,
         #border_radius=radio_borde,
-        
+        alignment=alignment.center,
         content=Column(
             controls=[
                 
-                Container(height=10),
+                Container(height=10,
+                        width=anchura_base),
                 img_contenedor,
-                Container(height=10),
+                Container(height=10,
+                        width=anchura_base),
                 hacer_pedido_btn,
                 # faq_textbtn,
                 # terminos_de_uso_textbtn,
@@ -168,8 +132,55 @@ def pedidos_db_page_view(page: Page, params: Params=None, basket: Basket=None):
             horizontal_alignment=CrossAxisAlignment.CENTER,
             scroll="auto"
             ),
-        
-        
+
     )
     
-    return View("/pedidos", controls=[container_name, content, dashboard_content])
+    main_contianer = Container(
+        expand=True,
+        content=Stack(
+            [
+                Container(
+                    gradient=LinearGradient(
+                        rotation=30,
+                        begin=alignment.center_left,
+                        end=alignment.bottom_right,
+                        colors=["#CC09252a", "#CCd2f5f4"],
+                    ),
+                ),
+                Container(
+                    alignment=alignment.center,
+                    content=Column(
+                        controls=[
+                            Container(
+                                width=anchura_base,
+                                height=700,
+                                content=Column(
+                                    controls=[
+                                        container_name,
+                                        content,
+                                        
+                                        dashboard_content,
+                                        
+                                    ]
+                                ),
+                            )
+                        ]
+                    ),
+                ),
+                # Row(
+                #     controls=[
+                #         Column(
+                #             controls=[
+                #                 ver_pedido_btn,
+                #             ],
+                #             alignment=MainAxisAlignment.END,
+                #         ),
+                #     ],
+                #     # left=100,
+                #     # top=470,
+                # ),
+            ],
+        ),
+    )
+    
+    return View("/pedidos", controls=[main_contianer])

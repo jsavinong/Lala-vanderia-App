@@ -160,7 +160,6 @@ def pedidos_db_page_view(page: Page, params: Params=None, basket: Basket=None):
                                         content,
                                         
                                         dashboard_content,
-                                        
                                     ]
                                 ),
                             )

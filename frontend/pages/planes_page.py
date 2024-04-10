@@ -66,8 +66,10 @@ def planes_page_view(page: Page, params: Params=None, basket: Basket=None):
     container_go_back = Container(
                                 on_click = lambda e: go_back(page),
                                 content=Icon(
-                                    icons.ARROW_BACK_IOS_OUTLINED, size=28
+                                    icons.ARROW_BACK_IOS_OUTLINED, size=28, color="#f0fdfa"
                                 ),
+                                width=30, 
+                                alignment=alignment.center_left
                             )
     
     container_name = Container(
@@ -77,23 +79,23 @@ def planes_page_view(page: Page, params: Params=None, basket: Basket=None):
                 Text(
                     value=_("plans"), 
                     weight=FontWeight.BOLD, 
-                    size=24,color=colors.WHITE),
+                    size=24,color="#f0fdfa"),
                 
             ]
         ),
         padding=Padding(15,20,5,15),
-        bgcolor=blue_base,
+        bgcolor="#042f2e",
         width=anchura_base,
         height=80
     )
 
 
     planes_text_title = Text(
-        value=_("pick_plan"), style=TextStyle(size=24, weight=FontWeight.BOLD)
+        value=_("pick_plan"), style=TextStyle(size=24, weight=FontWeight.BOLD, color="f0fdfa")
     )
 
     plan_small__text_name = Text(value=_("plan_small"),weight=FontWeight.W_500, 
-        size=24,color=colors.BLACK) 
+        size=24,color="#042f2e") 
     
     plan_small_btn = FilledButton(
         content=Text(value=_("subscribe").upper(), size=24, weight=FontWeight.BOLD),
@@ -101,7 +103,7 @@ def planes_page_view(page: Page, params: Params=None, basket: Basket=None):
         height=altura_btn,  
         on_click=print("suscribiendo"),
         style=ButtonStyle(
-                shape=RoundedRectangleBorder(radius=10), bgcolor=colors.BLUE_200)
+                shape=RoundedRectangleBorder(radius=10), bgcolor= "#0f766e",color="#f0fdfa")
                 
 )
     plan_small_container = Container(
@@ -125,7 +127,7 @@ def planes_page_view(page: Page, params: Params=None, basket: Basket=None):
     )
 
     plan_medium__text_name = Text(value=_("plan_medium"),weight=FontWeight.W_500, 
-        size=24,color=colors.BLACK) 
+        size=24,color="#042f2e") 
     
     plan_medium_btn = FilledButton(
         content=Text(value=_("subscribe").upper(), size=24, weight=FontWeight.BOLD),
@@ -133,7 +135,7 @@ def planes_page_view(page: Page, params: Params=None, basket: Basket=None):
         height=altura_btn,  
         on_click=print("suscribiendo"),
         style=ButtonStyle(
-                shape=RoundedRectangleBorder(radius=10), bgcolor=colors.BLUE_200)
+                shape=RoundedRectangleBorder(radius=10), bgcolor= "#0f766e",color="#f0fdfa")
                 
 )
     plan_medium_container = Container(
@@ -157,7 +159,7 @@ def planes_page_view(page: Page, params: Params=None, basket: Basket=None):
     )
 
     plan_large__text_name = Text(value=_("plan_large"),weight=FontWeight.W_500, 
-        size=24,color=colors.BLACK) 
+        size=24,color="#042f2e") 
     
     plan_large_btn = FilledButton(
         content=Text(value=_("subscribe").upper(), size=24, weight=FontWeight.BOLD),
@@ -165,7 +167,7 @@ def planes_page_view(page: Page, params: Params=None, basket: Basket=None):
         height=altura_btn,  
         on_click=print("suscribiendo"),
         style=ButtonStyle(
-                shape=RoundedRectangleBorder(radius=10), bgcolor=colors.BLUE_200)
+                shape=RoundedRectangleBorder(radius=10), bgcolor= "#0f766e",color="#f0fdfa")
                 
 )
     plan_large_container = Container(
@@ -232,10 +234,10 @@ def planes_page_view(page: Page, params: Params=None, basket: Basket=None):
     
     content = Container(
     
-        height=altura_base,
+        #height=altura_base,
         width=anchura_base,
-        bgcolor=colors.BLUE_GREY_900,
-        clip_behavior=ClipBehavior.ANTI_ALIAS,
+        bgcolor="#3309252a",
+        #clip_behavior=ClipBehavior.ANTI_ALIAS,
         expand=True,
         #border_radius=radio_borde,
         
@@ -256,5 +258,52 @@ def planes_page_view(page: Page, params: Params=None, basket: Basket=None):
         
         
     )
+
+    main_contianer = Container(
+        expand=True,
+        content=Stack(
+            [
+                Container(
+                    gradient=LinearGradient(
+                        rotation=30,
+                        begin=alignment.center_left,
+                        end=alignment.bottom_right,
+                        colors=["#CC09252a", "#CCd2f5f4"],
+                    ),
+                ),
+                Container(
+                    alignment=alignment.center,
+                    content=Column(
+                        controls=[
+                            Container(
+                                width=anchura_base,
+                                height=700,
+                                content=Column(
+                                    controls=[
+                                        container_name,
+                                        content,
+                                        
+                                        #dashboard_content,
+                                    ]
+                                ),
+                            )
+                        ]
+                    ),
+                ),
+                # Row(
+                #     controls=[
+                #         Column(
+                #             controls=[
+                #                 ver_pedido_btn,
+                #             ],
+                #             alignment=MainAxisAlignment.END,
+                #         ),
+                #     ],
+                #     # left=100,
+                #     # top=470,
+                # ),
+            ],
+        ),
+    )
     
-    return View("/planes", controls=[container_name, content, ])
+    return View("/planes", controls=[main_contianer ])

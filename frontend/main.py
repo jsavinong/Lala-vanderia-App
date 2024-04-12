@@ -65,7 +65,7 @@ class App(UserControl):
         ]
         Routing(page=self.pg, app_routes=app_routes)
         self.pg.go(self.pg.route)
-        #self.pg.go("/idioma")
+        self.pg.go("/idioma")
 
         #self.pg.update()
 

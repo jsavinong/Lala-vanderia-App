@@ -33,10 +33,10 @@ def idioma_page_view(page: Page, params: Params=None, basket: Basket=None):
             )
     
     content = Container(
-        height=altura_base,
+        #height=altura_base,
         width=anchura_base,
-        bgcolor=color_base,
-        clip_behavior=ClipBehavior.ANTI_ALIAS,
+        #bgcolor=color_base,
+        #clip_behavior=ClipBehavior.ANTI_ALIAS,
         expand=True,
         content=Column(
             controls=[
@@ -49,4 +49,35 @@ def idioma_page_view(page: Page, params: Params=None, basket: Basket=None):
         ),
     )
 
-    return View("/idioma", controls=[content])
+    main_contianer = Container(
+        expand=True,
+        content=Stack(
+            [
+                Container(
+                    gradient=LinearGradient(
+                        rotation=30,
+                        begin=alignment.center_left,
+                        end=alignment.bottom_right,
+                        colors=["#CC09252a", "#CCd2f5f4"],
+                    ),
+                ),
+                Container(
+                    alignment=alignment.center,
+                    content=Column(
+                        controls=[
+                            Container(
+                                width=anchura_base,
+                                height=700,
+                                content=Column(
+                                    controls=[
+                                        content     
+                                    ]
+                                ),
+                            )
+                        ]
+                    ),
+                ),
+            ],
+        ),
+    )
+    return View("/idioma", controls=[main_contianer])

@@ -1,24 +1,10 @@
 from flet import *
-from utils.extras import *
 from flet_route import Params, Basket
-from state import update_state, get_state
-from navigation import navigate_to
-from flet import *
-from translations import load_translations, gettext as _
 from utils.extras import *
+import threading
 
-def first_page_view(page: Page, params: Params=None, basket: Basket=None):
-    language_txt = Text(value="Selecciona un idioma:", weight=FontWeight.BOLD, size=18)
-    
-    language_dropdown = Dropdown(
-                options=[
-                    dropdown.Option("es", "Español"),
-                    dropdown.Option("en", "English"),
-                ],
-                on_change=lambda e: on_language_change(e, page),  # Asignar el manejador del evento aquí
-                width=200, prefix_icon="language",
-                
-            )
+def splash_screen_view(page: Page, params: Params=None, basket: Basket=None):
+    logo = Image(src="C:/Users/jsavi/lavanderia/frontend/assets/images/flet.png")
     
     content = Container(
         #height=altura_base,
@@ -28,8 +14,7 @@ def first_page_view(page: Page, params: Params=None, basket: Basket=None):
         expand=True,
         content=Column(
             controls=[
-                language_txt,
-                language_dropdown,
+                logo
                 
             ],
             horizontal_alignment=CrossAxisAlignment.CENTER,
@@ -42,12 +27,7 @@ def first_page_view(page: Page, params: Params=None, basket: Basket=None):
         content=Stack(
             [
                 Container(
-                    gradient=LinearGradient(
-                        rotation=30,
-                        begin=alignment.center_left,
-                        end=alignment.bottom_right,
-                        colors=["#CC09252a", "#CCd2f5f4"],
-                    ),
+                    bgcolor="white"
                 ),
                 Container(
                     alignment=alignment.center,
@@ -68,4 +48,13 @@ def first_page_view(page: Page, params: Params=None, basket: Basket=None):
             ],
         ),
     )
-    return View("/first", controls=[main_contianer])
+
+        # Función para cambiar de vista
+    def change_view():
+        page.go("/idioma")  # Cambia a la página de selección de idioma o la página principal
+
+        # Configurar y empezar el temporizador
+    timer = threading.Timer(2.0, change_view)  # Temporizador de 2 segundos
+    timer.start()
+
+    return View("/splash", controls=[main_contianer])

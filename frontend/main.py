@@ -9,6 +9,7 @@ from pages.pedidos_db_page import pedidos_db_page_view
 from pages.cuenta_db_page import cuenta_db_page_view
 from pages.planes_page import planes_page_view
 from pages.idioma import idioma_page_view
+from pages.splash_screen import splash_screen_view
 from utils.extras import *
 from flet_route import Routing, path
 from translations import load_translations
@@ -62,11 +63,12 @@ class App(UserControl):
             path(url="/cuenta", clear=True, view=cuenta_db_page_view),
             path(url="/planes", clear=True, view=planes_page_view),
             path(url="/idioma", clear=True, view=idioma_page_view),
+            path(url="/splash", clear=True, view=splash_screen_view),
         ]
         Routing(page=self.pg, app_routes=app_routes)
         self.pg.go(self.pg.route)
-        self.pg.go("/idioma")
-
+        #self.pg.go("/idioma")
+        self.pg.go("/splash")
         #self.pg.update()
 
 app(target=App, assets_dir="assets", view=AppView.WEB_BROWSER)

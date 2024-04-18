@@ -4,7 +4,7 @@ from utils.extras import *
 import threading
 
 def splash_screen_view(page: Page, params: Params=None, basket: Basket=None):
-    logo = Image(src="C:/Users/jsavi/lavanderia/frontend/assets/images/flet.png")
+    logo = Image(src="https://jsavinong.github.io/Lala-vanderia-App/frontend/assets/images/flet.png")
     
     content = Container(
         #height=altura_base,

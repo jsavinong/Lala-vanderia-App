@@ -68,7 +68,7 @@ class App(UserControl):
         Routing(page=self.pg, app_routes=app_routes)
         self.pg.go(self.pg.route)
         #self.pg.go("/idioma")
-        self.pg.go("/splash")
+        #self.pg.go("/splash")
         #self.pg.update()
 
 app(target=App, assets_dir="assets", view=AppView.WEB_BROWSER)

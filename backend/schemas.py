@@ -12,11 +12,15 @@ class UsuarioCreate(UsuarioBase):
     contraseña: str
     direccion: Optional[str]
     telefono: Optional[str]
+    lenguaje_preferido: str
+    suscrito_boletin: str
 
 # Esquema para leer un Usuario
 class Usuario(UsuarioBase):
     id: int
-
+    lenguaje_preferido: str
+    suscrito_boletin: str
+    
     class Config:
         orm_mode = True
 

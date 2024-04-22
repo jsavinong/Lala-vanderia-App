@@ -104,7 +104,7 @@ def planes_page_view(page: Page, params: Params=None, basket: Basket=None):
         on_click=print("suscribiendo"),
         style=ButtonStyle(
                 shape=RoundedRectangleBorder(radius=10), bgcolor= "#0f766e",color="#f0fdfa")
-                
+
 )
     plan_small_container = Container(
         content=Column(

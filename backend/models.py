@@ -19,8 +19,9 @@ class Usuario(Base):
     contraseña = Column(String)
     direccion = Column(String)
     telefono = Column(String)
-
     plan_suscripcion_id = Column(Integer, ForeignKey('planes_suscripcion.id'))
+    lenguaje_preferido = Column(String, default='en')
+    suscrito_boletin = Column(String, default=None)
     # fecha_inicio_suscripcion = Column(Date)
     # fecha_fin_suscripcion = Column(Date)
 

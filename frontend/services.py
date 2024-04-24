@@ -90,3 +90,35 @@ def login_user(page: Page, correo_electronico: str, contraseña: str, on_result)
 
     threading.Thread(target=do_login).start()
 
+def fetch_user_preferences(correo_electronico: str, callback):
+    def run():
+        url = f"http://127.0.0.1:8000/users/{correo_electronico}/preferences"
+        try:
+            with httpx.Client() as client:
+                response = client.get(url)
+                if response.status_code == 200:
+                    preferences = response.json()
+                    callback(True, preferences)
+                else:
+                    callback(False, "No se pudieron cargar las preferencias")
+        except Exception as e:
+            print(f"Error al cargar las preferencias: {e}")
+            callback(False, str(e))
+    
+    threading.Thread(target=run).start()
+
+def update_user_preferences(correo_electronico: str, preferences: dict, callback):
+    def run():
+        url = f"http://127.0.0.1:8000/users/{correo_electronico}/preferences"
+        try:
+            with httpx.Client() as client:
+                response = client.put(url, json=preferences)
+                if response.status_code == 200:
+                    callback(True, "Preferencias actualizadas correctamente")
+                else:
+                    callback(False, "Error al actualizar las preferencias")
+        except Exception as e:
+            print(f"Error al actualizar las preferencias: {e}")
+            callback(False, str(e))
+    
+    threading.Thread(target=run).start()

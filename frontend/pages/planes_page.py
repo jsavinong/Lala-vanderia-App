@@ -1,4 +1,6 @@
+import threading
 from flet import *
+import httpx
 from utils.extras import *
 from flet_route import Params, Basket
 from state import update_state, get_state
@@ -14,63 +16,43 @@ def planes_page_view(page: Page, params: Params=None, basket: Basket=None):
 
     nombre = get_state("nombre")  # Obtiene el nombre  del estado global.
     
+    def handle_subscription(page: Page, plan_name: str):
+    #  Lógica para realizar la llamada a la API
+        print(f"Suscribiendo al plan {plan_name}")
+        subscribe_user(page, plan_id, on_subscription_result)
 
 
+    def subscribe_user(page: Page, plan_id: int, callback):
+        def do_subscribe():
+            url = f"http://127.0.0.1:8000/subscribe/{plan_id}"
+            # Asumiendo que tienes algún método para obtener el token de acceso
+            headers = {"Authorization": f"Bearer {get_state('access_token')}"}
+            try:
+                with httpx.Client() as client:
+                    response = client.post(url, headers=headers)
+                    if response.status_code == 200:
+                        callback(True, "Suscripción exitosa")
+                    else:
+                        callback(False, "Error en la suscripción")
+            except Exception as e:
+                callback(False, str(e))
+        threading.Thread(target=do_subscribe).start()
 
+    def on_subscription_result(success, message):
+        if success:
+            page.snack_bar(SnackBar(content=Text(message)))
+        else:
+            page.snack_bar(SnackBar(content=Text(f"Error: {message}")))
 
-        
-    # def on_navigation_changed(e):
-    #     update_state("selected_nav_index", e.control.selected_index)
-    #     if e.control.selected_index == 0:
-    #         navigate_to(page, "/inicio")
-    #     elif e.control.selected_index == 1:
-    #         navigate_to(page, "/servicios")
-    #     elif e.control.selected_index == 2:
-    #         navigate_to(page, "/pedidos")
-    #     elif e.control.selected_index == 3:
-    #         navigate_to(page, "/cuenta")
     
-    # navigation_bar = NavigationBar(
-    #     destinations=[
-    #         NavigationDestination(icon=icons.HOME_OUTLINED, selected_icon=icons.HOME, label="Inicio"),
-    #         NavigationDestination(icon=icons.LOCAL_LAUNDRY_SERVICE_OUTLINED,selected_icon=icons.LOCAL_LAUNDRY_SERVICE, label="Servicios"),
-    #         NavigationDestination(icon=icons.SHOP_OUTLINED, selected_icon=icons.SHOP, label="Pedidos"),
-    #         NavigationDestination(icon=icons.ACCOUNT_CIRCLE_OUTLINED, selected_icon=icons.ACCOUNT_CIRCLE, label="Cuenta")
-    #     ],
-    #     selected_index=selected_index,
-    #     on_change=on_navigation_changed
-    # )
-    #dashboard_content = Container(
-        #height=720,
-    #     content=Column(
-    #         alignment="end",
-    #         controls=[
-    #             #navigation_bar
-    #         ]
-    #     )
-    # )
-
-    # plan_name = Container(
-    #     content=Row(
-    #         controls=[
-    #             Text(
-    #                 value=f'No Plan', # TODO: Configurar Nombre del Plan  
-    #                 size=12,
-    #                 weight=FontWeight.BOLD,
-    #     )
-    #     ],
-    #     alignment=MainAxisAlignment.CENTER,
-    #     )
-    
-    # )
     container_go_back = Container(
-                                on_click = lambda e: go_back(page),
-                                content=Icon(
-                                    icons.ARROW_BACK_IOS_OUTLINED, size=28, color="#f0fdfa"
-                                ),
-                                width=30, 
-                                alignment=alignment.center_left
-                            )
+        on_click = lambda e: go_back(page),
+        content=Icon(
+            icons.ARROW_BACK_IOS_OUTLINED, size=28, color="#f0fdfa"
+        ),
+        width=30, 
+        alignment=alignment.center_left
+    )
     
     container_name = Container(
         content=Row(
@@ -101,7 +83,7 @@ def planes_page_view(page: Page, params: Params=None, basket: Basket=None):
         content=Text(value=_("subscribe").upper(), size=24, weight=FontWeight.BOLD),
         width=200,
         height=altura_btn,  
-        on_click=print("suscribiendo"),
+        on_click=lambda e: handle_subscription(page, "Plan Pequeño"),
         style=ButtonStyle(
                 shape=RoundedRectangleBorder(radius=10), bgcolor= "#0f766e",color="#f0fdfa")
 
@@ -133,7 +115,7 @@ def planes_page_view(page: Page, params: Params=None, basket: Basket=None):
         content=Text(value=_("subscribe").upper(), size=24, weight=FontWeight.BOLD),
         width=200,
         height=altura_btn,  
-        on_click=print("suscribiendo"),
+        on_click=lambda e: handle_subscription(page, "Plan Medio"),
         style=ButtonStyle(
                 shape=RoundedRectangleBorder(radius=10), bgcolor= "#0f766e",color="#f0fdfa")
                 
@@ -165,7 +147,7 @@ def planes_page_view(page: Page, params: Params=None, basket: Basket=None):
         content=Text(value=_("subscribe").upper(), size=24, weight=FontWeight.BOLD),
         width=200,
         height=altura_btn,  
-        on_click=print("suscribiendo"),
+        on_click=lambda e: handle_subscription(page, "Plan Grande"),
         style=ButtonStyle(
                 shape=RoundedRectangleBorder(radius=10), bgcolor= "#0f766e",color="#f0fdfa")
                 
@@ -207,30 +189,6 @@ def planes_page_view(page: Page, params: Params=None, basket: Basket=None):
         )
 
 
-
-    
-    # faq_textbtn = TextButton(
-    #     content=Row(
-    #         controls=[
-    #             Icon(icons.QUESTION_ANSWER, size=24),  
-    #             Text("  FAQ", style=TextStyle(size=18)),  
-    #         ],
-    #         alignment="left",
-    #     ),
-    #     on_click=lambda e: print("Botón presionado"),  # Reemplaza esto con tu función de callback real
-    # )
-    
-
-    # terminos_de_uso_textbtn = TextButton(
-    #     content=Row(
-    #         controls=[
-    #             Icon(icons.DESCRIPTION, size=24),  
-    #             Text(" Términos de uso", style=TextStyle(size=18)),  
-    #         ],
-    #         alignment="left",
-    #     ),
-    #     on_click=lambda e: print("Botón presionado"),  # Reemplaza esto con tu función de callback real
-    # )
     
     content = Container(
     
@@ -259,7 +217,7 @@ def planes_page_view(page: Page, params: Params=None, basket: Basket=None):
         
     )
 
-    main_contianer = Container(
+    main_container = Container(
         expand=True,
         content=Stack(
             [
@@ -290,20 +248,9 @@ def planes_page_view(page: Page, params: Params=None, basket: Basket=None):
                         ]
                     ),
                 ),
-                # Row(
-                #     controls=[
-                #         Column(
-                #             controls=[
-                #                 ver_pedido_btn,
-                #             ],
-                #             alignment=MainAxisAlignment.END,
-                #         ),
-                #     ],
-                #     # left=100,
-                #     # top=470,
-                # ),
+  
             ],
         ),
     )
     
-    return View("/planes", controls=[main_contianer ])
+    return View("/planes", controls=[main_container ])

@@ -90,7 +90,7 @@ def login_user(page: Page, correo_electronico: str, contraseña: str, on_result)
 
     threading.Thread(target=do_login).start()
 
-def fetch_user_preferences(correo_electronico: str, callback):
+""" def fetch_user_preferences(correo_electronico: str, callback):
     def run():
         url = f"http://127.0.0.1:8000/users/{correo_electronico}/preferences"
         try:
@@ -122,3 +122,4 @@ def update_user_preferences(correo_electronico: str, preferences: dict, callback
             callback(False, str(e))
     
     threading.Thread(target=run).start()
+ """

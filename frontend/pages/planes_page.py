@@ -16,9 +16,14 @@ def planes_page_view(page: Page, params: Params=None, basket: Basket=None):
 
     nombre = get_state("nombre")  # Obtiene el nombre  del estado global.
     
-    def handle_subscription(page: Page, plan_name: str):
+    def mostrar_snackbar(page: Page, mensaje: str):
+        snackbar = SnackBar(content=Text(mensaje), open=True, duration=4000)
+        page.snack_bar = snackbar
+        page.update()
+
+    def handle_subscription(page: Page, plan_id: str):
     #  Lógica para realizar la llamada a la API
-        print(f"Suscribiendo al plan {plan_name}")
+        print(f"Suscribiendo al plan {plan_id}")
         subscribe_user(page, plan_id, on_subscription_result)
 
 
@@ -40,9 +45,9 @@ def planes_page_view(page: Page, params: Params=None, basket: Basket=None):
 
     def on_subscription_result(success, message):
         if success:
-            page.snack_bar(SnackBar(content=Text(message)))
+            mostrar_snackbar(page, message)
         else:
-            page.snack_bar(SnackBar(content=Text(f"Error: {message}")))
+            mostrar_snackbar(page, f"Error: {message}")
 
     
     container_go_back = Container(
@@ -83,7 +88,7 @@ def planes_page_view(page: Page, params: Params=None, basket: Basket=None):
         content=Text(value=_("subscribe").upper(), size=24, weight=FontWeight.BOLD),
         width=200,
         height=altura_btn,  
-        on_click=lambda e: handle_subscription(page, "Plan Pequeño"),
+        on_click=lambda e: handle_subscription(page, 1),
         style=ButtonStyle(
                 shape=RoundedRectangleBorder(radius=10), bgcolor= "#0f766e",color="#f0fdfa")
 
@@ -115,7 +120,7 @@ def planes_page_view(page: Page, params: Params=None, basket: Basket=None):
         content=Text(value=_("subscribe").upper(), size=24, weight=FontWeight.BOLD),
         width=200,
         height=altura_btn,  
-        on_click=lambda e: handle_subscription(page, "Plan Medio"),
+        on_click=lambda e: handle_subscription(page, 2),
         style=ButtonStyle(
                 shape=RoundedRectangleBorder(radius=10), bgcolor= "#0f766e",color="#f0fdfa")
                 
@@ -147,7 +152,7 @@ def planes_page_view(page: Page, params: Params=None, basket: Basket=None):
         content=Text(value=_("subscribe").upper(), size=24, weight=FontWeight.BOLD),
         width=200,
         height=altura_btn,  
-        on_click=lambda e: handle_subscription(page, "Plan Grande"),
+        on_click=lambda e: handle_subscription(page, 3),
         style=ButtonStyle(
                 shape=RoundedRectangleBorder(radius=10), bgcolor= "#0f766e",color="#f0fdfa")
                 
